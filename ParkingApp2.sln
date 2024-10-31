@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingApp2", "ParkingApp2\ParkingApp2.csproj", "{2DF15E5F-5714-437E-86BC-06D2F5A4D00B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ParkingContext.Domain", "ParkingContext.Domain", "{E8129352-663E-4669-A353-A56B5A0092B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{830B54F8-D2D5-4DA1-81B7-7E189C327BCB}"
+	ProjectSection(SolutionItems) = preProject
+		Estacionamento.cs = Estacionamento.cs
+		Veiculos.cs = Veiculos.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ParkingContext.Repository", "ParkingContext.Repository", "{F169C4F3-A6B1-41DB-9ED9-C2BE563C367C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ParkingContext.Aplication", "ParkingContext.Aplication", "{9CBC2244-D043-4F2E-9DB9-08ECB391292E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ParkingContext.Infra", "ParkingContext.Infra", "{0E5496E6-CD64-4BD5-8126-1CC0C08FD4BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{58743E20-B84C-4FF4-A42B-969A72BFE505}"
+	ProjectSection(SolutionItems) = preProject
+		IVeiculoRepository.cs = IVeiculoRepository.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{A216BD78-DE2F-4EB0-8393-4F18500DE1BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UseCase", "UseCase", "{51EB8D9C-CCC4-4083-86C8-D8A7CF1ED39C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{B9CF9B45-E940-40AA-B5FD-04E6FEA35328}"
+	ProjectSection(SolutionItems) = preProject
+		EstacionamentoRepository.cs = EstacionamentoRepository.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VeiculosRepository", "VeiculosRepository", "{2C6AC068-F683-4635-A82E-DF5FACB742BC}"
+	ProjectSection(SolutionItems) = preProject
+		Veiculos.Entrar.cs = Veiculos.Entrar.cs
+		Veiculos.Sair.cs = Veiculos.Sair.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DF15E5F-5714-437E-86BC-06D2F5A4D00B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DF15E5F-5714-437E-86BC-06D2F5A4D00B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DF15E5F-5714-437E-86BC-06D2F5A4D00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DF15E5F-5714-437E-86BC-06D2F5A4D00B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{830B54F8-D2D5-4DA1-81B7-7E189C327BCB} = {E8129352-663E-4669-A353-A56B5A0092B3}
+		{58743E20-B84C-4FF4-A42B-969A72BFE505} = {9CBC2244-D043-4F2E-9DB9-08ECB391292E}
+		{A216BD78-DE2F-4EB0-8393-4F18500DE1BE} = {9CBC2244-D043-4F2E-9DB9-08ECB391292E}
+		{51EB8D9C-CCC4-4083-86C8-D8A7CF1ED39C} = {9CBC2244-D043-4F2E-9DB9-08ECB391292E}
+		{B9CF9B45-E940-40AA-B5FD-04E6FEA35328} = {0E5496E6-CD64-4BD5-8126-1CC0C08FD4BA}
+		{2C6AC068-F683-4635-A82E-DF5FACB742BC} = {B9CF9B45-E940-40AA-B5FD-04E6FEA35328}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0621D68A-E4FD-4A1C-8CCA-201A9E97D775}
+	EndGlobalSection
+EndGlobal
