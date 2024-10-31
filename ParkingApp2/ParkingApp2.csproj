@@ -151,6 +151,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ParkingContext\ParkingContext.Aplication\Interface\IVeiculoRepository.cs" />
+    <Compile Include="ParkingContext\ParkingContext.Domain\Entities\Estacionamento.cs" />
+    <Compile Include="ParkingContext\ParkingContext.Domain\Entities\Veiculos.cs" />
+    <Compile Include="ParkingContext\ParkingContext.Infra\Repository\Estacionamento.cs" />
+    <Compile Include="ParkingContext\ParkingContext.Infra\Repository\VeiculosRepository\Veiculos.Entrar.cs" />
+    <Compile Include="ParkingContext\ParkingContext.Infra\Repository\VeiculosRepository\Veiculos.Sair.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -175,6 +181,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ParkingContext\ParkingContext.Aplication\Service\" />
+    <Folder Include="ParkingContext\ParkingContext.Aplication\UseCase\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

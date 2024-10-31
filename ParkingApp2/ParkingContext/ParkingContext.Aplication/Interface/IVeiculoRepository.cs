@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace EstacionamentoApp.Interface
+
+namespace ParkingContext.Aplication.Interface
 {
     public interface IVeiculoRepository
     {
@@ -11,3 +12,4 @@ namespace EstacionamentoApp.Interface
 
     }
 }
+
