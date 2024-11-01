@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace ParkingContext.Aplication.Interface
+namespace Aplication.Interface
 {
     public interface IVeiculoRepository
     {
@@ -9,7 +9,5 @@ namespace ParkingContext.Aplication.Interface
         void RemoverVeiculo(string placa);
         void ListarVeiculos();
         void VagasDesocupadas();
-
     }
 }
-

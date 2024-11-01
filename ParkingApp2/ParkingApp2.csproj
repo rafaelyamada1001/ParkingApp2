@@ -145,20 +145,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="FrmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FrmMenu.Designer.cs">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParkingContext\ParkingContext.Aplication\Interface\IVeiculoRepository.cs" />
-    <Compile Include="ParkingContext\ParkingContext.Domain\Entities\Estacionamento.cs" />
-    <Compile Include="ParkingContext\ParkingContext.Domain\Entities\Veiculos.cs" />
-    <Compile Include="ParkingContext\ParkingContext.Infra\Repository\Estacionamento.cs" />
-    <Compile Include="ParkingContext\ParkingContext.Infra\Repository\VeiculosRepository\Veiculos.Entrar.cs" />
-    <Compile Include="ParkingContext\ParkingContext.Infra\Repository\VeiculosRepository\Veiculos.Sair.cs" />
+    <Compile Include="FrmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPrincipal.Designer.cs">
+      <DependentUpon>FrmPrincipal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmMenu.resx">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPrincipal.resx">
+      <DependentUpon>FrmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -182,9 +188,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="ParkingContext\ParkingContext.Aplication\Service\" />
-    <Folder Include="ParkingContext\ParkingContext.Aplication\UseCase\" />
+    <ProjectReference Include="..\Aplication\Aplication.csproj">
+      <Project>{d3bda20e-c70a-41a9-a1d1-2672e69dbfb2}</Project>
+      <Name>Aplication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{1958af0a-626e-4517-b975-031f3d210650}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra\Infra.csproj">
+      <Project>{4b77fc8e-ef50-4d9a-91d3-699201b546b1}</Project>
+      <Name>Infra</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
