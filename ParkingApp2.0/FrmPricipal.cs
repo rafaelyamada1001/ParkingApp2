@@ -1,21 +1,18 @@
-﻿using ParkingContext.Aplication.Interface;
-using ParkingContext.Infra.Repository;
-using System.Windows.Forms;
+using Aplication.Interface;
 
-namespace ParkingApp2
+namespace ParkingApp2._0
 {
-    public partial class FrmPrincipal : Form
+    public partial class FrmPricipal : Form
     {
         private IVeiculoRepository veiculoRepository;
-
-        public FrmPrincipal()
+        public FrmPricipal()
         {
             InitializeComponent();
         }
 
-        private void btnEntrar_Click(object sender, System.EventArgs e)
+        private void btnEntrar_Click(object sender, EventArgs e)
         {
-            if(txtUsuario.Text.Equals("123") & txtSenha.Text.Equals("123"))
+            if (txtUsuario.Text.Equals("123") & txtSenha.Text.Equals("123"))
             {
                 var menu = new FrmMenu(veiculoRepository);
                 menu.Show();
@@ -24,20 +21,19 @@ namespace ParkingApp2
             }
             else
             {
-                MessageBox.Show("Usuário ou senha incorretos",
+                MessageBox.Show("Usu�rio ou senha incorretos",
                                 "Erro!",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
 
                 txtUsuario.Focus();
                 txtSenha.Text = string.Empty;
-            }
 
+            }
         }
 
-        private void btnSair_Click(object sender, System.EventArgs e)
+        private void btnSair_Click(object sender, EventArgs e)
         {
             this.Close();
         }
     }
-}

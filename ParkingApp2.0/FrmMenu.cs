@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using Aplication.Interface;
+﻿using Aplication.Interface;
 
-namespace ParkingApp2
+
+namespace ParkingApp2._0
 {
     public partial class FrmMenu : Form
     {
@@ -11,7 +10,6 @@ namespace ParkingApp2
         public FrmMenu(IVeiculoRepository veiculoRepository)
         {
             InitializeComponent();
-            _veiculoRepository = veiculoRepository;
         }
 
         private void btnAdicionarVeiculo_Click(object sender, EventArgs e)
@@ -26,9 +24,7 @@ namespace ParkingApp2
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
-
         private void btnRemoverVeiculo_Click(object sender, EventArgs e)
         {
 
@@ -45,7 +41,7 @@ namespace ParkingApp2
             {
                 _veiculoRepository.VagasDesocupadas();
             }
-            catch 
+            catch
             {
                 MessageBox.Show("Erro", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -54,7 +50,7 @@ namespace ParkingApp2
 
         private void btnSairMenu_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }
