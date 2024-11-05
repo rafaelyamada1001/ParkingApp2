@@ -1,15 +1,18 @@
 ﻿using Aplication.Interface;
+using Aplication.UseCase;
+using Infra.Repository;
+using System.Numerics;
 
 
 namespace ParkingApp2._0
 {
     public partial class FrmMenu : Form
     {
-        private readonly IVeiculoRepository _veiculoRepository;
-
-        public FrmMenu(IVeiculoRepository veiculoRepository)
+        private IVeiculoRepository veiculoRepository;
+        public FrmMenu()
         {
             InitializeComponent();
+            veiculoRepository = new VeiculoRepository();
         }
 
         private void btnAdicionarVeiculo_Click(object sender, EventArgs e)
@@ -18,7 +21,8 @@ namespace ParkingApp2._0
 
             try
             {
-                _veiculoRepository.AdicionarVeiculo(placa);
+                var useCase = new AdicionarVeiculoUseCase(veiculoRepository);
+                useCase.Execute(placa);
             }
             catch (Exception ex)
             {
@@ -27,7 +31,8 @@ namespace ParkingApp2._0
         }
         private void btnRemoverVeiculo_Click(object sender, EventArgs e)
         {
-
+            //var useCase = new RemoverVeiculoUseCase(veiculoRepository);
+            //useCase.Execute(placa);
         }
 
         private void btnListarVeiculos_Click(object sender, EventArgs e)
@@ -37,14 +42,6 @@ namespace ParkingApp2._0
 
         private void btnVagasLivres_Click(object sender, EventArgs e)
         {
-            try
-            {
-                _veiculoRepository.VagasDesocupadas();
-            }
-            catch
-            {
-                MessageBox.Show("Erro", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
 
         }
 

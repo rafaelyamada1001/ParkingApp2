@@ -1,10 +1,11 @@
 using Aplication.Interface;
+using Aplication.UseCase;
 
 namespace ParkingApp2._0
 {
     public partial class FrmPricipal : Form
     {
-        private IVeiculoRepository veiculoRepository;
+        private AdicionarVeiculoUseCase adicionarVeiculo;
         public FrmPricipal()
         {
             InitializeComponent();
@@ -14,7 +15,7 @@ namespace ParkingApp2._0
         {
             if (txtUsuario.Text.Equals("123") & txtSenha.Text.Equals("123"))
             {
-                var menu = new FrmMenu(veiculoRepository);
+                var menu = new FrmMenu();
                 menu.Show();
 
                 this.Visible = false;
@@ -37,3 +38,4 @@ namespace ParkingApp2._0
             this.Close();
         }
     }
+}

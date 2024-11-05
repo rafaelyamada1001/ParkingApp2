@@ -13,8 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCase\" />
     <Folder Include="Service\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
