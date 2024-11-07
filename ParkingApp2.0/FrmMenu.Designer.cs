@@ -36,11 +36,13 @@
             btnAdicionarVeiculo = new Button();
             txtPlaca = new TextBox();
             lblPlaca = new Label();
+            button1 = new Button();
             grpMenu.SuspendLayout();
             SuspendLayout();
             // 
             // grpMenu
             // 
+            grpMenu.Controls.Add(button1);
             grpMenu.Controls.Add(btnSairMenu);
             grpMenu.Controls.Add(btnVagasLivres);
             grpMenu.Controls.Add(btnListarVeiculos);
@@ -122,6 +124,16 @@
             lblPlaca.TabIndex = 0;
             lblPlaca.Text = "Digite a placa do veículo :";
             // 
+            // button1
+            // 
+            button1.Location = new Point(306, 260);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 7;
+            button1.Text = "Teste";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -145,5 +157,6 @@
         private Button btnAdicionarVeiculo;
         private TextBox txtPlaca;
         private Label lblPlaca;
+        private Button button1;
     }
 }

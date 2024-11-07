@@ -13,7 +13,7 @@ namespace Aplication.UseCase
             _veiculosRepository = veiculosRepository;
         }
 
-        public void Execute(string placa)
+        public void ExecuteAdicionarVeiculo(string placa)
         {
 
             if (string.IsNullOrEmpty(placa))

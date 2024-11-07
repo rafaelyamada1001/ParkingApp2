@@ -27,19 +27,94 @@ namespace Infra.Repository
             }
         }
 
-        public void ListarVeiculos()
+        public List<string> ListarVeiculos()
         {
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                string query = "SELECT placa, HoraEntrada FROM movger WHERE horasaida is null";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    connection.Open();
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+
+                        List<string> veiculos = new List<string>();
+                        while (reader.Read())
+                        {
+                            string placa = reader.GetString("placa");
+                            DateTime horaEntrada = reader.GetDateTime("HoraEntrada");
+                            veiculos.Add($"Placa:{placa} - Hora Entrada:{horaEntrada}");
+                        }
+                        return veiculos;
+                    }
+                }
+            }
         }
 
-        public void RemoverVeiculo(string placa)
+        public void RemoverVeiculo
+            (string placa, DateTime horaSaida, double horasEstacionadas, double minutosEstacionados, decimal Valor)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                string updateQuery =
+                    "UPDATE MovGer SET HoraSaida = @HoraSaida, PermanenciaHora = @PermanenciaHora, PermanenciaMin = @PermanenciaMin, Valor = @Valor" +
+                    " WHERE Placa = @Placa and HoraSaida is null";
+
+                using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@Placa", placa);
+                    command.Parameters.AddWithValue("@HoraSaida", horaSaida);
+                    command.Parameters.AddWithValue("@PermanenciaHora", Math.Floor(horasEstacionadas));
+                    command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);
+                    command.Parameters.AddWithValue("@Valor", Valor.ToString("F2"));
+
+                    command.ExecuteNonQuery();
+                    command.ExecuteReader();
+                }
+            }
         }
 
-        public int VagasDesocupadas()
+        public DateTime VerificarPermanencia(string placa)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                string query = "SELECT placa, HoraEntrada FROM movger WHERE placa = @placa and HoraSaida is null";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Placa", placa);
+                    connection.Open();
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+
+                        DateTime horaEntrada = reader.GetDateTime("HoraEntrada");
+                        return horaEntrada;
+                    }
+                }
+            }
+        }
+
+        public int VagasDesocupadas(Estacionamento estacionamento)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                string query = "SELECT count(placa) as qtde FROM movger WHERE horasaida is null";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    connection.Open();
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        int vagasOcupadas = reader.GetInt32("qtde");
+                        var vagasLivres = estacionamento.Vagas - vagasOcupadas;
+
+                        return vagasLivres;
+
+                    }
+                }
+            }
         }
 
         public int VerificarPlaca(string placa)
@@ -52,6 +127,7 @@ namespace Infra.Repository
                 {
                     verificaPlacaCommand.Parameters.AddWithValue("@placa", placa);
                     int veiculosComMesmaPlaca = Convert.ToInt32(verificaPlacaCommand.ExecuteScalar());
+
                     return veiculosComMesmaPlaca;
                 }
             }

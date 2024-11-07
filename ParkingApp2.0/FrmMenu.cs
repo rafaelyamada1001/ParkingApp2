@@ -1,7 +1,7 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
 using Infra.Repository;
-using System.Numerics;
+
 
 
 namespace ParkingApp2._0
@@ -9,10 +9,12 @@ namespace ParkingApp2._0
     public partial class FrmMenu : Form
     {
         private IVeiculoRepository veiculoRepository;
+        private IEstacionamentoRepository estacionamentoRepository;
         public FrmMenu()
         {
             InitializeComponent();
             veiculoRepository = new VeiculoRepository();
+            estacionamentoRepository = new EstacionamentoRepository();
         }
 
         private void btnAdicionarVeiculo_Click(object sender, EventArgs e)
@@ -22,7 +24,7 @@ namespace ParkingApp2._0
             try
             {
                 var useCase = new AdicionarVeiculoUseCase(veiculoRepository);
-                useCase.Execute(placa);
+                useCase.ExecuteAdicionarVeiculo(placa);
             }
             catch (Exception ex)
             {
@@ -31,8 +33,17 @@ namespace ParkingApp2._0
         }
         private void btnRemoverVeiculo_Click(object sender, EventArgs e)
         {
-            //var useCase = new RemoverVeiculoUseCase(veiculoRepository);
-            //useCase.Execute(placa);
+            string placa = txtPlaca.Text.Trim();
+            try
+            {
+                var useCase = new RemoverVeiculoUseCase(veiculoRepository, estacionamentoRepository);
+                useCase.ExecuteRemoverVeiculo(placa);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void btnListarVeiculos_Click(object sender, EventArgs e)
@@ -42,12 +53,34 @@ namespace ParkingApp2._0
 
         private void btnVagasLivres_Click(object sender, EventArgs e)
         {
+            try
+            {
+                var useCase = new VagasDesocupadasUseCase(estacionamentoRepository);
+                useCase.ExecuteVagasLivres();
 
+                //string message = 
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnSairMenu_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var estacionamentoRepository = new EstacionamentoRepository();
+            var vagasDesocupadas = estacionamentoRepository.VagasTotais();
+
+            int vagasTotais = vagasDesocupadas.VagasTotais;
+            string message = ($"Vagas desocupadas:{vagasTotais}");
+
+            MessageBox.Show(message);
         }
     }
 }
