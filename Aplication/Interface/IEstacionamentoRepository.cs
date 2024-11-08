@@ -1,12 +1,10 @@
-﻿
-
-using Aplication.DTO;
+﻿using Aplication.DTO;
 
 namespace Aplication.Interface
 {
     public interface IEstacionamentoRepository
     {
-        VagasTotaisDTO VagasTotais();
+        ResponseDefault<VagasTotaisDTO> VagasTotais();
         int VagasOcupadas();
     }
 }

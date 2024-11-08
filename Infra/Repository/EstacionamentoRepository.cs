@@ -8,40 +8,52 @@ namespace Infra.Repository
     public class EstacionamentoRepository : IEstacionamentoRepository
     {
         string connectionString = "Server=localhost;Database=teste;User ID=root;Password=1234;";
-        public VagasTotaisDTO VagasTotais()
+        
+        public ResponseDefault<VagasTotaisDTO> VagasTotais()
         {
             var vagasTotais = 0;
             decimal valorHora = 0;
 
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            try
             {
-                string query = "SELECT TotalVagas, ValorHora FROM estacionamento";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    connection.Open();
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    string query = "SELECT TotalVagas, ValorHora FROM estacionamento";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
-                        if (reader.Read())
+
+                        connection.Open();
+                        using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            valorHora = reader.GetDecimal("ValorHora");
-                            vagasTotais = reader.GetInt32("TotalVagas");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Nenhum registro encontrado.");
+                            if (reader.Read())
+                            {
+                                valorHora = reader.GetDecimal("ValorHora");
+                                vagasTotais = reader.GetInt32("TotalVagas");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nenhum registro encontrado.");
+                            }
                         }
                     }
                 }
+
+                var dto = new VagasTotaisDTO()
+                {
+                    VagasTotais = vagasTotais,
+                    ValorHora = valorHora
+                };
+
+                var response = new ResponseDefault<VagasTotaisDTO>(true, "OK", dto);
+                return response;
             }
-
-            return new VagasTotaisDTO()
+            catch (Exception ex) 
             {
-                VagasTotais = vagasTotais,
-                ValorHora = valorHora
-            };
+                var response = new ResponseDefault<VagasTotaisDTO>(false, ex.Message, null);
+                return response;
+            }            
         }
-
+        
         public int VagasOcupadas()
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -52,11 +64,14 @@ namespace Infra.Repository
                     connection.Open();
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-
-                        int vagasOcupadas = reader.GetInt32("qtde");
-                        return vagasOcupadas;
+                        if (reader.Read())
+                        {
+                            int vagasOcupadas = reader.GetInt32("qtde");
+                            return vagasOcupadas;
+                        }
+                        return 0;
                     }
-                }
+                }                      
             }
         }
     }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             grpMenu = new GroupBox();
+            button1 = new Button();
             btnSairMenu = new Button();
             btnVagasLivres = new Button();
             btnListarVeiculos = new Button();
@@ -36,7 +37,6 @@
             btnAdicionarVeiculo = new Button();
             txtPlaca = new TextBox();
             lblPlaca = new Label();
-            button1 = new Button();
             grpMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -53,14 +53,24 @@
             grpMenu.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             grpMenu.Location = new Point(12, 12);
             grpMenu.Name = "grpMenu";
-            grpMenu.Size = new Size(467, 473);
+            grpMenu.Size = new Size(442, 423);
             grpMenu.TabIndex = 0;
             grpMenu.TabStop = false;
             grpMenu.Text = "Menu :";
             // 
+            // button1
+            // 
+            button1.Location = new Point(280, 385);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 7;
+            button1.Text = "Teste";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // btnSairMenu
             // 
-            btnSairMenu.Location = new Point(362, 435);
+            btnSairMenu.Location = new Point(361, 385);
             btnSairMenu.Name = "btnSairMenu";
             btnSairMenu.Size = new Size(75, 23);
             btnSairMenu.TabIndex = 6;
@@ -70,7 +80,7 @@
             // 
             // btnVagasLivres
             // 
-            btnVagasLivres.Location = new Point(22, 354);
+            btnVagasLivres.Location = new Point(22, 327);
             btnVagasLivres.Name = "btnVagasLivres";
             btnVagasLivres.Size = new Size(176, 34);
             btnVagasLivres.TabIndex = 5;
@@ -80,7 +90,7 @@
             // 
             // btnListarVeiculos
             // 
-            btnListarVeiculos.Location = new Point(22, 256);
+            btnListarVeiculos.Location = new Point(22, 245);
             btnListarVeiculos.Name = "btnListarVeiculos";
             btnListarVeiculos.Size = new Size(176, 31);
             btnListarVeiculos.TabIndex = 4;
@@ -124,21 +134,11 @@
             lblPlaca.TabIndex = 0;
             lblPlaca.Text = "Digite a placa do veículo :";
             // 
-            // button1
-            // 
-            button1.Location = new Point(306, 260);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 7;
-            button1.Text = "Teste";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(491, 497);
+            ClientSize = new Size(466, 447);
             Controls.Add(grpMenu);
             Name = "FrmMenu";
             Text = "FrmMenu";

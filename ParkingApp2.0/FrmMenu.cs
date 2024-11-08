@@ -10,9 +10,11 @@ namespace ParkingApp2._0
     {
         private IVeiculoRepository veiculoRepository;
         private IEstacionamentoRepository estacionamentoRepository;
+
         public FrmMenu()
         {
             InitializeComponent();
+
             veiculoRepository = new VeiculoRepository();
             estacionamentoRepository = new EstacionamentoRepository();
         }
@@ -23,8 +25,13 @@ namespace ParkingApp2._0
 
             try
             {
-                var useCase = new AdicionarVeiculoUseCase(veiculoRepository);
-                useCase.ExecuteAdicionarVeiculo(placa);
+                var useCase = new AdicionarVeiculoUseCase(veiculoRepository, estacionamentoRepository);
+                string message = useCase.ExecuteAdicionarVeiculo(placa);
+
+                MessageBox.Show(message,
+                                "Alerta!",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
@@ -37,7 +44,24 @@ namespace ParkingApp2._0
             try
             {
                 var useCase = new RemoverVeiculoUseCase(veiculoRepository, estacionamentoRepository);
-                useCase.ExecuteRemoverVeiculo(placa);
+                var message = useCase.ExecuteRemoverVeiculo(placa);
+
+                MessageBox.Show(message,
+                      "Veículo Removido com sucesso!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                //if (saidaVeiculoDTO != null)
+                //{
+                //    MessageBox.Show($"Placa: {saidaVeiculoDTO.Placa}\nValor Total R$ {saidaVeiculoDTO.ValorTotal:F2}",
+                //        "Veículo Removido com sucesso!",
+                //        MessageBoxButtons.OK,
+                //        MessageBoxIcon.Information);
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Teste");
+                //}
             }
             catch (Exception ex)
             {
@@ -48,7 +72,26 @@ namespace ParkingApp2._0
 
         private void btnListarVeiculos_Click(object sender, EventArgs e)
         {
+            try
+            {
 
+            var useCase = new ListarVeiculosUseCase(veiculoRepository);
+            var veiculos = useCase.ExecuteListarVeiculos();
+            string message = "Veículos estacionados: \n";
+            foreach (var veiculo in veiculos)
+            {
+                message += $" Veículo: {veiculo.Placa} - Hora Entrada: {veiculo.HoraEntrada}\n";
+            }
+
+            MessageBox.Show(message,
+                "Lista de Veículos",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnVagasLivres_Click(object sender, EventArgs e)
@@ -56,9 +99,9 @@ namespace ParkingApp2._0
             try
             {
                 var useCase = new VagasDesocupadasUseCase(estacionamentoRepository);
-                useCase.ExecuteVagasLivres();
+                var vagasLivres = useCase.ExecuteVagasLivres();
 
-                //string message = 
+                MessageBox.Show($"Total de vagas desocupadas: {vagasLivres}"); 
 
             }
             catch (Exception ex)
@@ -69,7 +112,7 @@ namespace ParkingApp2._0
 
         private void btnSairMenu_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void button1_Click(object sender, EventArgs e)

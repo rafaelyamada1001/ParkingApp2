@@ -1,16 +1,14 @@
-﻿using MySql.Data.MySqlClient;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
     public class Estacionamento
     {
         public Estacionamento(int vagas, decimal valor)
         {          
             Vagas = vagas;
-            this.valor = valor;
+            Valor = valor;
         }
 
-        public int Vagas { get; set; }
-        private decimal valor { get; set; }
+        public int Vagas { get; private set; }
+        public decimal Valor { get; private set; }
     }
 }

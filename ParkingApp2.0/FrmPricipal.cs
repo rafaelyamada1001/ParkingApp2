@@ -35,7 +35,7 @@ namespace ParkingApp2._0
 
         private void btnSair_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
     }
 }

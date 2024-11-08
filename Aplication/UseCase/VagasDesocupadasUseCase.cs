@@ -6,18 +6,21 @@ namespace Aplication.UseCase
     public class VagasDesocupadasUseCase
     {
         private readonly IEstacionamentoRepository _estacionamentoRepository;
+
         public VagasDesocupadasUseCase(IEstacionamentoRepository estacionamentoRepository)
         {
            _estacionamentoRepository = estacionamentoRepository;
         }
-        public void ExecuteVagasLivres()
+
+        public int ExecuteVagasLivres()
         {
-            var teste = _estacionamentoRepository.VagasTotais();
+            var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             int vagasOcupadas = _estacionamentoRepository.VagasOcupadas();
 
-            int vagasTotais = teste.VagasTotais;
+            int vagasTotais = vagasTotaisDTO.VagasTotais;
             var vagasLivres = vagasTotais - vagasOcupadas;
             
+            return vagasLivres;
         }
     }
 }

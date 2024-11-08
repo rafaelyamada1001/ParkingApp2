@@ -1,4 +1,6 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
+using System.Numerics;
 
 
 namespace Aplication.UseCase
@@ -15,26 +17,42 @@ namespace Aplication.UseCase
             _estacionamentoRepository = estacionamentoRepository;
         }
 
-        public void ExecuteRemoverVeiculo(string placa)
+        public string ExecuteRemoverVeiculo(string placa)
         {
-            if (string.IsNullOrEmpty(placa))
-            {
-                return;
-            }
 
-            var teste = _estacionamentoRepository.VagasTotais();
+            var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             var horaEntrada = _veiculosRepository.VerificarPermanencia(placa);
+            var verificarPlaca = _veiculosRepository.VerificarPlaca(placa);
 
-            decimal valorHora = teste.ValorHora;
+            decimal valorHora = vagasTotaisDTO.ValorHora;
 
             var horaSaida = DateTime.Now;
             var tempoEstacionado = horaSaida - horaEntrada;
             var horasEstacionadas = tempoEstacionado.Hours;
             var minutosEstacionados = tempoEstacionado.Minutes;
-            var valorMinuto = valorHora / 60;
-            var valorTotal = valorMinuto * minutosEstacionados;
+            var valorTotal = (horasEstacionadas * valorHora) + (minutosEstacionados * (valorHora / 60m));
 
-            _veiculosRepository.RemoverVeiculo(placa, horaSaida, horasEstacionadas, minutosEstacionados, valorTotal);
+
+            if (verificarPlaca < 1)
+            {
+                string message = $"Placa{placa} de Veículo não encontrada";
+                return message;
+            }
+            else
+            {
+                _veiculosRepository.RemoverVeiculo(placa, horaSaida, horasEstacionadas, minutosEstacionados, valorTotal);
+                string message = $"Veículo Removido com sucesso!\n" +
+                     $"Entrada: {horaEntrada} | Saída: {horaSaida}\n" +
+                     $"Valor Total: R${valorTotal:F2} | " +
+                     $"Horas Estacionadas: {horasEstacionadas}h {minutosEstacionados}min Valor Hora:{valorHora}";
+                return message;              
+            }
+
+            //return new SaidaVeiculoDTO(placa, valorTotal)
+            //{
+            //    Placa = placa,
+            //    ValorTotal = valorTotal,
+            //};
 
         }
     }

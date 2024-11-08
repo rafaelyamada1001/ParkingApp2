@@ -49,21 +49,22 @@
             grpFormularioDeLogin.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             grpFormularioDeLogin.Location = new Point(12, 7);
             grpFormularioDeLogin.Name = "grpFormularioDeLogin";
-            grpFormularioDeLogin.Size = new Size(578, 254);
+            grpFormularioDeLogin.Size = new Size(458, 200);
             grpFormularioDeLogin.TabIndex = 0;
             grpFormularioDeLogin.TabStop = false;
             grpFormularioDeLogin.Text = "Formulário De Login :";
             // 
             // txtSenha
             // 
-            txtSenha.Location = new Point(29, 139);
+            txtSenha.Location = new Point(29, 116);
             txtSenha.Name = "txtSenha";
-            txtSenha.Size = new Size(303, 26);
+            txtSenha.Size = new Size(310, 26);
             txtSenha.TabIndex = 5;
+            txtSenha.UseSystemPasswordChar = true;
             // 
             // txtUsuario
             // 
-            txtUsuario.Location = new Point(29, 62);
+            txtUsuario.Location = new Point(29, 52);
             txtUsuario.Name = "txtUsuario";
             txtUsuario.Size = new Size(310, 26);
             txtUsuario.TabIndex = 4;
@@ -71,7 +72,7 @@
             // lblSenha
             // 
             lblSenha.AutoSize = true;
-            lblSenha.Location = new Point(29, 108);
+            lblSenha.Location = new Point(29, 95);
             lblSenha.Name = "lblSenha";
             lblSenha.Size = new Size(61, 18);
             lblSenha.TabIndex = 3;
@@ -80,7 +81,7 @@
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
-            lblUsuario.Location = new Point(29, 44);
+            lblUsuario.Location = new Point(29, 31);
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(70, 18);
             lblUsuario.TabIndex = 2;
@@ -88,7 +89,7 @@
             // 
             // btnSair
             // 
-            btnSair.Location = new Point(476, 200);
+            btnSair.Location = new Point(358, 160);
             btnSair.Name = "btnSair";
             btnSair.Size = new Size(75, 23);
             btnSair.TabIndex = 1;
@@ -98,7 +99,7 @@
             // 
             // btnEntrar
             // 
-            btnEntrar.Location = new Point(379, 200);
+            btnEntrar.Location = new Point(277, 160);
             btnEntrar.Name = "btnEntrar";
             btnEntrar.Size = new Size(75, 23);
             btnEntrar.TabIndex = 0;
@@ -106,13 +107,14 @@
             btnEntrar.UseVisualStyleBackColor = true;
             btnEntrar.Click += btnEntrar_Click;
             // 
-            // Form1
+            // FrmPricipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(602, 273);
+            ClientSize = new Size(482, 219);
             Controls.Add(grpFormularioDeLogin);
-            Name = "Form1";
+            Name = "FrmPricipal";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             grpFormularioDeLogin.ResumeLayout(false);
             grpFormularioDeLogin.PerformLayout();
