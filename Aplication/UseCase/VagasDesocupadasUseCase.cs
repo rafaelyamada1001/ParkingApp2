@@ -1,4 +1,5 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
 
 
 namespace Aplication.UseCase
@@ -12,12 +13,12 @@ namespace Aplication.UseCase
            _estacionamentoRepository = estacionamentoRepository;
         }
 
-        public int ExecuteVagasLivres()
+        public int Execute()
         {
             var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
-            int vagasOcupadas = _estacionamentoRepository.VagasOcupadas();
+            var vagasOcupadas = _estacionamentoRepository.VagasOcupadas();
 
-            int vagasTotais = vagasTotaisDTO.VagasTotais;
+            var vagasTotais = vagasTotaisDTO.Dados.VagasTotais;
             var vagasLivres = vagasTotais - vagasOcupadas;
             
             return vagasLivres;

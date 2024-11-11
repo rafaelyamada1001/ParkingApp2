@@ -1,4 +1,5 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
 using Aplication.UseCase;
 using Infra.Repository;
 
@@ -26,9 +27,10 @@ namespace ParkingApp2._0
             try
             {
                 var useCase = new AdicionarVeiculoUseCase(veiculoRepository, estacionamentoRepository);
-                string message = useCase.ExecuteAdicionarVeiculo(placa);
-
-                MessageBox.Show(message,
+                var message = useCase.Execute(placa);
+                
+                               
+                MessageBox.Show(message.Mensagem,
                                 "Alerta!",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
@@ -44,24 +46,13 @@ namespace ParkingApp2._0
             try
             {
                 var useCase = new RemoverVeiculoUseCase(veiculoRepository, estacionamentoRepository);
-                var message = useCase.ExecuteRemoverVeiculo(placa);
+                var message = useCase.Execute(placa);
 
                 MessageBox.Show(message,
                       "Veículo Removido com sucesso!",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
-
-                //if (saidaVeiculoDTO != null)
-                //{
-                //    MessageBox.Show($"Placa: {saidaVeiculoDTO.Placa}\nValor Total R$ {saidaVeiculoDTO.ValorTotal:F2}",
-                //        "Veículo Removido com sucesso!",
-                //        MessageBoxButtons.OK,
-                //        MessageBoxIcon.Information);
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Teste");
-                //}
+              
             }
             catch (Exception ex)
             {
@@ -76,7 +67,7 @@ namespace ParkingApp2._0
             {
 
             var useCase = new ListarVeiculosUseCase(veiculoRepository);
-            var veiculos = useCase.ExecuteListarVeiculos();
+            var veiculos = useCase.Execute();
             string message = "Veículos estacionados: \n";
             foreach (var veiculo in veiculos)
             {
@@ -99,7 +90,7 @@ namespace ParkingApp2._0
             try
             {
                 var useCase = new VagasDesocupadasUseCase(estacionamentoRepository);
-                var vagasLivres = useCase.ExecuteVagasLivres();
+                var vagasLivres = useCase.Execute();
 
                 MessageBox.Show($"Total de vagas desocupadas: {vagasLivres}"); 
 
@@ -120,7 +111,7 @@ namespace ParkingApp2._0
             var estacionamentoRepository = new EstacionamentoRepository();
             var vagasDesocupadas = estacionamentoRepository.VagasTotais();
 
-            int vagasTotais = vagasDesocupadas.VagasTotais;
+            int vagasTotais = vagasDesocupadas.Dados.VagasTotais;
             string message = ($"Vagas desocupadas:{vagasTotais}");
 
             MessageBox.Show(message);

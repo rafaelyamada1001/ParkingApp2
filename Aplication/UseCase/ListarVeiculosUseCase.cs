@@ -12,7 +12,7 @@ namespace Aplication.UseCase
             _veiculosRepository = veiculosRepository;
         }
 
-        public List<VeiculosDTO> ExecuteListarVeiculos()
+        public List<VeiculosDTO> Execute()
         {
             var veiculos = _veiculosRepository.ListarVeiculos();            
             return veiculos;

@@ -17,33 +17,31 @@ namespace Aplication.UseCase
             _estacionamentoRepository = estacionamentoRepository;
         }
 
-        public ResponseDefault<string> ExecuteAdicionarVeiculo(string placa)
+        public ResponseDefault<string> Execute(string placa)
         {
             var vagasOcupadas = _estacionamentoRepository.VagasOcupadas();
             var vagasTotaisResponse = _estacionamentoRepository.VagasTotais();
 
             if (!vagasTotaisResponse.Sucesso) return new ResponseDefault<string>(false, vagasTotaisResponse.Mensagem, null);
 
-            int vagas = vagasTotaisResponse.Dados.VagasTotais;
+            var vagas = vagasTotaisResponse.Dados.VagasTotais;
 
             if (vagasOcupadas >= vagas)
             {
-                string message = "Estacionamento cheio !";
-                return message;
+                return new ResponseDefault<string>(false, "Estacionamento cheio!", null);
             }
 
             if (string.IsNullOrEmpty(placa))
             {
-                string message = "Campo não pode ser vazio";
-                return message;
+                return new ResponseDefault<string>(false, "Campo não pode ser vazio", null);
             }
 
             var veiculosComMesmaPlaca = _veiculosRepository.VerificarPlaca(placa);
 
             if (veiculosComMesmaPlaca > 0)
             {
-                string message = "Veículo já estacionado !";
-                return message;
+                return new ResponseDefault<string>(false, "Veículo já estacionado", null);
+
             }
             else
             {
@@ -52,8 +50,7 @@ namespace Aplication.UseCase
 
                 _veiculosRepository.AdicionarVeiculo(veiculo);
 
-                string message = $"Veículo com a placa: {placa} estacionado com sucesso!";
-                return message;
+                return new ResponseDefault<string>(true, "Veículo estacionado com sucesso!", null);
             }            
         }
     }

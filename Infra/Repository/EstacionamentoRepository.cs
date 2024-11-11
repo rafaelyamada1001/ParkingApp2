@@ -56,6 +56,7 @@ namespace Infra.Repository
         
         public int VagasOcupadas()
         {
+
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 string query = "SELECT count(placa) as qtde FROM movger WHERE horasaida is null";

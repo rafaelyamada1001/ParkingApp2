@@ -17,14 +17,14 @@ namespace Aplication.UseCase
             _estacionamentoRepository = estacionamentoRepository;
         }
 
-        public string ExecuteRemoverVeiculo(string placa)
+        public string Execute(string placa)
         {
 
             var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             var horaEntrada = _veiculosRepository.VerificarPermanencia(placa);
             var verificarPlaca = _veiculosRepository.VerificarPlaca(placa);
 
-            decimal valorHora = vagasTotaisDTO.ValorHora;
+            decimal valorHora = vagasTotaisDTO.Dados.ValorHora;
 
             var horaSaida = DateTime.Now;
             var tempoEstacionado = horaSaida - horaEntrada;
@@ -47,12 +47,6 @@ namespace Aplication.UseCase
                      $"Horas Estacionadas: {horasEstacionadas}h {minutosEstacionados}min Valor Hora:{valorHora}";
                 return message;              
             }
-
-            //return new SaidaVeiculoDTO(placa, valorTotal)
-            //{
-            //    Placa = placa,
-            //    ValorTotal = valorTotal,
-            //};
 
         }
     }
