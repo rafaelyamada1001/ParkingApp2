@@ -1,5 +1,4 @@
-﻿using Aplication.DTO;
-using Aplication.Interface;
+﻿using Aplication.Interface;
 using Aplication.UseCase;
 using Infra.Repository;
 
@@ -108,13 +107,8 @@ namespace ParkingApp2._0
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var estacionamentoRepository = new EstacionamentoRepository();
-            var vagasDesocupadas = estacionamentoRepository.VagasTotais();
-
-            int vagasTotais = vagasDesocupadas.Dados.VagasTotais;
-            string message = ($"Vagas desocupadas:{vagasTotais}");
-
-            MessageBox.Show(message);
+            var relatorio = new FrmFiltrarDatas();
+            relatorio.Show();
         }
     }
 }

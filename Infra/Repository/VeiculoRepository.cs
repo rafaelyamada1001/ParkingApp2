@@ -8,7 +8,7 @@ namespace Infra.Repository
 {
     public class VeiculoRepository : IVeiculoRepository
     {
-        private string connectionString = "Server=localhost;Database=teste;User ID=root;Password=1234;";
+        string connectionString = DataBaseConnection.StringConnection();
 
         public void AdicionarVeiculo(Veiculos veiculo)
         {

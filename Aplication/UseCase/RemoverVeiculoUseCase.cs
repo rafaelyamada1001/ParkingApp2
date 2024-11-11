@@ -1,7 +1,4 @@
-﻿using Aplication.DTO;
-using Aplication.Interface;
-using System.Numerics;
-
+﻿using Aplication.Interface;
 
 namespace Aplication.UseCase
 {
@@ -35,7 +32,7 @@ namespace Aplication.UseCase
 
             if (verificarPlaca < 1)
             {
-                string message = $"Placa{placa} de Veículo não encontrada";
+                string message = $"Placa {placa} de Veículo não encontrada";
                 return message;
             }
             else

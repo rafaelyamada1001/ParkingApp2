@@ -7,8 +7,8 @@ namespace Infra.Repository
 {
     public class EstacionamentoRepository : IEstacionamentoRepository
     {
-        string connectionString = "Server=localhost;Database=teste;User ID=root;Password=1234;";
-        
+        string connectionString = DataBaseConnection.StringConnection();
+
         public ResponseDefault<VagasTotaisDTO> VagasTotais()
         {
             var vagasTotais = 0;

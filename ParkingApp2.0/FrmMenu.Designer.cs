@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             grpMenu = new GroupBox();
-            button1 = new Button();
+            btnRelatorio = new Button();
             btnSairMenu = new Button();
             btnVagasLivres = new Button();
             btnListarVeiculos = new Button();
@@ -42,7 +42,7 @@
             // 
             // grpMenu
             // 
-            grpMenu.Controls.Add(button1);
+            grpMenu.Controls.Add(btnRelatorio);
             grpMenu.Controls.Add(btnSairMenu);
             grpMenu.Controls.Add(btnVagasLivres);
             grpMenu.Controls.Add(btnListarVeiculos);
@@ -58,15 +58,15 @@
             grpMenu.TabStop = false;
             grpMenu.Text = "Menu :";
             // 
-            // button1
+            // btnRelatorio
             // 
-            button1.Location = new Point(280, 385);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 7;
-            button1.Text = "Teste";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnRelatorio.Location = new Point(227, 249);
+            btnRelatorio.Name = "btnRelatorio";
+            btnRelatorio.Size = new Size(176, 27);
+            btnRelatorio.TabIndex = 7;
+            btnRelatorio.Text = "Relatorio";
+            btnRelatorio.UseVisualStyleBackColor = true;
+            btnRelatorio.Click += button1_Click;
             // 
             // btnSairMenu
             // 
@@ -157,6 +157,6 @@
         private Button btnAdicionarVeiculo;
         private TextBox txtPlaca;
         private Label lblPlaca;
-        private Button button1;
+        private Button btnRelatorio;
     }
 }
