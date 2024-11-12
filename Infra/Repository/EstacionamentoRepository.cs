@@ -47,32 +47,41 @@ namespace Infra.Repository
                 var response = new ResponseDefault<VagasTotaisDTO>(true, "OK", dto);
                 return response;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 var response = new ResponseDefault<VagasTotaisDTO>(false, ex.Message, null);
                 return response;
-            }            
+            }
         }
-        
-        public int VagasOcupadas()
-        {
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+        public ResponseDefault<int> VagasOcupadas()
+        {
+            try
             {
-                string query = "SELECT count(placa) as qtde FROM movger WHERE horasaida is null";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    connection.Open();
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    string query = "SELECT count(placa) as qtde FROM movger WHERE horasaida is null";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
-                        if (reader.Read())
+                        connection.Open();
+                        using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            int vagasOcupadas = reader.GetInt32("qtde");
-                            return vagasOcupadas;
+                            if (reader.Read())
+                            {
+                                int vagasOcupadas = reader.GetInt32("qtde");
+                                return new ResponseDefault<int>(true, "OK", vagasOcupadas);
+                            }
+                            return new ResponseDefault<int>(true, "Nenhuma vaga ocupada", 0);
                         }
-                        return 0;
                     }
-                }                      
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDefault<int>(false, ex.Message, 0);
+                return response;
             }
         }
     }

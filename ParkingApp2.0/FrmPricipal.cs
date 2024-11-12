@@ -5,7 +5,6 @@ namespace ParkingApp2._0
 {
     public partial class FrmPricipal : Form
     {
-        private AdicionarVeiculoUseCase adicionarVeiculo;
         public FrmPricipal()
         {
             InitializeComponent();

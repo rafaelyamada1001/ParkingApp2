@@ -1,14 +1,5 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ParkingApp2._0
 {
@@ -20,7 +11,6 @@ namespace ParkingApp2._0
             InitializeComponent();
         }
 
-
         private void btnFiltrar_Click(object sender, EventArgs e)
         {
             var dataInicial = dtpDataInicial.Value;
@@ -29,9 +19,9 @@ namespace ParkingApp2._0
             try
             {
                 var usecase = new RelatorioLucroUseCase(relatorioRepository);
-                var valorTotal usecase.Execute(dataInicial, dataFinal);
+                string message = usecase.Execute(dataInicial, dataFinal);
 
-                MessageBox.Show($"{valorTotal}", $"Periodo {dataInicial} - {dataFinal}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"{message}","sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {

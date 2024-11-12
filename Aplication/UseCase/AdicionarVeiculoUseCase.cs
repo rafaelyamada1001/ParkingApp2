@@ -26,7 +26,7 @@ namespace Aplication.UseCase
 
             var vagas = vagasTotaisResponse.Dados.VagasTotais;
 
-            if (vagasOcupadas >= vagas)
+            if (vagasOcupadas.Dados >= vagas)
             {
                 return new ResponseDefault<string>(false, "Estacionamento cheio!", null);
             }
@@ -38,7 +38,7 @@ namespace Aplication.UseCase
 
             var veiculosComMesmaPlaca = _veiculosRepository.VerificarPlaca(placa);
 
-            if (veiculosComMesmaPlaca > 0)
+            if (veiculosComMesmaPlaca.Dados > 0)
             {
                 return new ResponseDefault<string>(false, "Veículo já estacionado", null);
 

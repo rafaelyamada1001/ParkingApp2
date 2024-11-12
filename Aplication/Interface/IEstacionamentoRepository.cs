@@ -5,6 +5,6 @@ namespace Aplication.Interface
     public interface IEstacionamentoRepository
     {
         ResponseDefault<VagasTotaisDTO> VagasTotais();
-        int VagasOcupadas();
+        ResponseDefault<int> VagasOcupadas();
     }
 }

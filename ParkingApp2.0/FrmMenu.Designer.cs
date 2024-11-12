@@ -60,9 +60,9 @@
             // 
             // btnRelatorio
             // 
-            btnRelatorio.Location = new Point(227, 249);
+            btnRelatorio.Location = new Point(227, 245);
             btnRelatorio.Name = "btnRelatorio";
-            btnRelatorio.Size = new Size(176, 27);
+            btnRelatorio.Size = new Size(176, 31);
             btnRelatorio.TabIndex = 7;
             btnRelatorio.Text = "Relatorio";
             btnRelatorio.UseVisualStyleBackColor = true;

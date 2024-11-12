@@ -1,4 +1,5 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
 using MySql.Data.MySqlClient;
 
 namespace Infra.Repository
@@ -6,21 +7,37 @@ namespace Infra.Repository
     public class RelatorioRepository : IRelatorioRepositoy
     {
         string connectionString = DataBaseConnection.StringConnection();
-        public void RelatorioLucro(DateTime horaInicial, DateTime horaFinal)
+
+        public ResponseDefault<decimal> RelatorioLucro(DateTime dataInicial, DateTime dataFinal)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            try
             {
-                string query = "SELECT sum(valor) as valorTotal, count(valor) as movTotal FROM movger WHERE HoraSaida BETWEEN (@DataInical AND @DataFinal);";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    connection.Open();
+                    string query = "SELECT sum(valor) as valorTotal FROM movger WHERE HoraSaida BETWEEN (@DataInical AND @DataFinal);";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@DataInicial", dataInicial);
+                        command.Parameters.AddWithValue("@DataFinal", dataFinal);
 
-                    command.Parameters.AddWithValue("@DataInicial", horaInicial);
-                    command.Parameters.AddWithValue("@DataFinal", horaFinal);
+                        connection.Open();
 
-                    command.ExecuteNonQuery();
-
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                var valorTotal = reader.GetDecimal("valorTotal");
+                                return new ResponseDefault<Decimal>(true, "OK", valorTotal);
+                            }
+                            return new ResponseDefault<decimal>(true, "Nenhum dado encontrado.", 0);
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDefault<Decimal>(false, ex.Message, 0);
+                return response;
             }
         }
     }

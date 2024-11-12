@@ -1,7 +1,9 @@
-﻿namespace Aplication.Interface
+﻿using Aplication.DTO;
+
+namespace Aplication.Interface
 {
     public interface IRelatorioRepositoy
     {
-        void RelatorioLucro();
+        ResponseDefault<decimal> RelatorioLucro(DateTime dataInicial, DateTime dataFinal);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
 
 namespace Aplication.UseCase
 {
@@ -14,35 +15,38 @@ namespace Aplication.UseCase
             _estacionamentoRepository = estacionamentoRepository;
         }
 
-        public string Execute(string placa)
+        public ResponseDefault<string> Execute(string placa)
         {
 
             var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             var horaEntrada = _veiculosRepository.VerificarPermanencia(placa);
             var verificarPlaca = _veiculosRepository.VerificarPlaca(placa);
 
+            if (!vagasTotaisDTO.Sucesso) return new ResponseDefault<string>(false, vagasTotaisDTO.Mensagem, null);
+            if (!horaEntrada.Sucesso) return new ResponseDefault<string>(false, horaEntrada.Mensagem, null);
+            if (!verificarPlaca.Sucesso) return new ResponseDefault<string>(false, verificarPlaca.Mensagem, null);
+
             decimal valorHora = vagasTotaisDTO.Dados.ValorHora;
 
             var horaSaida = DateTime.Now;
-            var tempoEstacionado = horaSaida - horaEntrada;
+            var tempoEstacionado = horaSaida - horaEntrada.Dados;
             var horasEstacionadas = tempoEstacionado.Hours;
             var minutosEstacionados = tempoEstacionado.Minutes;
             var valorTotal = (horasEstacionadas * valorHora) + (minutosEstacionados * (valorHora / 60m));
 
 
-            if (verificarPlaca < 1)
+            if (verificarPlaca.Dados < 1)
             {
-                string message = $"Placa {placa} de Veículo não encontrada";
-                return message;
+                return new ResponseDefault<string>(false, $"Placa: {placa} de veículo não encontrada", null);
             }
             else
             {
                 _veiculosRepository.RemoverVeiculo(placa, horaSaida, horasEstacionadas, minutosEstacionados, valorTotal);
                 string message = $"Veículo Removido com sucesso!\n" +
-                     $"Entrada: {horaEntrada} | Saída: {horaSaida}\n" +
+                     $"Entrada: {horaEntrada.Dados} | Saída: {horaSaida}\n" +
                      $"Valor Total: R${valorTotal:F2} | " +
-                     $"Horas Estacionadas: {horasEstacionadas}h {minutosEstacionados}min Valor Hora:{valorHora}";
-                return message;              
+                     $"Horas Estacionadas: {horasEstacionadas}h {minutosEstacionados}min";
+                return new ResponseDefault<string>(true, message, null);           
             }
 
         }

@@ -8,9 +8,8 @@ namespace Aplication.Interface
     {
         void AdicionarVeiculo(Veiculos veiculo);
         void RemoverVeiculo(string placa, DateTime horaSaida, double horasEstacionadas, double minutosEstacionados, decimal Valor);
-        List<VeiculosDTO> ListarVeiculos();
-        int VagasDesocupadas(Estacionamento estacionamento);
-        int VerificarPlaca(string placa);
-        DateTime VerificarPermanencia(string placa);
+        ResponseDefault<List<VeiculosDTO>> ListarVeiculos();      
+        ResponseDefault<int> VerificarPlaca(string placa);
+        ResponseDefault<DateTime> VerificarPermanencia(string placa);
     }
 }
