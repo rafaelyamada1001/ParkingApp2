@@ -84,6 +84,7 @@
             dtpDataInicial.Name = "dtpDataInicial";
             dtpDataInicial.Size = new Size(200, 23);
             dtpDataInicial.TabIndex = 6;
+            dtpDataInicial.Value = new DateTime(2024, 11, 12, 15, 15, 24, 0);
             // 
             // btnVoltarMenu
             // 

@@ -1,5 +1,6 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
+using Infra.Repository;
 
 namespace ParkingApp2._0
 {
@@ -9,19 +10,21 @@ namespace ParkingApp2._0
         public FrmFiltrarDatas()
         {
             InitializeComponent();
+
+            relatorioRepository = new RelatorioRepository();
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)
         {
-            var dataInicial = dtpDataInicial.Value;
-            var dataFinal = dtpDataFinal.Value;
+            var dataInicial = dtpDataInicial.Value.Date;
+            var dataFinal = dtpDataFinal.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
             try
             {
                 var usecase = new RelatorioLucroUseCase(relatorioRepository);
-                string message = usecase.Execute(dataInicial, dataFinal);
+                var message = usecase.Execute(dataInicial, dataFinal);
 
-                MessageBox.Show($"{message}","sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"{message.Mensagem}","sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

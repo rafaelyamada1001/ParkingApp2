@@ -14,7 +14,7 @@ namespace Infra.Repository
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    string query = "SELECT sum(valor) as valorTotal FROM movger WHERE HoraSaida BETWEEN (@DataInical AND @DataFinal);";
+                    string query = "SELECT sum(valor) as valorTotal FROM movger WHERE HoraSaida BETWEEN @DataInicial AND @DataFinal;";
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@DataInicial", dataInicial);

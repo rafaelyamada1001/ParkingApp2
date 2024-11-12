@@ -1,4 +1,5 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
 
 namespace Aplication.UseCase
 {
@@ -11,14 +12,16 @@ namespace Aplication.UseCase
             _relatorioRepositoy = relatorioRepositoy;
         }
 
-        public string Execute(DateTime dataInicial, DateTime dataFinal)
+        public ResponseDefault<decimal> Execute(DateTime dataInicial, DateTime dataFinal)
         {
             var valorTotal = _relatorioRepositoy.RelatorioLucro(dataInicial, dataFinal);
 
+            if (!valorTotal.Sucesso) return new ResponseDefault<decimal>(true, valorTotal.Mensagem, 0);
+
             if (valorTotal.Dados != 0)
             {
-                string message = ($"Periodo selecionado: {dataInicial} - {dataFinal} \nValor: {valorTotal}");
-                return message;
+                string message = ($"Periodo selecionado: {dataInicial.ToString("dd/MM/yyyy")} - {dataFinal.ToString("dd/MM/yyyy")} \nValor: {valorTotal.Dados}");
+                return new ResponseDefault<decimal>(true, message, valorTotal.Dados);
             }
             return null;
         }

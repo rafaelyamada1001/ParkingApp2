@@ -87,8 +87,8 @@ namespace Infra.Repository
                     command.Parameters.AddWithValue("@Placa", placa);
                     command.Parameters.AddWithValue("@HoraSaida", horaSaida);
                     command.Parameters.AddWithValue("@PermanenciaHora", Math.Floor(horasEstacionadas));
-                    command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);
-                    command.Parameters.AddWithValue("@Valor", Valor.ToString("F2"));
+                    command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);                    
+                    command.Parameters.AddWithValue("@Valor", Valor);
 
                     command.ExecuteNonQuery();
                     command.ExecuteReader();

@@ -45,12 +45,10 @@ namespace ParkingApp2._0
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-
         }
 
         private void btnListarVeiculos_Click(object sender, EventArgs e)
         {
-
 
                 var useCase = new ListarVeiculosUseCase(veiculoRepository);
                 var message = useCase.Execute();
@@ -59,18 +57,14 @@ namespace ParkingApp2._0
                     "Lista de Veículos",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-
-
         }
 
         private void btnVagasLivres_Click(object sender, EventArgs e)
         {
-
                 var useCase = new VagasDesocupadasUseCase(estacionamentoRepository);
                 var vagasLivres = useCase.Execute();
 
                 MessageBox.Show($"Total de vagas desocupadas: {vagasLivres.Dados}");
-
 
         }
 
