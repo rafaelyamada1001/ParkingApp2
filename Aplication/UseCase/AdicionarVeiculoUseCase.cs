@@ -21,6 +21,7 @@ namespace Aplication.UseCase
         {
             var vagasOcupadas = _estacionamentoRepository.VagasOcupadas();
             var vagasTotaisResponse = _estacionamentoRepository.VagasTotais();
+            var veiculo = new Veiculos(placa);
 
             if (!vagasTotaisResponse.Sucesso) return new ResponseDefault<string>(false, vagasTotaisResponse.Mensagem, null);
 
@@ -31,9 +32,9 @@ namespace Aplication.UseCase
                 return new ResponseDefault<string>(false, "Estacionamento cheio!", null);
             }
 
-            if (string.IsNullOrEmpty(placa))
+            if (!veiculo.Valid)
             {
-                return new ResponseDefault<string>(false, "Campo não pode ser vazio", null);
+                return new ResponseDefault<string>(false, veiculo.Notifications.First().Message, null);
             }
 
             var veiculosComMesmaPlaca = _veiculosRepository.VerificarPlaca(placa);
@@ -45,9 +46,6 @@ namespace Aplication.UseCase
             }
             else
             {
-
-                var veiculo = new Veiculos(placa, DateTime.Now);
-
                 _veiculosRepository.AdicionarVeiculo(veiculo);
 
                 return new ResponseDefault<string>(true, "Veículo estacionado com sucesso!", null);

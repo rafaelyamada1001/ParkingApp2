@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aplication", "Aplication\Aplication.csproj", "{D3BDA20E-C70A-41A9-A1D1-2672E69DBFB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingApp2.0", "ParkingApp2.0\ParkingApp2.0.csproj", "{3EC3BB35-76D0-4F0B-8190-F5AC9974AD40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkingApp2.0", "ParkingApp2.0\ParkingApp2.0.csproj", "{3EC3BB35-76D0-4F0B-8190-F5AC9974AD40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{E9CE218A-FB49-48F4-9CA8-74D452FE05FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3EC3BB35-76D0-4F0B-8190-F5AC9974AD40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EC3BB35-76D0-4F0B-8190-F5AC9974AD40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EC3BB35-76D0-4F0B-8190-F5AC9974AD40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9CE218A-FB49-48F4-9CA8-74D452FE05FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9CE218A-FB49-48F4-9CA8-74D452FE05FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9CE218A-FB49-48F4-9CA8-74D452FE05FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9CE218A-FB49-48F4-9CA8-74D452FE05FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

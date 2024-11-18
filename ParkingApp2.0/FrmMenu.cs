@@ -50,21 +50,28 @@ namespace ParkingApp2._0
         private void btnListarVeiculos_Click(object sender, EventArgs e)
         {
 
-                var useCase = new ListarVeiculosUseCase(veiculoRepository);
-                var message = useCase.Execute();
-                
-                MessageBox.Show(message.Mensagem,
-                    "Lista de Veículos",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+            var useCase = new ListarVeiculosUseCase(veiculoRepository);
+            var message = useCase.Execute();
+
+            MessageBox.Show(message.Mensagem,
+                "Lista de Veículos",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         private void btnVagasLivres_Click(object sender, EventArgs e)
         {
-                var useCase = new VagasDesocupadasUseCase(estacionamentoRepository);
-                var vagasLivres = useCase.Execute();
+            var useCase = new VagasDesocupadasUseCase(estacionamentoRepository);
+            var vagasLivres = useCase.Execute();
 
+            if (vagasLivres.Dados != 0)
+            {
                 MessageBox.Show($"Total de vagas desocupadas: {vagasLivres.Dados}");
+            }
+            else 
+            {
+                MessageBox.Show($"{vagasLivres.Mensagem}");
+            }
 
         }
 

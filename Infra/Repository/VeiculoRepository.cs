@@ -59,13 +59,13 @@ namespace Infra.Repository
                             else
                             {
 
-                            return new ResponseDefault<List<VeiculosDTO>>(false, "Nenhum Veículo Encontrado", null); ;
+                                return new ResponseDefault<List<VeiculosDTO>>(false, "Nenhum Veículo Encontrado", null); ;
                             }
                         }
                     }
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 var response = new ResponseDefault<List<VeiculosDTO>>(false, ex.Message, null);
                 return response;
@@ -87,7 +87,7 @@ namespace Infra.Repository
                     command.Parameters.AddWithValue("@Placa", placa);
                     command.Parameters.AddWithValue("@HoraSaida", horaSaida);
                     command.Parameters.AddWithValue("@PermanenciaHora", Math.Floor(horasEstacionadas));
-                    command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);                    
+                    command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);
                     command.Parameters.AddWithValue("@Valor", Valor);
 
                     command.ExecuteNonQuery();

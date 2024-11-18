@@ -7,21 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="UseCaseService\**" />
-    <EmbeddedResource Remove="UseCaseService\**" />
-    <None Remove="UseCaseService\**" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.6.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="DTO\ListarVeiculosDTO.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Aplication\Aplication.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\" />
   </ItemGroup>
 
 </Project>
