@@ -15,6 +15,7 @@ namespace Aplication.UseCase
 
         public ResponseDefault<int> Execute()
         {
+ 
             var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             var vagasOcupadas = _estacionamentoRepository.VagasOcupadas();
 

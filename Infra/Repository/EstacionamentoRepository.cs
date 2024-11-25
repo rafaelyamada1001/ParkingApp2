@@ -76,7 +76,6 @@ namespace Infra.Repository
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {

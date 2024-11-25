@@ -44,12 +44,14 @@ namespace Aplication.UseCase
                 return new ResponseDefault<string>(false, "Veículo já estacionado", null);
 
             }
-            else
-            {
-                _veiculosRepository.AdicionarVeiculo(veiculo);
 
-                return new ResponseDefault<string>(true, "Veículo estacionado com sucesso!", null);
-            }            
+            var adicionarVeiculoResponse = _veiculosRepository.AdicionarVeiculo(veiculo);
+            if (!adicionarVeiculoResponse.Sucesso)
+            {
+                return new ResponseDefault<string>(false, adicionarVeiculoResponse.Mensagem, null);
+            }
+
+            return new ResponseDefault<string>(true, "Veículo estacionado com sucesso!", null);
         }
     }
 }
