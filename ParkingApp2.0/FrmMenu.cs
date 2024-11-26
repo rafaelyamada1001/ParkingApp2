@@ -1,5 +1,6 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
+using Infra.DataBase;
 using Infra.Repository;
 using MySql.Data.MySqlClient;
 
@@ -11,14 +12,16 @@ namespace ParkingApp2._0
     {
         private IVeiculoRepository veiculoRepository;
         private IEstacionamentoRepository estacionamentoRepository;
-        private MySqlConnection connection;
+
 
         public FrmMenu()
         {
-            InitializeComponent();
+            var connection = new Connection();
 
             veiculoRepository = new VeiculoRepository(connection);
-            estacionamentoRepository = new EstacionamentoRepository();
+            estacionamentoRepository = new EstacionamentoRepository(connection);
+
+            InitializeComponent();
         }
 
         private void btnAdicionarVeiculo_Click(object sender, EventArgs e)

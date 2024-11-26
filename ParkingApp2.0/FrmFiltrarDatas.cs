@@ -1,5 +1,6 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
+using Infra.DataBase;
 using Infra.Repository;
 
 namespace ParkingApp2._0
@@ -9,9 +10,10 @@ namespace ParkingApp2._0
         private IRelatorioRepositoy relatorioRepository;
         public FrmFiltrarDatas()
         {
-            InitializeComponent();
+            var connection = new Connection();
+            relatorioRepository = new RelatorioRepository(connection);
 
-            relatorioRepository = new RelatorioRepository();
+            InitializeComponent();
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)

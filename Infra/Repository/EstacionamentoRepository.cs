@@ -7,6 +7,13 @@ namespace Infra.Repository
 {
     public class EstacionamentoRepository : IEstacionamentoRepository
     {
+        private readonly MySqlConnection _connection;
+
+        public EstacionamentoRepository(IConnection connection)
+        {
+            _connection = connection.GetConnection();
+        }
+
         string connectionString = DataBaseConnection.StringConnection();
 
         public ResponseDefault<VagasTotaisDTO> VagasTotais()
@@ -16,27 +23,24 @@ namespace Infra.Repository
 
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    string query = "SELECT TotalVagas, ValorHora FROM estacionamento";
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
-                    {
+                string query = "SELECT TotalVagas, ValorHora FROM estacionamento";
 
-                        connection.Open();
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                valorHora = reader.GetDecimal("ValorHora");
-                                vagasTotais = reader.GetInt32("TotalVagas");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Nenhum registro encontrado.");
-                            }
+                            valorHora = reader.GetDecimal("ValorHora");
+                            vagasTotais = reader.GetInt32("TotalVagas");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nenhum registro encontrado.");
                         }
                     }
                 }
+
 
                 var dto = new VagasTotaisDTO()
                 {
@@ -58,22 +62,17 @@ namespace Infra.Repository
         {
             try
             {
-
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string query = "SELECT count(placa) as qtde FROM movger WHERE horasaida is null";
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
-                    string query = "SELECT count(placa) as qtde FROM movger WHERE horasaida is null";
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        connection.Open();
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                int vagasOcupadas = reader.GetInt32("qtde");
-                                return new ResponseDefault<int>(true, "OK", vagasOcupadas);
-                            }
-                            return new ResponseDefault<int>(true, "Nenhuma vaga ocupada", 0);
+                            int vagasOcupadas = reader.GetInt32("qtde");
+                            return new ResponseDefault<int>(true, "OK", vagasOcupadas);
                         }
+                        return new ResponseDefault<int>(true, "Nenhuma vaga ocupada", 0);
                     }
                 }
             }

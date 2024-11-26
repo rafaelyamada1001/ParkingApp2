@@ -6,33 +6,37 @@ namespace Infra.Repository
 {
     public class RelatorioRepository : IRelatorioRepositoy
     {
+        private readonly MySqlConnection _connection;
+
+        public RelatorioRepository(IConnection connection)
+        {
+            _connection = connection.GetConnection();
+        }
         string connectionString = DataBaseConnection.StringConnection();
 
         public ResponseDefault<decimal> RelatorioLucro(DateTime dataInicial, DateTime dataFinal)
         {
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+                string query = "SELECT sum(valor) as valorTotal FROM movger WHERE HoraSaida BETWEEN @DataInicial AND @DataFinal;";
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
-                    string query = "SELECT sum(valor) as valorTotal FROM movger WHERE HoraSaida BETWEEN @DataInicial AND @DataFinal;";
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    command.Parameters.AddWithValue("@DataInicial", dataInicial);
+                    command.Parameters.AddWithValue("@DataFinal", dataFinal);
+
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        command.Parameters.AddWithValue("@DataInicial", dataInicial);
-                        command.Parameters.AddWithValue("@DataFinal", dataFinal);
-
-                        connection.Open();
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                var valorTotal = reader.GetDecimal("valorTotal");
-                                return new ResponseDefault<Decimal>(true, "OK", valorTotal);
-                            }
-                            return new ResponseDefault<decimal>(true, "Nenhum dado encontrado.", 0);
+                            var valorTotal = reader.GetDecimal("valorTotal");
+                            return new ResponseDefault<Decimal>(true, "OK", valorTotal);
                         }
+                        return new ResponseDefault<decimal>(true, "Nenhum dado encontrado.", 0);
                     }
                 }
+
             }
             catch (Exception ex)
             {
