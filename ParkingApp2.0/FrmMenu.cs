@@ -13,7 +13,6 @@ namespace ParkingApp2._0
         private IVeiculoRepository veiculoRepository;
         private IEstacionamentoRepository estacionamentoRepository;
 
-
         public FrmMenu()
         {
             var connection = new Connection();
@@ -36,8 +35,8 @@ namespace ParkingApp2._0
                             "Alerta!",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
-
         }
+
         private void btnRemoverVeiculo_Click(object sender, EventArgs e)
         {
             string placa = txtPlaca.Text.Trim();
@@ -49,12 +48,10 @@ namespace ParkingApp2._0
                   "Alerta!",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-
         }
 
         private void btnListarVeiculos_Click(object sender, EventArgs e)
         {
-
             var useCase = new ListarVeiculosUseCase(veiculoRepository);
             var message = useCase.Execute();
 
@@ -77,7 +74,6 @@ namespace ParkingApp2._0
             {
                 MessageBox.Show($"{vagasLivres.Mensagem}");
             }
-
         }
 
         private void btnSairMenu_Click(object sender, EventArgs e)

@@ -6,6 +6,7 @@ namespace Infra.DataBase
 {
     public sealed class Connection : IConnection
     {
+
         private readonly MySqlConnection _instance;
 
         public Connection() 

@@ -10,6 +10,7 @@ namespace Domain.Entities
             PlacaVeiculo = placaVeiculo;
             HoraEntrada = DateTime.Now;
 
+            //mudar para fluent
             AddNotifications(new Contract()
                 .Requires()
                 .IsNotNullOrEmpty(placaVeiculo, "Veiculos.PlacaVeiculo", "Campo não pode ser vazio")

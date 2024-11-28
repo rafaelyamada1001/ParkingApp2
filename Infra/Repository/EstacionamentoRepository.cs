@@ -14,8 +14,6 @@ namespace Infra.Repository
             _connection = connection.GetConnection();
         }
 
-        string connectionString = DataBaseConnection.StringConnection();
-
         public ResponseDefault<VagasTotaisDTO> VagasTotais()
         {
             var vagasTotais = 0;
