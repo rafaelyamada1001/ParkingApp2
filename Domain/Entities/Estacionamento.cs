@@ -3,7 +3,7 @@
     public class Estacionamento
     {
         public Estacionamento(int vagas, decimal valor)
-        {          
+        {
             Vagas = vagas;
             Valor = valor;
         }

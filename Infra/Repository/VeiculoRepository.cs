@@ -10,22 +10,29 @@ namespace Infra.Repository
     {
         string connectionString = DataBaseConnection.StringConnection();
 
-        public void AdicionarVeiculo(Veiculos veiculo)
+        public ResponseDefault<bool> AdicionarVeiculo(Veiculos veiculo)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            try
             {
-                string insertQuery = "INSERT INTO MovGer (Placa, HoraEntrada) " +
-                    "VALUES (@Placa, @HoraEntrada)";
-
-                using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    connection.Open();
+                    string insertQuery = "INSERT INTO MovGer (Placa, HoraEntrada) VALUES (@Placa, @HoraEntrada)";
 
-                    command.Parameters.AddWithValue("@Placa", veiculo.PlacaVeiculo);
-                    command.Parameters.AddWithValue("@HoraEntrada", veiculo.HoraEntrada);
+                    using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                    {
+                        connection.Open();
 
-                    command.ExecuteNonQuery();
+                        command.Parameters.AddWithValue("@Placa", veiculo.PlacaVeiculo);
+                        command.Parameters.AddWithValue("@HoraEntrada", veiculo.HoraEntrada);
+
+                        command.ExecuteNonQuery();
+                    }
                 }
+                return new ResponseDefault<bool>(true, "Veículo adicionado com sucesso", true);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDefault<bool>(false, ex.Message, false);
             }
         }
 
@@ -72,27 +79,41 @@ namespace Infra.Repository
             }
         }
 
-        public void RemoverVeiculo(string placa, DateTime horaSaida, double horasEstacionadas, double minutosEstacionados, decimal Valor)
+        public ResponseDefault<bool> RemoverVeiculo(string placa, DateTime horaSaida, double horasEstacionadas, double minutosEstacionados, decimal valor)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            try
             {
-                string updateQuery =
-                    "UPDATE MovGer SET HoraSaida = @HoraSaida, PermanenciaHora = @PermanenciaHora, PermanenciaMin = @PermanenciaMin, Valor = @Valor" +
-                    " WHERE Placa = @Placa and HoraSaida is null";
-
-                using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    connection.Open();
+                    string updateQuery =
+                        "UPDATE MovGer SET HoraSaida = @HoraSaida, PermanenciaHora = @PermanenciaHora, PermanenciaMin = @PermanenciaMin, Valor = @Valor " +
+                        "WHERE Placa = @Placa AND HoraSaida IS NULL";
 
-                    command.Parameters.AddWithValue("@Placa", placa);
-                    command.Parameters.AddWithValue("@HoraSaida", horaSaida);
-                    command.Parameters.AddWithValue("@PermanenciaHora", Math.Floor(horasEstacionadas));
-                    command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);
-                    command.Parameters.AddWithValue("@Valor", Valor);
+                    using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
+                    {
+                        connection.Open();
 
-                    command.ExecuteNonQuery();
-                    command.ExecuteReader();
+                        command.Parameters.AddWithValue("@Placa", placa);
+                        command.Parameters.AddWithValue("@HoraSaida", horaSaida);
+                        command.Parameters.AddWithValue("@PermanenciaHora", Math.Floor(horasEstacionadas));
+                        command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);
+                        command.Parameters.AddWithValue("@Valor", valor);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            return new ResponseDefault<bool>(true, "Veículo removido com sucesso", true);
+                        }
+                        else
+                        {
+                            return new ResponseDefault<bool>(false, "Nenhum veículo encontrado para atualizar", false);
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDefault<bool>(false, ex.Message, false);
             }
         }
 

@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Commands\**" />
     <Compile Remove="UseCaseService\**" />
+    <EmbeddedResource Remove="Commands\**" />
     <EmbeddedResource Remove="UseCaseService\**" />
+    <None Remove="Commands\**" />
     <None Remove="UseCaseService\**" />
   </ItemGroup>
 
@@ -18,10 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\" />
   </ItemGroup>
 
 </Project>
