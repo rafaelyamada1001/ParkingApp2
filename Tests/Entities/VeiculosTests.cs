@@ -5,6 +5,7 @@ using Aplication.UseCase;
 namespace Tests.Entities
 {
     [TestClass]
+    //mexer apos DI
     public class VeiculosTests
     {
         [TestMethod]

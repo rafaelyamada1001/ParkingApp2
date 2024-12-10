@@ -13,6 +13,17 @@ namespace Domain.Entities
         {
             Placa = placa;
             HoraEntrada = DateTime.Now;
+<<<<<<< HEAD
+=======
+
+            //mudar para fluent
+            AddNotifications(new Contract()
+                .Requires()
+                .IsNotNullOrEmpty(placaVeiculo, "Veiculos.PlacaVeiculo", "Campo não pode ser vazio")
+                .HasLen(placaVeiculo, 7, "Veiculos.PlacaVeiculo", "Placa Inválida (Deve conter 7 caracteres) ")
+                );
+                
+>>>>>>> 6ae504f46bf99ef56b2e1c4f2fa5f771f909b716
         }
 
         public PlacaVeiculo Placa { get; private set; }

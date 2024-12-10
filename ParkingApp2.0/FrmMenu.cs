@@ -1,6 +1,8 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
+using Infra.DataBase;
 using Infra.Repository;
+using MySql.Data.MySqlClient;
 
 
 
@@ -13,10 +15,12 @@ namespace ParkingApp2._0
 
         public FrmMenu()
         {
-            InitializeComponent();
+            var connection = new Connection();
 
-            veiculoRepository = new VeiculoRepository();
-            estacionamentoRepository = new EstacionamentoRepository();
+            veiculoRepository = new VeiculoRepository(connection);
+            estacionamentoRepository = new EstacionamentoRepository(connection);
+
+            InitializeComponent();
         }
 
         private void btnAdicionarVeiculo_Click(object sender, EventArgs e)
@@ -31,8 +35,8 @@ namespace ParkingApp2._0
                             "Alerta!",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
-
         }
+
         private void btnRemoverVeiculo_Click(object sender, EventArgs e)
         {
             string placa = txtPlaca.Text.Trim();
@@ -44,12 +48,10 @@ namespace ParkingApp2._0
                   "Alerta!",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-
         }
 
         private void btnListarVeiculos_Click(object sender, EventArgs e)
         {
-
             var useCase = new ListarVeiculosUseCase(veiculoRepository);
             var message = useCase.Execute();
 
@@ -72,7 +74,6 @@ namespace ParkingApp2._0
             {
                 MessageBox.Show($"{vagasLivres.Mensagem}");
             }
-
         }
 
         private void btnSairMenu_Click(object sender, EventArgs e)

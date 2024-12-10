@@ -47,6 +47,7 @@ namespace Aplication.UseCase
                 return new ResponseDefault<string>(false, "Veículo já estacionado", null);
 
             }
+<<<<<<< HEAD
             var adicionarVeiculo = _veiculosRepository.AdicionarVeiculo(veiculo);
 
             if (!adicionarVeiculo.Sucesso)
@@ -57,6 +58,16 @@ namespace Aplication.UseCase
             return new ResponseDefault<string>(true, adicionarVeiculo.Mensagem, placa);
 
 
+=======
+
+            var adicionarVeiculoResponse = _veiculosRepository.AdicionarVeiculo(veiculo);
+            if (!adicionarVeiculoResponse.Sucesso)
+            {
+                return new ResponseDefault<string>(false, adicionarVeiculoResponse.Mensagem, null);
+            }
+
+            return new ResponseDefault<string>(true, "Veículo estacionado com sucesso!", null);
+>>>>>>> 6ae504f46bf99ef56b2e1c4f2fa5f771f909b716
         }
     }
 }
