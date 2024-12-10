@@ -1,35 +1,36 @@
 ﻿using Domain.Validations;
 using Domain.Validations.Interfaces;
+using Domain.ValueObjects;
 using Flunt.Notifications;
 using Flunt.Validations;
 namespace Domain.Entities
 {
     public class Veiculos : IValidations, IContract
     {
-        private readonly List<Notification> _notifications;
+        private List<Notification> _notifications;
 
-        public Veiculos(string placaVeiculo)
+        public Veiculos(PlacaVeiculo placa)
         {
-            PlacaVeiculo = placaVeiculo;
+            Placa = placa;
             HoraEntrada = DateTime.Now;
         }
 
-        public string PlacaVeiculo { get; private set; }
+        public PlacaVeiculo Placa { get; private set; }
         public DateTime HoraEntrada { get; private set; }
 
 
         public IReadOnlyCollection<Notification> Notifications => _notifications;
 
 
-        protected void SetNotification(string message, string propertyName)
+        protected void SetNotificationsList(List<Notification> notifications)
         {
-            _notifications.Add(new Notification(message, propertyName));
+            _notifications = notifications;
         }
 
         public bool Validation()
         {
             var contracts = new ContractValidations<Veiculos>()
-                .PlacaIsOk(this.PlacaVeiculo, 7, 7, "A Placa não pode ser nula ou deve conter 7 caracteres", "Placa Veículo");
+                .PlacaIsOk(this.Placa.Placa, 7, 7, "A Placa não pode ser nula ou deve conter 7 caracteres", "Placa Veículo");
 
             return contracts.IsValid();
         }

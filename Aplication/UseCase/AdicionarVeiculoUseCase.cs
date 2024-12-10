@@ -1,6 +1,7 @@
 ﻿using Aplication.DTO;
 using Aplication.Interface;
 using Domain.Entities;
+using Domain.Validations.Interfaces;
 
 
 namespace Aplication.UseCase
@@ -10,11 +11,13 @@ namespace Aplication.UseCase
         private readonly IVeiculoRepository _veiculosRepository;
         private readonly IEstacionamentoRepository _estacionamentoRepository;
 
+
         public AdicionarVeiculoUseCase
             (IVeiculoRepository veiculosRepository, IEstacionamentoRepository estacionamentoRepository)
         {
             _veiculosRepository = veiculosRepository;
             _estacionamentoRepository = estacionamentoRepository;
+
         }
 
         public ResponseDefault<string> Execute(string placa)
@@ -32,9 +35,9 @@ namespace Aplication.UseCase
                 return new ResponseDefault<string>(false, "Estacionamento cheio!", null);
             }
 
-            if (!veiculo.Valid)
+            if (!veiculo.Validation())
             {
-                return new ResponseDefault<string>(false, veiculo.Notifications.First().Message, null);
+                return new ResponseDefault<string>(false, "A Placa não pode ser nula ou deve conter 7 caracteres", null);
             }
 
             var veiculosComMesmaPlaca = _veiculosRepository.VerificarPlaca(placa);

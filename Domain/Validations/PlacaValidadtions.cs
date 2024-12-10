@@ -8,7 +8,7 @@ namespace Domain.Validations
         {
             if (string.IsNullOrWhiteSpace(placaVeiculo))
             {
-                throw new ArgumentException("A placa do veículo não pode ser nula.", propertyName);
+                throw new ArgumentException(message, propertyName);
             }
 
             if (placaVeiculo.Length > maxLength || placaVeiculo.Length < minLength)
