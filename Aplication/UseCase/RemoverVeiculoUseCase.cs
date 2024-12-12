@@ -8,8 +8,7 @@ namespace Aplication.UseCase
         private readonly IVeiculoRepository _veiculosRepository;
         private readonly IEstacionamentoRepository _estacionamentoRepository;
 
-        public RemoverVeiculoUseCase
-            (IVeiculoRepository veiculosRepository, IEstacionamentoRepository estacionamentoRepository)
+        public RemoverVeiculoUseCase(IVeiculoRepository veiculosRepository, IEstacionamentoRepository estacionamentoRepository)
         {
             _veiculosRepository = veiculosRepository;
             _estacionamentoRepository = estacionamentoRepository;

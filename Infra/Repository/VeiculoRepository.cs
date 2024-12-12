@@ -10,15 +10,6 @@ namespace Infra.Repository
     {
         private readonly MySqlConnection _connection;
 
-<<<<<<< HEAD
-        public ResponseDefault<bool> AdicionarVeiculo(Veiculos veiculo)
-        {
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    string insertQuery = "INSERT INTO MovGer (Placa, HoraEntrada) VALUES (@Placa, @HoraEntrada)";
-=======
         public VeiculoRepository(IConnection connection)
         {
             _connection = connection.GetConnection();
@@ -32,22 +23,13 @@ namespace Infra.Repository
 
                 using (MySqlCommand command = new MySqlCommand(insertQuery, _connection))
                 {
->>>>>>> 6ae504f46bf99ef56b2e1c4f2fa5f771f909b716
 
-                    using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
-                    {
-                        connection.Open();
+                    command.Parameters.AddWithValue("@Placa", veiculo.Placa.Placa);
+                    command.Parameters.AddWithValue("@HoraEntrada", veiculo.HoraEntrada);
 
-                        command.Parameters.AddWithValue("@Placa", veiculo.PlacaVeiculo);
-                        command.Parameters.AddWithValue("@HoraEntrada", veiculo.HoraEntrada);
-
-                        command.ExecuteNonQuery();
-                    }
+                    command.ExecuteNonQuery();
                 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 6ae504f46bf99ef56b2e1c4f2fa5f771f909b716
                 return new ResponseDefault<bool>(true, "Veículo adicionado com sucesso", true);
             }
             catch (Exception ex)
@@ -99,33 +81,6 @@ namespace Infra.Repository
         {
             try
             {
-<<<<<<< HEAD
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    string updateQuery =
-                        "UPDATE MovGer SET HoraSaida = @HoraSaida, PermanenciaHora = @PermanenciaHora, PermanenciaMin = @PermanenciaMin, Valor = @Valor " +
-                        "WHERE Placa = @Placa AND HoraSaida IS NULL";
-
-                    using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
-                    {
-                        connection.Open();
-
-                        command.Parameters.AddWithValue("@Placa", placa);
-                        command.Parameters.AddWithValue("@HoraSaida", horaSaida);
-                        command.Parameters.AddWithValue("@PermanenciaHora", Math.Floor(horasEstacionadas));
-                        command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);
-                        command.Parameters.AddWithValue("@Valor", valor);
-
-                        int rowsAffected = command.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            return new ResponseDefault<bool>(true, "Veículo removido com sucesso", true);
-                        }
-                        else
-                        {
-                            return new ResponseDefault<bool>(false, "Nenhum veículo encontrado para atualizar", false);
-                        }
-=======
                 string updateQuery =
                     "UPDATE MovGer SET HoraSaida = @HoraSaida, PermanenciaHora = @PermanenciaHora, PermanenciaMin = @PermanenciaMin, Valor = @Valor " +
                     "WHERE Placa = @Placa AND HoraSaida IS NULL";
@@ -147,14 +102,9 @@ namespace Infra.Repository
                     else
                     {
                         return new ResponseDefault<bool>(false, "Nenhum veículo encontrado para atualizar", false);
->>>>>>> 6ae504f46bf99ef56b2e1c4f2fa5f771f909b716
                     }
                 }
 
-            }
-            catch (Exception ex)
-            {
-                return new ResponseDefault<bool>(false, ex.Message, false);
             }
             catch (Exception ex)
             {
@@ -218,4 +168,5 @@ namespace Infra.Repository
         }
     }
 }
+
 

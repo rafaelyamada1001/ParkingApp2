@@ -2,7 +2,7 @@
 using Aplication.UseCase;
 using Infra.DataBase;
 using Infra.Repository;
-using MySql.Data.MySqlClient;
+using Domain.Enums;
 
 
 
@@ -21,14 +21,22 @@ namespace ParkingApp2._0
             estacionamentoRepository = new EstacionamentoRepository(connection);
 
             InitializeComponent();
+
+            this.Load += new EventHandler(FrmMenu_Load);
+        }
+
+        private void FrmMenu_Load(object? sender, EventArgs e)
+        {
+            cmbTipoVeiculo.DataSource = Enum.GetValues(typeof(EVeiculoType));
         }
 
         private void btnAdicionarVeiculo_Click(object sender, EventArgs e)
         {
             string placa = txtPlaca.Text.Trim();
+            EVeiculoType tipoVeiculo = (EVeiculoType)cmbTipoVeiculo.SelectedItem;
 
             var useCase = new AdicionarVeiculoUseCase(veiculoRepository, estacionamentoRepository);
-            var message = useCase.Execute(placa);
+            var message = useCase.Execute(placa, tipoVeiculo);
 
 
             MessageBox.Show(message.Mensagem,
@@ -70,7 +78,7 @@ namespace ParkingApp2._0
             {
                 MessageBox.Show($"Total de vagas desocupadas: {vagasLivres.Dados}");
             }
-            else 
+            else
             {
                 MessageBox.Show($"{vagasLivres.Mensagem}");
             }
@@ -85,6 +93,11 @@ namespace ParkingApp2._0
         {
             var relatorio = new FrmFiltrarDatas();
             relatorio.Show();
+        }
+
+        private void cmbTipoVeiculo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

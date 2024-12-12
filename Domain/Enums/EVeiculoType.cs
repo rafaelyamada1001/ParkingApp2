@@ -1,8 +1,8 @@
 ﻿namespace Domain.Enums
 {
-    public enum EVeiculosType
+    public enum EVeiculoType
     {
-        Carros = 0,
+        Carro = 0,
         Moto = 1
     }
 }
