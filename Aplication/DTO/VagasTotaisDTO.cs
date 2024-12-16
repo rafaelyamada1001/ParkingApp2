@@ -1,7 +1,3 @@
 ﻿namespace Aplication.DTO;
 
-public class VagasTotaisDTO
-{
-    public int VagasTotais { get; set; }
-    public decimal ValorHora { get; set; }
-}
+public record VagasTotaisDTO(int VagasTotaisCarros, int VagasTotaisMotos, decimal ValorHora);

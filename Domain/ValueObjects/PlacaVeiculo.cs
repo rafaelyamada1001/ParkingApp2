@@ -27,7 +27,7 @@ namespace Domain.ValueObjects
         {
 
             var contracts = new ContractValidations<PlacaVeiculo>()
-                .PlacaIsOk(Placa, "Formato inválido. Placa deve seguir padrões brasileiro ou mercosul", "Placa Veículo");
+                .PlacaIsOk(Placa, "Formato inválido! Placa deve seguir padrões brasileiro ou mercosul", "Placa Veículo");
 
             _notifications.AddRange(contracts.Notifications);
 

@@ -5,7 +5,6 @@ using Infra.Repository;
 using Domain.Enums;
 
 
-
 namespace ParkingApp2._0
 {
     public partial class FrmMenu : Form
@@ -49,8 +48,9 @@ namespace ParkingApp2._0
         {
             string placa = txtPlaca.Text.Trim();
 
+            EVeiculoType tipoVeiculo = (EVeiculoType)cmbTipoVeiculo.SelectedItem;
             var useCase = new RemoverVeiculoUseCase(veiculoRepository, estacionamentoRepository);
-            var message = useCase.Execute(placa);
+            var message = useCase.Execute(placa, tipoVeiculo);
 
             MessageBox.Show(message.Mensagem,
                   "Alerta!",

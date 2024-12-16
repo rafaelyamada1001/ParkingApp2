@@ -24,7 +24,7 @@ namespace Aplication.UseCase
             string message = "Veículos estacionados: \n";
             foreach (var veiculo in veiculos.Dados)
             {
-                message += $" Veículo: {veiculo.Placa} - Hora Entrada: {veiculo.HoraEntrada}\n";
+                message += $" Veículo:{veiculo.Placa} - Hora Entrada: {veiculo.HoraEntrada}\n";
             }
 
                 return new ResponseDefault<List<VeiculosDTO>>(true, $"{message}", veiculos.Dados);
@@ -33,8 +33,6 @@ namespace Aplication.UseCase
             {
                 return new ResponseDefault<List<VeiculosDTO>>(false, "Nenhum Veículo Estacionado", null);
             }
-
-
         }
     }
 }

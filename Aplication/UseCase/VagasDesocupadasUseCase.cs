@@ -22,10 +22,12 @@ namespace Aplication.UseCase
             if (!vagasTotaisDTO.Sucesso) return new ResponseDefault<int>(false, vagasTotaisDTO.Mensagem, 0);
             if (!vagasOcupadas.Sucesso) return new ResponseDefault<int>(false, vagasOcupadas.Mensagem, 0);
 
-            var vagasTotais = vagasTotaisDTO.Dados.VagasTotais;
-            var vagasLivres = vagasTotais - vagasOcupadas.Dados;
+            var vagasTotaisCarros = vagasTotaisDTO.Dados.VagasTotaisCarros;
+            var vagasTotaisMotos = vagasTotaisDTO.Dados.VagasTotaisMotos;
+            var vagasLivresCarro = vagasTotaisCarros - vagasOcupadas.Dados.VagasCarros;
+            var vagasLivresMoto = vagasTotaisMotos - vagasOcupadas.Dados.VagasMotos;
             
-             return new ResponseDefault<int>(true, "OK", vagasLivres);
+             return new ResponseDefault<int>(true, "OK", vagasLivresCarro );
         }
     }
 }

@@ -1,14 +1,16 @@
-﻿namespace Domain.Entities
+﻿using Domain.Enums;
+
+namespace Domain.Entities
 {
     public class Estacionamento
     {
-        public Estacionamento(int vagas, decimal valor)
+        public Estacionamento(EVagasType vagas, decimal valor)
         {
             Vagas = vagas;
             Valor = valor;
         }
 
-        public int Vagas { get; private set; }
+        public EVagasType Vagas { get; private set; }
         public decimal Valor { get; private set; }
     }
 }

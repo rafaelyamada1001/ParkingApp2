@@ -1,5 +1,6 @@
 ﻿using Aplication.DTO;
 using Aplication.Interface;
+using Domain.Enums;
 
 namespace Aplication.UseCase
 {
@@ -14,12 +15,12 @@ namespace Aplication.UseCase
             _estacionamentoRepository = estacionamentoRepository;
         }
 
-        public ResponseDefault<string> Execute(string placa)
+        public ResponseDefault<string> Execute(string placa, EVeiculoType tipoVeiculo)
         {
-
             var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             var horaEntrada = _veiculosRepository.VerificarPermanencia(placa);
             var verificarPlaca = _veiculosRepository.VerificarPlaca(placa);
+
 
             if (!vagasTotaisDTO.Sucesso) return new ResponseDefault<string>(false, vagasTotaisDTO.Mensagem, null);
             if (!horaEntrada.Sucesso) return new ResponseDefault<string>(false, horaEntrada.Mensagem, null);
@@ -31,8 +32,38 @@ namespace Aplication.UseCase
             var tempoEstacionado = horaSaida - horaEntrada.Dados;
             var horasEstacionadas = tempoEstacionado.Hours;
             var minutosEstacionados = tempoEstacionado.Minutes;
-            var valorTotal = (horasEstacionadas * valorHora) + (minutosEstacionados * (valorHora / 60m));
 
+            // Calcula o tempo total estacionado em minutos
+            var tempoTotalEstacionadoEmMinutos = (horasEstacionadas * 60) + minutosEstacionados;
+
+            // Regra 1: menos de 15 minutos, não precisa pagar
+            if (tempoTotalEstacionadoEmMinutos < 15)
+            {
+                if (verificarPlaca.Dados < 1)
+                {
+                    return new ResponseDefault<string>(false, $"Placa: {placa} de veículo não encontrada", null);
+                }
+                else
+                {
+                    _veiculosRepository.RemoverVeiculo(placa, horaSaida, 0, minutosEstacionados, 0);
+                    string message = $"Veículo Removido com sucesso!\n" +
+                        $"Entrada: {horaEntrada.Dados} / Saída: {horaSaida}\n" +
+                        $"Nenhuma cobrança aplicada (tempo inferior a 15 minutos).";
+                    return new ResponseDefault<string>(true, message, null);
+                }
+            }
+
+            // Regra 2: Após 15 minutos, cobra mais 1 hora
+            var horasCobradas = horasEstacionadas;
+            if (minutosEstacionados > 15) horasCobradas++;
+
+            var valorTotal = horasCobradas * valorHora;
+
+            // Aplicando devido desconto quando o tipo do veículo é moto
+            if (tipoVeiculo == EVeiculoType.Moto) 
+            {
+                valorTotal *= 0.5m;
+            }
 
             if (verificarPlaca.Dados < 1)
             {
@@ -42,12 +73,14 @@ namespace Aplication.UseCase
             {
                 _veiculosRepository.RemoverVeiculo(placa, horaSaida, horasEstacionadas, minutosEstacionados, valorTotal);
                 string message = $"Veículo Removido com sucesso!\n" +
-                     $"Entrada: {horaEntrada.Dados} | Saída: {horaSaida}\n" +
-                     $"Valor Total: R${valorTotal:F2} | " +
-                     $"Horas Estacionadas: {horasEstacionadas}h {minutosEstacionados}min";
-                return new ResponseDefault<string>(true, message, null);           
+                    $"Entrada: {horaEntrada.Dados} - Saída: {horaSaida}\n" +
+                    $"Valor Total: R${valorTotal:F2} \n " +
+                    $"Horas Cobradas: {horasCobradas}h \n  " +
+                    $"Tempo Estacionado: {horasEstacionadas}h {minutosEstacionados}min";
+                return new ResponseDefault<string>(true, message, null);
             }
-
         }
+
     }
 }
+

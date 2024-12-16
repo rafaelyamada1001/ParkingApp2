@@ -16,12 +16,13 @@ namespace Infra.Repository
 
         public ResponseDefault<VagasTotaisDTO> VagasTotais()
         {
-            var vagasTotais = 0;
+            var vagasTotaisCarros = 0;
+            var vagasTotaisMotos = 0;
             decimal valorHora = 0;
 
             try
             {
-                string query = "SELECT TotalVagas, ValorHora FROM estacionamento";
+                string query = "SELECT TotalVagasCarros, TotalVagasMotos, ValorHora FROM estacionamento";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -30,7 +31,9 @@ namespace Infra.Repository
                         if (reader.Read())
                         {
                             valorHora = reader.GetDecimal("ValorHora");
-                            vagasTotais = reader.GetInt32("TotalVagas");
+                            vagasTotaisCarros = reader.GetInt32("TotalVagasCarros");
+                            vagasTotaisMotos = reader.GetInt32("TotalVagasMotos");
+
                         }
                         else
                         {
@@ -39,12 +42,7 @@ namespace Infra.Repository
                     }
                 }
 
-
-                var dto = new VagasTotaisDTO()
-                {
-                    VagasTotais = vagasTotais,
-                    ValorHora = valorHora
-                };
+                var dto = new VagasTotaisDTO(vagasTotaisCarros, vagasTotaisMotos, valorHora);
 
                 var response = new ResponseDefault<VagasTotaisDTO>(true, "OK", dto);
                 return response;
@@ -56,28 +54,38 @@ namespace Infra.Repository
             }
         }
 
-        public ResponseDefault<int> VagasOcupadas()
+        public ResponseDefault<TipoVagas> VagasOcupadas()
         {
             try
             {
-                string query = "SELECT count(placa) as qtde FROM movger WHERE horasaida is null";
+                string query = @"SELECT TipoVeiculo, COUNT(placa) AS qtde FROM movger WHERE horasaida IS NULL GROUP BY TipoVeiculo";
+
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        int vagasOcupadasCarros = 0;
+                        int vagasOcupadasMotos = 0;
+
+                        while (reader.Read())
                         {
-                            int vagasOcupadas = reader.GetInt32("qtde");
-                            return new ResponseDefault<int>(true, "OK", vagasOcupadas);
+                            string tipoVeiculo = reader.GetString("TipoVeiculo");
+                            int qtde = reader.GetInt32("qtde");
+
+                            if (tipoVeiculo == "Carro")
+                                vagasOcupadasCarros = qtde;
+                            else if (tipoVeiculo == "Moto")
+                                vagasOcupadasMotos = qtde;
                         }
-                        return new ResponseDefault<int>(true, "Nenhuma vaga ocupada", 0);
+
+                        var dto = new TipoVagas(vagasOcupadasCarros, vagasOcupadasMotos);
+                        return new ResponseDefault<TipoVagas>(true, "OK", dto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                var response = new ResponseDefault<int>(false, ex.Message, 0);
-                return response;
+                return new ResponseDefault<TipoVagas>(false, ex.Message, null);
             }
         }
     }

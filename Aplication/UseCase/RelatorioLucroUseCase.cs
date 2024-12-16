@@ -16,14 +16,19 @@ namespace Aplication.UseCase
         {
             var valorTotal = _relatorioRepositoy.RelatorioLucro(dataInicial, dataFinal);
 
-            if (!valorTotal.Sucesso) return new ResponseDefault<decimal>(true, valorTotal.Mensagem, 0);
+            //if (!valorTotal.Sucesso) return new ResponseDefault<decimal>(true, valorTotal.Mensagem, 0);
+
 
             if (valorTotal.Dados != 0)
             {
-                string message = ($"Periodo selecionado: {dataInicial.ToString("dd/MM/yyyy")} - {dataFinal.ToString("dd/MM/yyyy")} \nValor: {valorTotal.Dados}");
+                string message = ($"Período selecionado: {dataInicial.ToString("dd/MM/yyyy")} - {dataFinal.ToString("dd/MM/yyyy")} \nValor: {valorTotal.Dados}");
                 return new ResponseDefault<decimal>(true, message, valorTotal.Dados);
             }
-            return null;
+            else
+            {
+                string message = ("Período sem movimentação! Verificar Data Selecionada");
+                return new ResponseDefault<decimal>(false, message, 0);
+            }
         }
     }
 }

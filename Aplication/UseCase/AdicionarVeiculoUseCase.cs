@@ -28,9 +28,9 @@ namespace Aplication.UseCase
 
             if (!vagasTotaisResponse.Sucesso) return new ResponseDefault<string>(false, vagasTotaisResponse.Mensagem, null);
 
-            var vagas = vagasTotaisResponse.Dados.VagasTotais;
+            var vagas = vagasTotaisResponse.Dados.VagasTotaisCarros;
 
-            if (vagasOcupadas.Dados >= vagas)
+            if (vagasOcupadas.Dados.VagasCarros >= vagas)
             {
                 return new ResponseDefault<string>(false, "Estacionamento cheio!", null);
             }

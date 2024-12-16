@@ -19,12 +19,13 @@ namespace Infra.Repository
         {
             try
             {
-                string insertQuery = "INSERT INTO MovGer (Placa, HoraEntrada) VALUES (@Placa, @HoraEntrada)";
+                string insertQuery = "INSERT INTO MovGer (Placa, TipoVeiculo, HoraEntrada) VALUES (@Placa, @TipoVeiculo, @HoraEntrada)";
 
                 using (MySqlCommand command = new MySqlCommand(insertQuery, _connection))
                 {
 
                     command.Parameters.AddWithValue("@Placa", veiculo.Placa.Placa);
+                    command.Parameters.AddWithValue("@TipoVeiculo", veiculo.TipoVeiculo.ToString());
                     command.Parameters.AddWithValue("@HoraEntrada", veiculo.HoraEntrada);
 
                     command.ExecuteNonQuery();
@@ -63,7 +64,6 @@ namespace Infra.Repository
                         }
                         else
                         {
-
                             return new ResponseDefault<List<VeiculosDTO>>(false, "Nenhum Veículo Encontrado", null); ;
                         }
                     }
