@@ -12,9 +12,9 @@ namespace Domain.Validations
                 AddNotification(new Notification(message, propertyName));
             }
 
-            string padrao = @"^[A-Z]{3}[0-9]{4}$|^[A-Z]{3}[0-9][A-Z][0-9]{2}$";
+            string pattern = @"^[A-Z]{3}[0-9]{4}$|^[A-Z]{3}[0-9][A-Z][0-9]{2}$";
 
-            if (!Regex.IsMatch(placaVeiculo, padrao, RegexOptions.IgnoreCase))
+            if (!Regex.IsMatch(placaVeiculo, pattern, RegexOptions.IgnoreCase))
             {
                 AddNotification(new Notification(message, propertyName));
             }

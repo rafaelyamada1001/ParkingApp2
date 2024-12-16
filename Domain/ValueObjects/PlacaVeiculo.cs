@@ -2,6 +2,7 @@
 using Domain.Validations;
 using Domain.Validations.Interfaces;
 
+
 namespace Domain.ValueObjects
 {
     public class PlacaVeiculo : IValidations, IContract

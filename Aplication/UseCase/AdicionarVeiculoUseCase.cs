@@ -2,7 +2,6 @@
 using Aplication.Interface;
 using Domain.Entities;
 using Domain.Enums;
-using Domain.Validations.Interfaces;
 using Domain.ValueObjects;
 
 
@@ -39,14 +38,14 @@ namespace Aplication.UseCase
             if (!veiculo.Validation())
             {
                 // Coleta todas as mensagens de erro das notificações da placa
-                var mensagensErro = placaVeiculo.Notifications
+                var notificacoes = placaVeiculo.Notifications
                     .Select(n => n.Message)
                     .ToList();
 
                 // Coleta as notificações do veículo (caso existam)
-                mensagensErro.AddRange(veiculo.Notifications.Select(n => n.Message));
+                notificacoes.AddRange(veiculo.Notifications.Select(n => n.Message));
 
-                return new ResponseDefault<string>(false, string.Join(", ", mensagensErro), null);
+                return new ResponseDefault<string>(false, string.Join(", ", notificacoes), null);
             }
 
             var veiculosComMesmaPlaca = _veiculosRepository.VerificarPlaca(placa);
