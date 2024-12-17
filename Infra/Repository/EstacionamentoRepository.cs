@@ -54,7 +54,7 @@ namespace Infra.Repository
             }
         }
 
-        public ResponseDefault<TipoVagas> VagasOcupadas()
+        public ResponseDefault<TipoVagasDTO> VagasOcupadas()
         {
             try
             {
@@ -78,14 +78,14 @@ namespace Infra.Repository
                                 vagasOcupadasMotos = qtde;
                         }
 
-                        var dto = new TipoVagas(vagasOcupadasCarros, vagasOcupadasMotos);
-                        return new ResponseDefault<TipoVagas>(true, "OK", dto);
+                        var dto = new TipoVagasDTO(vagasOcupadasCarros, vagasOcupadasMotos);
+                        return new ResponseDefault<TipoVagasDTO>(true, "OK", dto);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ResponseDefault<TipoVagas>(false, ex.Message, null);
+                return new ResponseDefault<TipoVagasDTO>(false, ex.Message, null);
             }
         }
     }

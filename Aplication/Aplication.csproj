@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Compile Remove="DTO\ListarVeiculosDTO.cs" />
+    <Compile Remove="DTO\VagasLivreDTO.cs" />
   </ItemGroup>
 
   <ItemGroup>

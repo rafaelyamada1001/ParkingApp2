@@ -11,5 +11,6 @@ namespace Aplication.Interface
         ResponseDefault<List<VeiculosDTO>> ListarVeiculos();      
         ResponseDefault<int> VerificarPlaca(string placa);
         ResponseDefault<DateTime> VerificarPermanencia(string placa);
+        ResponseDefault<string> TipoVeiculo(string placa);
     }
 }

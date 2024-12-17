@@ -15,23 +15,25 @@ namespace Aplication.UseCase
             _estacionamentoRepository = estacionamentoRepository;
         }
 
-        public ResponseDefault<string> Execute(string placa, EVeiculoType tipoVeiculo)
+        public ResponseDefault<string> Execute(string placa)
         {
             var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             var horaEntrada = _veiculosRepository.VerificarPermanencia(placa);
             var verificarPlaca = _veiculosRepository.VerificarPlaca(placa);
+            var tipoVeiculo = _veiculosRepository.TipoVeiculo(placa);
 
 
             if (!vagasTotaisDTO.Sucesso) return new ResponseDefault<string>(false, vagasTotaisDTO.Mensagem, null);
             if (!horaEntrada.Sucesso) return new ResponseDefault<string>(false, horaEntrada.Mensagem, null);
             if (!verificarPlaca.Sucesso) return new ResponseDefault<string>(false, verificarPlaca.Mensagem, null);
 
-            decimal valorHora = vagasTotaisDTO.Dados.ValorHora;
+            var valorHora = vagasTotaisDTO.Dados.ValorHora;
 
             var horaSaida = DateTime.Now;
             var tempoEstacionado = horaSaida - horaEntrada.Dados;
             var horasEstacionadas = tempoEstacionado.Hours;
             var minutosEstacionados = tempoEstacionado.Minutes;
+            
 
             // Calcula o tempo total estacionado em minutos
             var tempoTotalEstacionadoEmMinutos = (horasEstacionadas * 60) + minutosEstacionados;
@@ -59,23 +61,23 @@ namespace Aplication.UseCase
 
             var valorTotal = horasCobradas * valorHora;
 
-            // Aplicando devido desconto quando o tipo do veículo é moto
-            if (tipoVeiculo == EVeiculoType.Moto) 
+            //aplicando devido desconto quando o tipo do veículo é moto
+            if (tipoVeiculo.Sucesso && tipoVeiculo.Dados == "Moto")
             {
                 valorTotal *= 0.5m;
             }
 
             if (verificarPlaca.Dados < 1)
             {
-                return new ResponseDefault<string>(false, $"Placa: {placa} de veículo não encontrada", null);
+                return new ResponseDefault<string>(false, $"Placa:{placa} de veículo não encontrada", null);
             }
             else
             {
                 _veiculosRepository.RemoverVeiculo(placa, horaSaida, horasEstacionadas, minutosEstacionados, valorTotal);
                 string message = $"Veículo Removido com sucesso!\n" +
                     $"Entrada: {horaEntrada.Dados} - Saída: {horaSaida}\n" +
-                    $"Valor Total: R${valorTotal:F2} \n " +
-                    $"Horas Cobradas: {horasCobradas}h \n  " +
+                    $"Valor Total: R${valorTotal:F2} \n" +
+                    $"Horas Cobradas: {horasCobradas}h \n" +
                     $"Tempo Estacionado: {horasEstacionadas}h {minutosEstacionados}min";
                 return new ResponseDefault<string>(true, message, null);
             }

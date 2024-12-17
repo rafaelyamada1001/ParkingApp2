@@ -13,21 +13,23 @@ namespace Aplication.UseCase
            _estacionamentoRepository = estacionamentoRepository;
         }
 
-        public ResponseDefault<int> Execute()
+        public ResponseDefault<TipoVagasDTO> Execute()
         {
  
             var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             var vagasOcupadas = _estacionamentoRepository.VagasOcupadas();
 
-            if (!vagasTotaisDTO.Sucesso) return new ResponseDefault<int>(false, vagasTotaisDTO.Mensagem, 0);
-            if (!vagasOcupadas.Sucesso) return new ResponseDefault<int>(false, vagasOcupadas.Mensagem, 0);
+            if (!vagasTotaisDTO.Sucesso) return new ResponseDefault<TipoVagasDTO>(false, vagasTotaisDTO.Mensagem, null);
+            if (!vagasOcupadas.Sucesso) return new ResponseDefault<TipoVagasDTO>(false, vagasOcupadas.Mensagem, null);
 
             var vagasTotaisCarros = vagasTotaisDTO.Dados.VagasTotaisCarros;
             var vagasTotaisMotos = vagasTotaisDTO.Dados.VagasTotaisMotos;
             var vagasLivresCarro = vagasTotaisCarros - vagasOcupadas.Dados.VagasCarros;
             var vagasLivresMoto = vagasTotaisMotos - vagasOcupadas.Dados.VagasMotos;
+
+            var dtoVagasLivres = new TipoVagasDTO(vagasLivresCarro, vagasLivresMoto);
             
-             return new ResponseDefault<int>(true, "OK", vagasLivresCarro );
+             return new ResponseDefault<TipoVagasDTO>(true, "OK", dtoVagasLivres );
         }
     }
 }

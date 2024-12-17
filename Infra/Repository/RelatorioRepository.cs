@@ -12,7 +12,6 @@ namespace Infra.Repository
         {
             _connection = connection.GetConnection();
         }
-        string connectionString = DataBaseConnection.StringConnection();
 
         public ResponseDefault<decimal> RelatorioLucro(DateTime dataInicial, DateTime dataFinal)
         {

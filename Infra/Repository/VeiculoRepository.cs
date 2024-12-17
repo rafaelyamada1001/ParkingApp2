@@ -1,6 +1,7 @@
 ﻿using Aplication.DTO;
 using Aplication.Interface;
 using Domain.Entities;
+using Infra.DataBase;
 using MySql.Data.MySqlClient;
 
 
@@ -43,7 +44,7 @@ namespace Infra.Repository
         {
             try
             {
-                string query = "SELECT placa, HoraEntrada FROM movger WHERE horasaida is null";
+                string query = "SELECT placa, TipoVeiculo, HoraEntrada FROM movger WHERE horasaida is null";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -56,15 +57,16 @@ namespace Infra.Repository
                             while (reader.Read())
                             {
                                 string placa = reader.GetString("placa");
+                                string tipo = reader.GetString("TipoVeiculo");
                                 DateTime horaEntrada = reader.GetDateTime("HoraEntrada");
-                                var veiculo = new VeiculosDTO(placa, horaEntrada);
+                                var veiculo = new VeiculosDTO(placa, horaEntrada, tipo);
                                 veiculos.Add(veiculo);
                             }
                             return new ResponseDefault<List<VeiculosDTO>>(true, "OK", veiculos);
                         }
                         else
                         {
-                            return new ResponseDefault<List<VeiculosDTO>>(false, "Nenhum Veículo Encontrado", null); ;
+                            return new ResponseDefault<List<VeiculosDTO>>(false, "Nenhum Veículo Encontrado", null);
                         }
                     }
                 }
@@ -166,7 +168,38 @@ namespace Infra.Repository
                 return response;
             }
         }
+
+        public ResponseDefault<string> TipoVeiculo(string placa)
+        {
+            try
+            {
+                string query = "SELECT TipoVeiculo FROM MOVGER WHERE Placa = @Placa AND horasaida IS NULL";
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@Placa", placa);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            var tipoVeiculo = reader.GetString("TipoVeiculo");
+                            return new ResponseDefault<string>(true, "OK", tipoVeiculo);
+                        }
+                        else
+                        {
+                            return new ResponseDefault<string>(false, "Nenhum Veículo encontrado", null);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDefault<string>(false, ex.Message, null);
+            }
+        }
+
     }
 }
+
 
 

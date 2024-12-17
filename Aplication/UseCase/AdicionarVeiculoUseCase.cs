@@ -28,11 +28,17 @@ namespace Aplication.UseCase
 
             if (!vagasTotaisResponse.Sucesso) return new ResponseDefault<string>(false, vagasTotaisResponse.Mensagem, null);
 
-            var vagas = vagasTotaisResponse.Dados.VagasTotaisCarros;
+            var vagasCarros = vagasTotaisResponse.Dados.VagasTotaisCarros;
+            var vagasMotos = vagasTotaisResponse.Dados.VagasTotaisMotos;
 
-            if (vagasOcupadas.Dados.VagasCarros >= vagas)
+            if (vagasOcupadas.Dados.VagasCarros >= vagasCarros)
             {
-                return new ResponseDefault<string>(false, "Estacionamento cheio!", null);
+                return new ResponseDefault<string>(false, "Atenção!\n Estacionamento atingiu o limite de Carros estacionados.", null);
+            }
+
+            if (vagasOcupadas.Dados.VagasMotos >= vagasMotos)
+            {
+                return new ResponseDefault<string>(false, "Atenção!\n Estacionamento atingiu o limite de Motos estacionadas.", null);
             }
 
             if (!veiculo.Validation())
@@ -42,7 +48,7 @@ namespace Aplication.UseCase
                     .Select(n => n.Message)
                     .ToList();
 
-                // Coleta as notificações do veículo (caso existam)
+                // Coleta as notificações do veículo 
                 notificacoes.AddRange(veiculo.Notifications.Select(n => n.Message));
 
                 return new ResponseDefault<string>(false, string.Join(", ", notificacoes), null);

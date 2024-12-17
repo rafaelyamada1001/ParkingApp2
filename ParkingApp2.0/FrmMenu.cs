@@ -48,9 +48,8 @@ namespace ParkingApp2._0
         {
             string placa = txtPlaca.Text.Trim();
 
-            EVeiculoType tipoVeiculo = (EVeiculoType)cmbTipoVeiculo.SelectedItem;
             var useCase = new RemoverVeiculoUseCase(veiculoRepository, estacionamentoRepository);
-            var message = useCase.Execute(placa, tipoVeiculo);
+            var message = useCase.Execute(placa);
 
             MessageBox.Show(message.Mensagem,
                   "Alerta!",
@@ -74,9 +73,14 @@ namespace ParkingApp2._0
             var useCase = new VagasDesocupadasUseCase(estacionamentoRepository);
             var vagasLivres = useCase.Execute();
 
-            if (vagasLivres.Dados != 0)
+            if (vagasLivres.Sucesso && vagasLivres.Dados != null)
             {
-                MessageBox.Show($"Total de vagas desocupadas: {vagasLivres.Dados}");
+                MessageBox.Show($"Total de vagas desocupadas:\n" +
+                    $"Carros:{vagasLivres.Dados.VagasCarros}\n" +
+                    $"Motos:{vagasLivres.Dados.VagasMotos}",
+                    "Vagas Disponíveis",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             else
             {
