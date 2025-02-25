@@ -1,7 +1,6 @@
 ﻿using Aplication.DTO;
 using Aplication.Interface;
 using Domain.Entities;
-using Infra.DataBase;
 using MySql.Data.MySqlClient;
 
 
@@ -59,6 +58,7 @@ namespace Infra.Repository
                                 string placa = reader.GetString("placa");
                                 string tipo = reader.GetString("TipoVeiculo");
                                 DateTime horaEntrada = reader.GetDateTime("HoraEntrada");
+
                                 var veiculo = new VeiculosDTO(placa, horaEntrada, tipo);
                                 veiculos.Add(veiculo);
                             }
@@ -106,7 +106,6 @@ namespace Infra.Repository
                         return new ResponseDefault<bool>(false, "Nenhum veículo encontrado para atualizar", false);
                     }
                 }
-
             }
             catch (Exception ex)
             {
