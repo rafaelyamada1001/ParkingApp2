@@ -1,8 +1,10 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
-using Infra.DataBase;
 using Infra.Repository;
 using Domain.Enums;
+using Infra.Connection;
+using Microsoft.Extensions.Configuration;
+using Infra.DataBase;
 
 
 namespace ParkingApp2._0
@@ -14,10 +16,11 @@ namespace ParkingApp2._0
 
         public FrmMenu()
         {
-            var connection = new Connection();
+            var connection2 = new Connection();
+            var connection = new DatabaseConnection();
 
             veiculoRepository = new VeiculoRepository(connection);
-            estacionamentoRepository = new EstacionamentoRepository(connection);
+            estacionamentoRepository = new EstacionamentoRepository(connection2, connection);
 
             InitializeComponent();
 

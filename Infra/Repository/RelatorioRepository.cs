@@ -1,45 +1,37 @@
 ﻿using Aplication.DTO;
 using Aplication.Interface;
+using Dapper;
+using Infra.Connection;
 using MySql.Data.MySqlClient;
 
 namespace Infra.Repository
 {
     public class RelatorioRepository : IRelatorioRepositoy
     {
-        private readonly MySqlConnection _connection;
+        private readonly DatabaseConnection _connection;
 
-        public RelatorioRepository(IConnection connection)
+        public RelatorioRepository(DatabaseConnection connection)
         {
-            _connection = connection.GetConnection();
+            _connection = connection;
         }
 
         public ResponseDefault<decimal> RelatorioLucro(DateTime dataInicial, DateTime dataFinal)
         {
             try
             {
-
                 string query = "SELECT sum(valor) as valorTotal FROM movger WHERE HoraSaida BETWEEN @DataInicial AND @DataFinal;";
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("@DataInicial", dataInicial);
-                    command.Parameters.AddWithValue("@DataFinal", dataFinal);
 
+                using (var connection = _connection.OpenConnection())
+                {                    
+                    decimal valorTotal = connection.QueryFirstOrDefault<decimal>(query, new { DataInicial = dataInicial, DataFinal = dataFinal });
 
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            var valorTotal = reader.GetDecimal("valorTotal");
-                            return new ResponseDefault<Decimal>(true, "OK", valorTotal);
-                        }
-                        return new ResponseDefault<decimal>(true, "Nenhum dado encontrado.", 0);
-                    }
+                    return new ResponseDefault<decimal>(true, "OK", valorTotal);
                 }
 
             }
             catch (Exception ex)
             {
-                var response = new ResponseDefault<Decimal>(false, ex.Message, 0);
+                var response = new ResponseDefault<decimal>(false, ex.Message, 0);
                 return response;
             }
         }

@@ -1,5 +1,7 @@
 ﻿using Aplication.DTO;
 using Aplication.Interface;
+using Dapper;
+using Infra.Connection;
 using MySql.Data.MySqlClient;
 
 
@@ -7,45 +9,29 @@ namespace Infra.Repository
 {
     public class EstacionamentoRepository : IEstacionamentoRepository
     {
-        private readonly MySqlConnection _connection;
+        private readonly MySqlConnection _connection2;
+        private readonly DatabaseConnection _connection;
 
-        public EstacionamentoRepository(IConnection connection)
+        public EstacionamentoRepository(IConnection connection2, DatabaseConnection connection)
         {
-            _connection = connection.GetConnection();
+            _connection2 = connection2.GetConnection();
+            _connection = connection;
         }
 
         public ResponseDefault<VagasTotaisDTO> VagasTotais()
         {
-            var vagasTotaisCarros = 0;
-            var vagasTotaisMotos = 0;
-            decimal valorHora = 0;
-
             try
             {
                 string query = "SELECT TotalVagasCarros, TotalVagasMotos, ValorHora FROM estacionamento";
 
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                using (var connection = _connection.OpenConnection())
                 {
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            valorHora = reader.GetDecimal("ValorHora");
-                            vagasTotaisCarros = reader.GetInt32("TotalVagasCarros");
-                            vagasTotaisMotos = reader.GetInt32("TotalVagasMotos");
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("Nenhum registro encontrado.");
-                        }
-                    }
+                    var vagasTotais = connection.QueryFirstOrDefault<VagasTotaisDTO>(query);
+                    if (vagasTotais != null)
+                        return new ResponseDefault<VagasTotaisDTO>(true, "OK", vagasTotais);
+                    else
+                        return new ResponseDefault<VagasTotaisDTO>(false, "Nenhum registro encontrado.", null);
                 }
-
-                var dto = new VagasTotaisDTO(vagasTotaisCarros, vagasTotaisMotos, valorHora);
-
-                var response = new ResponseDefault<VagasTotaisDTO>(true, "OK", dto);
-                return response;
             }
             catch (Exception ex)
             {
@@ -60,27 +46,24 @@ namespace Infra.Repository
             {
                 string query = @"SELECT TipoVeiculo, COUNT(placa) AS qtde FROM movger WHERE horasaida IS NULL GROUP BY TipoVeiculo";
 
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                using (var connection = _connection.OpenConnection())
                 {
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    var vagas = connection.Query<(string TipoVeiculo, int qtde)>(query).ToList();
+
+                    int vagasOcupadasCarros = 0;
+                    int vagasOcupadasMotos = 0;
+
+                    foreach (var vaga in vagas)
                     {
-                        int vagasOcupadasCarros = 0;
-                        int vagasOcupadasMotos = 0;
-
-                        while (reader.Read())
-                        {
-                            string tipoVeiculo = reader.GetString("TipoVeiculo");
-                            int qtde = reader.GetInt32("qtde");
-
-                            if (tipoVeiculo == "Carro")
-                                vagasOcupadasCarros = qtde;
-                            else if (tipoVeiculo == "Moto")
-                                vagasOcupadasMotos = qtde;
-                        }
-
-                        var dto = new TipoVagasDTO(vagasOcupadasCarros, vagasOcupadasMotos);
-                        return new ResponseDefault<TipoVagasDTO>(true, "OK", dto);
+                        if (vaga.TipoVeiculo == "Carro")
+                            vagasOcupadasCarros = vaga.qtde;
+                        if(vaga.TipoVeiculo == "Moto")
+                            vagasOcupadasMotos = vaga.qtde;
                     }
+
+                    var dto = new TipoVagasDTO(vagasOcupadasCarros, vagasOcupadasMotos);
+                    return new ResponseDefault<TipoVagasDTO>(true, "OK", dto);
+
                 }
             }
             catch (Exception ex)

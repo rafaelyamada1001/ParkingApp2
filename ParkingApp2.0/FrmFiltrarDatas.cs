@@ -1,7 +1,8 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
-using Infra.DataBase;
+using Infra.Connection;
 using Infra.Repository;
+using Microsoft.Extensions.Configuration;
 
 namespace ParkingApp2._0
 {
@@ -10,7 +11,7 @@ namespace ParkingApp2._0
         private IRelatorioRepositoy relatorioRepository;
         public FrmFiltrarDatas()
         {
-            var connection = new Connection();
+            var connection = new DatabaseConnection();
             relatorioRepository = new RelatorioRepository(connection);
 
             InitializeComponent();

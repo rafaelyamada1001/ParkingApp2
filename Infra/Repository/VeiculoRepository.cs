@@ -1,6 +1,8 @@
 ﻿using Aplication.DTO;
 using Aplication.Interface;
+using Dapper;
 using Domain.Entities;
+using Infra.Connection;
 using MySql.Data.MySqlClient;
 
 
@@ -8,11 +10,13 @@ namespace Infra.Repository
 {
     public class VeiculoRepository : IVeiculoRepository
     {
-        private readonly MySqlConnection _connection;
 
-        public VeiculoRepository(IConnection connection)
+        private readonly DatabaseConnection _connection;
+
+        public VeiculoRepository(DatabaseConnection connection)
         {
-            _connection = connection.GetConnection();
+  
+            _connection = connection;
         }
 
         public ResponseDefault<bool> AdicionarVeiculo(Veiculos veiculo)
@@ -21,14 +25,16 @@ namespace Infra.Repository
             {
                 string insertQuery = "INSERT INTO MovGer (Placa, TipoVeiculo, HoraEntrada) VALUES (@Placa, @TipoVeiculo, @HoraEntrada)";
 
-                using (MySqlCommand command = new MySqlCommand(insertQuery, _connection))
+                var parametros = new
                 {
+                    Placa = veiculo.Placa.Placa,
+                    TipoVeiculo = veiculo.TipoVeiculo.ToString(),
+                    HoraEntrada = veiculo.HoraEntrada
+                };
 
-                    command.Parameters.AddWithValue("@Placa", veiculo.Placa.Placa);
-                    command.Parameters.AddWithValue("@TipoVeiculo", veiculo.TipoVeiculo.ToString());
-                    command.Parameters.AddWithValue("@HoraEntrada", veiculo.HoraEntrada);
-
-                    command.ExecuteNonQuery();
+                using (var connection = _connection.OpenConnection())
+                {
+                    var result = connection.Execute(insertQuery, parametros);
                 }
 
                 return new ResponseDefault<bool>(true, "Veículo adicionado com sucesso", true);
@@ -45,32 +51,19 @@ namespace Infra.Repository
             {
                 string query = "SELECT placa, TipoVeiculo, HoraEntrada FROM movger WHERE horasaida is null";
 
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                using (var connection = _connection.OpenConnection())
                 {
+                    var veiculos = connection.Query<VeiculosDTO>(query).ToList();
 
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    if (veiculos.Any())
                     {
-                        if (reader.HasRows)
-                        {
-                            List<VeiculosDTO> veiculos = new List<VeiculosDTO>();
-                            while (reader.Read())
-                            {
-                                string placa = reader.GetString("placa");
-                                string tipo = reader.GetString("TipoVeiculo");
-                                DateTime horaEntrada = reader.GetDateTime("HoraEntrada");
-
-                                var veiculo = new VeiculosDTO(placa, horaEntrada, tipo);
-                                veiculos.Add(veiculo);
-                            }
-                            return new ResponseDefault<List<VeiculosDTO>>(true, "OK", veiculos);
-                        }
-                        else
-                        {
-                            return new ResponseDefault<List<VeiculosDTO>>(false, "Nenhum Veículo Encontrado", null);
-                        }
+                        return new ResponseDefault<List<VeiculosDTO>>(true, "OK", veiculos);
+                    }
+                    else
+                    {
+                        return new ResponseDefault<List<VeiculosDTO>>(false, "Nenhum Veículo Encontrado!", null);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -87,24 +80,20 @@ namespace Infra.Repository
                     "UPDATE MovGer SET HoraSaida = @HoraSaida, PermanenciaHora = @PermanenciaHora, PermanenciaMin = @PermanenciaMin, Valor = @Valor " +
                     "WHERE Placa = @Placa AND HoraSaida IS NULL";
 
-                using (MySqlCommand command = new MySqlCommand(updateQuery, _connection))
+                var parametros = new
                 {
+                    Placa = placa,
+                    HoraSaida = horaSaida,
+                    PermanenciaHora = Math.Floor(horasEstacionadas),
+                    PermanenciaMin = minutosEstacionados,
+                    Valor = valor
+                };
+                using (var connection = _connection.OpenConnection())
+                {
+                    var updateRows = connection.Execute(updateQuery, parametros);
+                    if (updateRows > 0) return new ResponseDefault<bool>(true, "OK", true);
+                    else return new ResponseDefault<bool>(false, "Veículo não encontrado", false);
 
-                    command.Parameters.AddWithValue("@Placa", placa);
-                    command.Parameters.AddWithValue("@HoraSaida", horaSaida);
-                    command.Parameters.AddWithValue("@PermanenciaHora", Math.Floor(horasEstacionadas));
-                    command.Parameters.AddWithValue("@PermanenciaMin", minutosEstacionados);
-                    command.Parameters.AddWithValue("@Valor", valor);
-
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        return new ResponseDefault<bool>(true, "Veículo removido com sucesso", true);
-                    }
-                    else
-                    {
-                        return new ResponseDefault<bool>(false, "Nenhum veículo encontrado para atualizar", false);
-                    }
                 }
             }
             catch (Exception ex)
@@ -117,23 +106,20 @@ namespace Infra.Repository
         {
             try
             {
-                string query = "SELECT placa, HoraEntrada FROM movger WHERE placa = @Placa and HoraSaida is null";
+                string query = "SELECT HoraEntrada FROM movger WHERE placa = @Placa and HoraSaida is null";
 
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                var parametros = new { Placa = placa };
+
+                using (var connection = _connection.OpenConnection())
                 {
-                    command.Parameters.AddWithValue("@Placa", placa);
-
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    var horaEntrada = connection.QueryFirstOrDefault<DateTime?>(query, parametros);
+                    if (horaEntrada.HasValue)
                     {
-                        if (reader.Read())
-                        {
-                            DateTime horaEntrada = reader.GetDateTime("HoraEntrada");
-                            return new ResponseDefault<DateTime>(true, "OK", horaEntrada);
-                        }
-                        else
-                        {
-                            return new ResponseDefault<DateTime>(true, "OK", DateTime.MinValue);
-                        }
+                        return new ResponseDefault<DateTime>(true, "OK", horaEntrada.Value);
+                    }
+                    else
+                    {
+                        return new ResponseDefault<DateTime>(true, "OK", DateTime.MinValue);
                     }
                 }
             }
@@ -149,13 +135,12 @@ namespace Infra.Repository
         {
             try
             {
+                var parametros = new { Placa = placa };
 
-                string verificaPlacaQuery = "SELECT COUNT(placa) as qtde FROM movger WHERE placa = @placa AND horasaida IS NULL";
-                using (MySqlCommand verificaPlacaCommand = new MySqlCommand(verificaPlacaQuery, _connection))
+                string query = "SELECT COUNT(placa) as qtde FROM movger WHERE placa = @placa AND horasaida IS NULL";
+                using (var connection = _connection.OpenConnection())
                 {
-
-                    verificaPlacaCommand.Parameters.AddWithValue("@placa", placa);
-                    int veiculosComMesmaPlaca = Convert.ToInt32(verificaPlacaCommand.ExecuteScalar());
+                    var veiculosComMesmaPlaca = connection.ExecuteScalar<int>(query, parametros);
 
                     return new ResponseDefault<int>(true, "OK", veiculosComMesmaPlaca);
                 }
@@ -172,23 +157,16 @@ namespace Infra.Repository
         {
             try
             {
-                string query = "SELECT TipoVeiculo FROM MOVGER WHERE Placa = @Placa AND horasaida IS NULL";
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("@Placa", placa);
+                //var parametros = new { Placa = placa };
 
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            var tipoVeiculo = reader.GetString("TipoVeiculo");
-                            return new ResponseDefault<string>(true, "OK", tipoVeiculo);
-                        }
-                        else
-                        {
-                            return new ResponseDefault<string>(false, "Nenhum Veículo encontrado", null);
-                        }
-                    }
+                string query = "SELECT TipoVeiculo FROM MOVGER WHERE Placa = @Placa AND horasaida IS NULL";
+
+                using (var connection = _connection.OpenConnection())
+                {
+                    var tipoVeiculo = connection.QueryFirstOrDefault<string>(query, new { Placa = placa });
+
+                    return new ResponseDefault<string>(true, "OK", tipoVeiculo);
+
                 }
             }
             catch (Exception ex)

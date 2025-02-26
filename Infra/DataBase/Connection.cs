@@ -9,12 +9,12 @@ namespace Infra.DataBase
 
         private readonly MySqlConnection _instance;
 
-        public Connection() 
+        public Connection()
         {
-            _instance =  CreateConnection();
+            _instance = CreateConnection();
         }
 
-        public MySqlConnection GetConnection() 
+        public MySqlConnection GetConnection()
         {
             return _instance;
         }
