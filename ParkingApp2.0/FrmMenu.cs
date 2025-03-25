@@ -3,7 +3,6 @@ using Aplication.UseCase;
 using Infra.Repository;
 using Domain.Enums;
 using Infra.Connection;
-using Microsoft.Extensions.Configuration;
 using Infra.DataBase;
 
 
