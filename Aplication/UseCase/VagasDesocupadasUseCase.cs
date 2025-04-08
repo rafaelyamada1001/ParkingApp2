@@ -15,15 +15,14 @@ namespace Aplication.UseCase
 
         public ResponseDefault<TipoVagasDTO> Execute()
         {
- 
             var vagasTotaisDTO = _estacionamentoRepository.VagasTotais();
             var vagasOcupadas = _estacionamentoRepository.VagasOcupadas();
 
             if (!vagasTotaisDTO.Sucesso) return new ResponseDefault<TipoVagasDTO>(false, vagasTotaisDTO.Mensagem, null);
             if (!vagasOcupadas.Sucesso) return new ResponseDefault<TipoVagasDTO>(false, vagasOcupadas.Mensagem, null);
 
-            var vagasTotaisCarros = vagasTotaisDTO.Dados.VagasTotaisCarros;
-            var vagasTotaisMotos = vagasTotaisDTO.Dados.VagasTotaisMotos;
+            var vagasTotaisCarros = vagasTotaisDTO.Dados.TotalVagasCarros;
+            var vagasTotaisMotos = vagasTotaisDTO.Dados.TotalVagasMotos;
             var vagasLivresCarro = vagasTotaisCarros - vagasOcupadas.Dados.VagasCarros;
             var vagasLivresMoto = vagasTotaisMotos - vagasOcupadas.Dados.VagasMotos;
 

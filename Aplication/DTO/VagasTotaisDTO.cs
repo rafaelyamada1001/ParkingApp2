@@ -4,15 +4,15 @@ public class VagasTotaisDTO
 {
     public VagasTotaisDTO(int vagasTotaisCarros, int vagasTotaisMotos, decimal valorHora)
     {
-        VagasTotaisCarros = vagasTotaisCarros;
-        VagasTotaisMotos = vagasTotaisMotos;
+        TotalVagasCarros = vagasTotaisCarros;
+        TotalVagasMotos = vagasTotaisMotos;
         ValorHora = valorHora;
     }
 
     public VagasTotaisDTO() { }
 
-    public int VagasTotaisCarros { get; set; }
-    public int VagasTotaisMotos { get; set; }
+    public int TotalVagasCarros { get; set; }
+    public int TotalVagasMotos { get; set; }
     public decimal ValorHora { get; set; }
 
 }

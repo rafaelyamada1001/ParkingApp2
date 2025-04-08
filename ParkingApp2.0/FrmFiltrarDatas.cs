@@ -1,19 +1,15 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
-using Infra.Connection;
-using Infra.Repository;
-using Microsoft.Extensions.Configuration;
 
 namespace ParkingApp2._0
 {
     public partial class FrmFiltrarDatas : Form
     {
-        private IRelatorioRepositoy relatorioRepository;
-        public FrmFiltrarDatas()
-        {
-            var connection = new DatabaseConnection();
-            relatorioRepository = new RelatorioRepository(connection);
+        private readonly IRelatorioRepositoy _relatorioRepository;
 
+        public FrmFiltrarDatas(IRelatorioRepositoy relatorioRepository)
+        {
+            _relatorioRepository = relatorioRepository;
             InitializeComponent();
         }
 
@@ -24,7 +20,7 @@ namespace ParkingApp2._0
 
             try
             {
-                var usecase = new RelatorioLucroUseCase(relatorioRepository);
+                var usecase = new RelatorioLucroUseCase(_relatorioRepository);
                 var message = usecase.Execute(dataInicial, dataFinal);
 
                 MessageBox.Show($"{message.Mensagem}","sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -1,3 +1,8 @@
+using Aplication.Interface;
+using Infra.Connection;
+using Infra.Repository;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace ParkingApp2._0
 {
     internal static class Program
@@ -8,10 +13,26 @@ namespace ParkingApp2._0
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            var services = new ServiceCollection();
+
+            services.AddSingleton<DatabaseConnection>();
+            services.AddScoped<IVeiculoRepository, VeiculoRepository>();
+            services.AddScoped<IEstacionamentoRepository, EstacionamentoRepository>();
+            services.AddScoped<IRelatorioRepositoy, RelatorioRepository>();
+
+            // Registrar os formulários
+            services.AddTransient<FrmPricipal>();
+            services.AddTransient<FrmParkingApp>();
+            services.AddTransient<FrmFiltrarDatas>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new FrmPricipal());     
+            var mainForm = serviceProvider.GetRequiredService<FrmParkingApp>();
+            Application.Run(mainForm);     
         }
     }
 }

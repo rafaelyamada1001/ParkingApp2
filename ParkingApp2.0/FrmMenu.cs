@@ -1,25 +1,22 @@
 ﻿using Aplication.Interface;
 using Aplication.UseCase;
-using Infra.Repository;
 using Domain.Enums;
-using Infra.Connection;
-using Infra.DataBase;
-
 
 namespace ParkingApp2._0
 {
-    public partial class FrmMenu : Form
+    public partial class FrmParkingApp : Form
     {
-        private IVeiculoRepository veiculoRepository;
-        private IEstacionamentoRepository estacionamentoRepository;
+        private readonly IVeiculoRepository _veiculoRepository;
+        private readonly IEstacionamentoRepository _estacionamentoRepository;
+        private readonly FrmFiltrarDatas _frmFiltrarDatas;
 
-        public FrmMenu()
+        public FrmParkingApp(IVeiculoRepository veiculoRepository,
+                       IEstacionamentoRepository estacionamentoRepository,
+                       FrmFiltrarDatas frmFiltrarDatas)
         {
-            var connection2 = new Connection();
-            var connection = new DatabaseConnection();
-
-            veiculoRepository = new VeiculoRepository(connection);
-            estacionamentoRepository = new EstacionamentoRepository(connection2, connection);
+            _veiculoRepository = veiculoRepository;
+            _estacionamentoRepository = estacionamentoRepository;
+            _frmFiltrarDatas = frmFiltrarDatas;
 
             InitializeComponent();
 
@@ -29,6 +26,9 @@ namespace ParkingApp2._0
         private void FrmMenu_Load(object? sender, EventArgs e)
         {
             cmbTipoVeiculo.DataSource = Enum.GetValues(typeof(EVeiculoType));
+            dgvVeiculosEstacionados.AutoGenerateColumns = false;
+
+            AtualizarTela();
         }
 
         private void btnAdicionarVeiculo_Click(object sender, EventArgs e)
@@ -36,53 +36,51 @@ namespace ParkingApp2._0
             string placa = txtPlaca.Text.Trim();
             EVeiculoType tipoVeiculo = (EVeiculoType)cmbTipoVeiculo.SelectedItem;
 
-            var useCase = new AdicionarVeiculoUseCase(veiculoRepository, estacionamentoRepository);
+            var useCase = new AdicionarVeiculoUseCase(_veiculoRepository, _estacionamentoRepository);
             var message = useCase.Execute(placa, tipoVeiculo);
+
 
 
             MessageBox.Show(message.Mensagem,
                             "Alerta!",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
+
+            AtualizarTela();
         }
 
         private void btnRemoverVeiculo_Click(object sender, EventArgs e)
         {
             string placa = txtPlaca.Text.Trim();
 
-            var useCase = new RemoverVeiculoUseCase(veiculoRepository, estacionamentoRepository);
+            var useCase = new RemoverVeiculoUseCase(_veiculoRepository, _estacionamentoRepository);
             var message = useCase.Execute(placa);
 
             MessageBox.Show(message.Mensagem,
                   "Alerta!",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
+            AtualizarTela();
         }
 
         private void btnListarVeiculos_Click(object sender, EventArgs e)
         {
-            var useCase = new ListarVeiculosUseCase(veiculoRepository);
-            var message = useCase.Execute();
+            var useCase = new ListarVeiculosUseCase(_veiculoRepository);
+            var resultado = useCase.Execute();
 
-            MessageBox.Show(message.Mensagem,
-                "Lista de Veículos",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            dgvVeiculosEstacionados.DataSource = resultado.Dados;
+            dgvVeiculosEstacionados.Refresh();
         }
 
         private void btnVagasLivres_Click(object sender, EventArgs e)
         {
-            var useCase = new VagasDesocupadasUseCase(estacionamentoRepository);
+            var useCase = new VagasDesocupadasUseCase(_estacionamentoRepository);
             var vagasLivres = useCase.Execute();
 
             if (vagasLivres.Sucesso && vagasLivres.Dados != null)
             {
-                MessageBox.Show($"Total de vagas desocupadas:\n" +
-                    $"Carros:{vagasLivres.Dados.VagasCarros}\n" +
-                    $"Motos:{vagasLivres.Dados.VagasMotos}",
-                    "Vagas Disponíveis",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                txtVagasCarros.Text = vagasLivres.Dados.VagasCarros.ToString();
+                txtVagasMotos.Text = vagasLivres.Dados.VagasMotos.ToString();
             }
             else
             {
@@ -97,13 +95,65 @@ namespace ParkingApp2._0
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var relatorio = new FrmFiltrarDatas();
-            relatorio.Show();
+            _frmFiltrarDatas.Show();
         }
 
         private void cmbTipoVeiculo_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void dgvVeiculosEstacionados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0) // garante que não clicou no header
+            {
+                var selectedRow = dgvVeiculosEstacionados.Rows[e.RowIndex];
+
+                string placa = selectedRow.Cells["Placa"].Value.ToString();
+                string tipo = selectedRow.Cells["TipoVeiculo"].Value.ToString();
+
+                var result = MessageBox.Show(
+                    $"Deseja remover o veículo?\n\nPlaca: {placa}\nTipo: {tipo}",
+                    "Remover Veículo",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    var useCase = new RemoverVeiculoUseCase(_veiculoRepository, _estacionamentoRepository);
+                    var response = useCase.Execute(placa);
+
+                    MessageBox.Show(response.Mensagem, "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    AtualizarTela();
+                }
+            }
+        }
+        private void AtualizarTela()
+        {
+            // Atualiza DataGrid
+            var listarUseCase = new ListarVeiculosUseCase(_veiculoRepository);
+            var resultado = listarUseCase.Execute();
+            dgvVeiculosEstacionados.DataSource = resultado.Dados;
+
+            // Atualiza TextBoxes de vagas
+            var vagasUseCase = new VagasDesocupadasUseCase(_estacionamentoRepository);
+            var vagasLivres = vagasUseCase.Execute();
+
+            if (vagasLivres.Sucesso && vagasLivres.Dados != null)
+            {
+                txtVagasCarros.Text = vagasLivres.Dados.VagasCarros.ToString();
+                txtVagasMotos.Text = vagasLivres.Dados.VagasMotos.ToString();
+
+                txtVagasCarros.BackColor = vagasLivres.Dados.VagasCarros > 0 ? Color.LightGreen : Color.LightCoral;
+                txtVagasMotos.BackColor = vagasLivres.Dados.VagasMotos > 0 ? Color.LightGreen : Color.LightCoral;
+            }
+        }
+
+        private void FrmParkingApp_Load(object sender, EventArgs e)
+        {
+
+        }
     }
+
 }

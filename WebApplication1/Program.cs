@@ -1,4 +1,6 @@
 using Aplication.Interface;
+using Aplication.UseCase;
+using Infra.Connection;
 using Infra.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<DatabaseConnection>();
+
+builder.Services.AddScoped<RelatorioLucroUseCase>();
+builder.Services.AddScoped<ListarVeiculosUseCase>();
 builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
 builder.Services.AddScoped<IEstacionamentoRepository, EstacionamentoRepository>();
+builder.Services.AddScoped<IRelatorioRepositoy, RelatorioRepository>();
 
 var app = builder.Build();
 

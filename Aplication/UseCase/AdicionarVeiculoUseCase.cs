@@ -28,8 +28,8 @@ namespace Aplication.UseCase
 
             if (!vagasTotaisResponse.Sucesso) return new ResponseDefault<string>(false, vagasTotaisResponse.Mensagem, null);
 
-            var vagasCarros = vagasTotaisResponse.Dados.VagasTotaisCarros;
-            var vagasMotos = vagasTotaisResponse.Dados.VagasTotaisMotos;
+            var vagasCarros = vagasTotaisResponse.Dados.TotalVagasCarros;
+            var vagasMotos = vagasTotaisResponse.Dados.TotalVagasMotos;
 
             if (vagasOcupadas.Dados.VagasCarros >= vagasCarros)
             {

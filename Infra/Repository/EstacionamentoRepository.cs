@@ -2,19 +2,15 @@
 using Aplication.Interface;
 using Dapper;
 using Infra.Connection;
-using MySql.Data.MySqlClient;
-
 
 namespace Infra.Repository
 {
     public class EstacionamentoRepository : IEstacionamentoRepository
-    {
-        private readonly MySqlConnection _connection2;
+    {        
         private readonly DatabaseConnection _connection;
 
-        public EstacionamentoRepository(IConnection connection2, DatabaseConnection connection)
+        public EstacionamentoRepository(DatabaseConnection connection)
         {
-            _connection2 = connection2.GetConnection();
             _connection = connection;
         }
 
@@ -39,7 +35,6 @@ namespace Infra.Repository
                 return response;
             }
         }
-
         public ResponseDefault<TipoVagasDTO> VagasOcupadas()
         {
             try
