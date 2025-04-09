@@ -1,4 +1,5 @@
 using Aplication.Interface;
+using Aplication.UseCase;
 using Infra.Connection;
 using Infra.Repository;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,9 @@ namespace ParkingApp2._0
             services.AddScoped<IVeiculoRepository, VeiculoRepository>();
             services.AddScoped<IEstacionamentoRepository, EstacionamentoRepository>();
             services.AddScoped<IRelatorioRepositoy, RelatorioRepository>();
+            services.AddScoped<CalcularPagamentoUseCase>();
+            services.AddScoped<AdicionarVeiculoUseCase>();
+            services.AddScoped<RetirarVeiculoUseCase>();
 
             // Registrar os formulários
             services.AddTransient<FrmPricipal>();

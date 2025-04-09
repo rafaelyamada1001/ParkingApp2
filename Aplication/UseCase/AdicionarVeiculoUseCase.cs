@@ -31,24 +31,22 @@ namespace Aplication.UseCase
             var vagasCarros = vagasTotaisResponse.Dados.TotalVagasCarros;
             var vagasMotos = vagasTotaisResponse.Dados.TotalVagasMotos;
 
-            if (vagasOcupadas.Dados.VagasCarros >= vagasCarros)
+            if (tipoVeiculo == EVeiculoType.Carro && vagasOcupadas.Dados.VagasCarros >= vagasCarros)
             {
                 return new ResponseDefault<string>(false, "Atenção!\n Estacionamento atingiu o limite de Carros estacionados.", null);
             }
 
-            if (vagasOcupadas.Dados.VagasMotos >= vagasMotos)
+            if (tipoVeiculo == EVeiculoType.Moto && vagasOcupadas.Dados.VagasMotos >= vagasMotos)
             {
                 return new ResponseDefault<string>(false, "Atenção!\n Estacionamento atingiu o limite de Motos estacionadas.", null);
             }
 
             if (!veiculo.Validation())
             {
-                // Coleta todas as mensagens de erro das notificações da placa
                 var notificacoes = placaVeiculo.Notifications
                     .Select(n => n.Message)
                     .ToList();
 
-                // Coleta as notificações do veículo 
                 notificacoes.AddRange(veiculo.Notifications.Select(n => n.Message));
 
                 return new ResponseDefault<string>(false, string.Join(", ", notificacoes), null);

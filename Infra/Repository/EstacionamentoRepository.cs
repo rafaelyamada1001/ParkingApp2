@@ -66,5 +66,25 @@ namespace Infra.Repository
                 return new ResponseDefault<TipoVagasDTO>(false, ex.Message, null);
             }
         }
+
+        public ResponseDefault<object> AtualizarDadosEstacionamento(VagasTotaisDTO dados)
+        {
+            try
+            {
+                string sql = "UPDATE estacionamento SET TotalVagasCarros = @TotalVagasCarros, TotalVagasMotos = @TotalVagasMotos, ValorHora = @ValorHora";
+
+                using (var connection = _connection.OpenConnection())
+                {
+                    connection.Execute(sql, dados);
+                }
+
+                return new ResponseDefault<object>(true, "Vagas atualizadas com sucesso.", null);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDefault<object>(false, ex.Message, null);
+            }
+        }
     }
+    
 }

@@ -6,5 +6,6 @@ namespace Aplication.Interface
     {
         ResponseDefault<VagasTotaisDTO> VagasTotais();
         ResponseDefault<TipoVagasDTO> VagasOcupadas();
+        ResponseDefault<object> AtualizarDadosEstacionamento(VagasTotaisDTO dados);
     }
 }

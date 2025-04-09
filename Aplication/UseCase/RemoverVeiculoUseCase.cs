@@ -82,7 +82,6 @@ namespace Aplication.UseCase
                 return new ResponseDefault<string>(true, message, null);
             }
         }
-
     }
 }
 
