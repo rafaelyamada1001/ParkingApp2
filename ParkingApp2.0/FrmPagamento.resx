@@ -118,6 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="button1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        DgAACw4BQL7hQQAAAtdJREFUSEvdlUtPU1EUhYuRtrSFTqEM9Q8A4TFlAozUJk1M/ENWaykjw2Oof6BQ
+        JiYlNDpT4yOhhehEgxoSIGnakgLmbvd37rnlNrW0OnDgSlaAc/Ze59y199kE/nvElLnh4eHDkZGRy8HB
+        QYH8HovFDtmzMX+OgYGBx9Fo9Ofs7KxsbGzI/v6+1Ot1w0qlIuvr68IeMRqedrP6w81wOPx2fHxcSqWS
+        9MLu7q4kEgnRnDfkuhLXAPGpqSk5PT21EiKNRkPy+bxks1lZWVmRQqEgzWbT7oqcnJzI5OQkh7y2Mr8H
+        tnBzT9xxHEmn09gg8Xjc+B8KhaiB4cHBgYkDHDI2NiYq89BV60QMPz1bEE8mk0Zc9/D5hTKrfBqJRJyF
+        hQW5uLgwsR52dnaIv9SYiLIDubm5ORsqrZvr+ivlLROhiYojvzg//V8yMzNDzhM33AdakW4BeG7F8TRs
+        ArqI8zd2nZ+fm7W1tTXRFv5qc66gB1zSimBzcxPPHV2+7e52F9d1c8D29rZZp4XRsnlXoIC1Ws0EZTIZ
+        CQaDX+xWZGho6Gh+fr7VOYgvLi4acd3Pa+G/53I5s4cGWm6qD/4DlpeXabn3utxTnFQ94AM5oFqtcrnO
+        A/SzHM8i+lw/u36dLZpixMlVO6vkgHK5jEXY2w4tao3nD7gtvvYjrljSosrZ2ZmJW11dpUFqdq8NL5kt
+        HviaPsTjKlb37AHT09PElNztdjygNZktflx3c8RTqZR5lKBYLHrtfd8NaUdQR8UPBhfP3gOPCLuUjhb+
+        oxbwHZ5jCzf3xI+Pj2V0dBTxb0rvEh1IMmsYXP5DeET0OYMO0a2trZbnAPGJiQkzp1TjjivVHRnajMHF
+        bOkFbOHmVryv/ws3lI+Uxk9mC8+f9uOdwL29PdMtFNR6TlsiTm7fuKf8rDQi1IHHCPndCsNPyrvKvwLF
+        SimfKytK+huWlc+U7HUt6D9AIPALxzUE8iR6SlgAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="btnConfirmarPagamento.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL

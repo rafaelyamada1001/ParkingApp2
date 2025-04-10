@@ -12,5 +12,6 @@ namespace Aplication.Interface
         ResponseDefault<int> VerificarPlaca(string placa);
         ResponseDefault<DateTime> VerificarPermanencia(string placa);
         ResponseDefault<string> TipoVeiculo(string placa);
+        ResponseDefault<bool> EditarVeiculo(string placaAtual, string placaNova, string tipoVeiculo);
     }
 }

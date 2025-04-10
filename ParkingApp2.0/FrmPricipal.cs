@@ -9,13 +9,12 @@ namespace ParkingApp2._0
 
         private readonly IVeiculoRepository _veiculoRepository;
         private readonly IEstacionamentoRepository _estacionamentoRepository;
-        private readonly FrmFiltrarDatas _filtrarDatas;
-        public FrmPricipal(IVeiculoRepository veiculoRepository, IEstacionamentoRepository estacionamentoRepository, FrmFiltrarDatas filtrarDatas)
+
+        public FrmPricipal(IVeiculoRepository veiculoRepository, IEstacionamentoRepository estacionamentoRepository)
         {
             InitializeComponent();
             _veiculoRepository = veiculoRepository;
             _estacionamentoRepository = estacionamentoRepository;
-            _filtrarDatas = filtrarDatas;
         }
 
         private void btnEntrar_Click(object sender, EventArgs e)

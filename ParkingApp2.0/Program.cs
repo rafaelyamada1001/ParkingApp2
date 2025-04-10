@@ -23,11 +23,13 @@ namespace ParkingApp2._0
             services.AddScoped<CalcularPagamentoUseCase>();
             services.AddScoped<AdicionarVeiculoUseCase>();
             services.AddScoped<RetirarVeiculoUseCase>();
+            services.AddScoped<SomaValorUseCase>();
+            services.AddScoped<ObterMovimentoPorDataUseCase>();
+            services.AddScoped<EditarVeiculoUseCase>();
 
             // Registrar os formulários
             services.AddTransient<FrmPricipal>();
             services.AddTransient<FrmParkingApp>();
-            services.AddTransient<FrmFiltrarDatas>();
 
             var serviceProvider = services.BuildServiceProvider();
 

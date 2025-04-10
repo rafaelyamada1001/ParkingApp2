@@ -42,6 +42,7 @@
             lblTempoTotal = new Label();
             lblValorTotal = new Label();
             groupBox1 = new GroupBox();
+            button1 = new Button();
             btnConfirmarPagamento = new Button();
             lblFormaDePagamento = new Label();
             cmbFormaDePagamento = new ComboBox();
@@ -165,6 +166,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(btnConfirmarPagamento);
             groupBox1.Controls.Add(lblFormaDePagamento);
             groupBox1.Controls.Add(cmbFormaDePagamento);
@@ -187,6 +189,19 @@
             groupBox1.TabIndex = 12;
             groupBox1.TabStop = false;
             groupBox1.Text = "Registro De Pagamento";
+            // 
+            // button1
+            // 
+            button1.BackColor = SystemColors.MenuHighlight;
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
+            button1.Location = new Point(233, 346);
+            button1.Name = "button1";
+            button1.Size = new Size(120, 33);
+            button1.TabIndex = 15;
+            button1.Text = "Cancelar";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // btnConfirmarPagamento
             // 
@@ -227,7 +242,9 @@
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmPagamento";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmPagamento";
+            Load += FrmPagamento_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
@@ -251,5 +268,6 @@
         private Button btnConfirmarPagamento;
         private Label lblFormaDePagamento;
         private ComboBox cmbFormaDePagamento;
+        private Button button1;
     }
 }

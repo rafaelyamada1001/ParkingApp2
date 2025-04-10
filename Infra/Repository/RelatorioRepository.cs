@@ -2,7 +2,6 @@
 using Aplication.Interface;
 using Dapper;
 using Infra.Connection;
-using MySql.Data.MySqlClient;
 
 namespace Infra.Repository
 {
@@ -33,6 +32,25 @@ namespace Infra.Repository
             {
                 var response = new ResponseDefault<decimal>(false, ex.Message, 0);
                 return response;
+            }
+        }
+
+        public ResponseDefault<List<MovimentacaoDTO>> ObterMovimentoPorData(DateTime dataInicial, DateTime dataFinal)
+        {
+            try
+            {
+                string query = @"SELECT * FROM movger WHERE HoraSaida IS NOT NULL AND HoraSaida BETWEEN @DataInicial AND @DataFinal ORDER BY HoraSaida DESC";
+
+                using (var connection = _connection.OpenConnection())
+                {
+                    var movimentacoes = connection.Query<MovimentacaoDTO>(query, new { DataInicial = dataInicial, DataFinal = dataFinal }).ToList();
+
+                    return new ResponseDefault<List<MovimentacaoDTO>>(true, "OK", movimentacoes);
+                }
+            }
+            catch(Exception ex)
+            {
+                return new ResponseDefault<List<MovimentacaoDTO>>(false, ex.Message, null);
             }
         }
     }

@@ -9,35 +9,41 @@ namespace ParkingApp2._0
     {
         private readonly IVeiculoRepository _veiculoRepository;
         private readonly IEstacionamentoRepository _estacionamentoRepository;
-        private readonly FrmFiltrarDatas _frmFiltrarDatas;
         private readonly CalcularPagamentoUseCase _calcularPagamentoUseCase;
         private readonly AdicionarVeiculoUseCase _adicionarVeiculoUseCase;
         private readonly RetirarVeiculoUseCase _retirarVeiculoUseCase;
+        private readonly SomaValorUseCase _relatorioLucroUseCase;
+        private readonly ObterMovimentoPorDataUseCase _movimentoPorDataUseCase;
+        private readonly EditarVeiculoUseCase _editarVeiculoUseCase;
 
         public FrmParkingApp(IVeiculoRepository veiculoRepository,
                        IEstacionamentoRepository estacionamentoRepository,
-                       FrmFiltrarDatas frmFiltrarDatas,
                        CalcularPagamentoUseCase calcularPagamentoUseCase,
                        AdicionarVeiculoUseCase adicionarVeiculoUseCase,
-                       RetirarVeiculoUseCase retirarVeiculoUseCase)
+                       RetirarVeiculoUseCase retirarVeiculoUseCase,
+                       SomaValorUseCase relatorioLucroUseCase,
+                       ObterMovimentoPorDataUseCase movimentoPorDataUseCase,
+                       EditarVeiculoUseCase editarVeiculoUseCase)
         {
             _veiculoRepository = veiculoRepository;
             _estacionamentoRepository = estacionamentoRepository;
-            _frmFiltrarDatas = frmFiltrarDatas;
             _calcularPagamentoUseCase = calcularPagamentoUseCase;
             _adicionarVeiculoUseCase = adicionarVeiculoUseCase;
             _retirarVeiculoUseCase = retirarVeiculoUseCase;
+            _relatorioLucroUseCase = relatorioLucroUseCase;
+            _movimentoPorDataUseCase = movimentoPorDataUseCase;
+            _editarVeiculoUseCase = editarVeiculoUseCase;
+            _adicionarVeiculoUseCase = adicionarVeiculoUseCase;
+            _relatorioLucroUseCase = relatorioLucroUseCase;
 
             InitializeComponent();
 
             this.Load += new EventHandler(FrmMenu_Load);
-            _adicionarVeiculoUseCase = adicionarVeiculoUseCase;
         }
 
         private void FrmMenu_Load(object? sender, EventArgs e)
         {
             cmbTipoVeiculo.DataSource = Enum.GetValues(typeof(EVeiculoType));
-            dgvVeiculosEstacionados.AutoGenerateColumns = false;
             var estacionamento = _estacionamentoRepository.VagasTotais();
             dgvConfigEstacionamento.DataSource = new List<VagasTotaisDTO> { estacionamento.Dados };
             dgvConfigEstacionamento.Refresh();
@@ -58,7 +64,6 @@ namespace ParkingApp2._0
 
             AtualizarTela();
         }
-
         private void btnRemoverVeiculo_Click(object sender, EventArgs e)
         {
             string placa = txtPlaca.Text.Trim();
@@ -86,17 +91,45 @@ namespace ParkingApp2._0
                 MessageBoxIcon.Warning);
                 if (retirarVeiculo.Sucesso) AtualizarTela();
             }
+        }
 
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            string placaAtual = txtPlaca.Text;
+            var response = _veiculoRepository.TipoVeiculo(placaAtual);
+            if (!response.Sucesso || string.IsNullOrWhiteSpace(response.Dados))
+            {
+                MessageBox.Show("Veículo não encontrado verificar Placa.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var tipoVeiculo = response.Dados;
+
+            var formEditar = new FrmEditarVeiculo(placaAtual, tipoVeiculo, _editarVeiculoUseCase);
+            var resultado = formEditar.ShowDialog();
+
+            if (resultado == DialogResult.OK)
+            {
+                AtualizarTela();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _frmFiltrarDatas.Show();
-        }
+            var dataInicial = dtpDataInicial.Value.Date;
+            var dataFinal = dtpDataFinal.Value.Date.AddDays(1);
 
-        private void cmbTipoVeiculo_SelectedIndexChanged(object sender, EventArgs e)
-        {
+            if (dataInicial > dataFinal)
+            {
+                MessageBox.Show("A data inicial não pode ser maior que a data final.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            var result = _relatorioLucroUseCase.Execute(dataInicial, dataFinal);
+            var movimentacao = _movimentoPorDataUseCase.Execute(dataInicial, dataFinal);
+
+            dgvRelatorio.DataSource = movimentacao.Dados;
+            txtValor.Text = result.Dados.ToString();
         }
 
         private void dgvVeiculosEstacionados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -106,8 +139,6 @@ namespace ParkingApp2._0
                 var selectedRow = dgvVeiculosEstacionados.Rows[e.RowIndex];
 
                 string placa = selectedRow.Cells["Placa"].Value.ToString();
-                string tipo = selectedRow.Cells["TipoVeiculo"].Value.ToString();
-
 
                 var response = _calcularPagamentoUseCase.Execute(placa);
 
@@ -130,7 +161,6 @@ namespace ParkingApp2._0
                 }
 
                 AtualizarTela();
-
             }
         }
         private void AtualizarTela()
@@ -154,15 +184,10 @@ namespace ParkingApp2._0
             }
         }
 
-        private void FrmParkingApp_Load(object sender, EventArgs e)
-        {
-
-        }
         private void btnSairMenu_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-
         private void dgvConfigEstacionamento_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -189,7 +214,14 @@ namespace ParkingApp2._0
         {
 
         }
+        private void FrmParkingApp_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void cmbTipoVeiculo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
 
     }
-
 }

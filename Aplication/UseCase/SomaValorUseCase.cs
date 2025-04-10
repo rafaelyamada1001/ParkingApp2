@@ -3,11 +3,11 @@ using Aplication.Interface;
 
 namespace Aplication.UseCase
 {
-    public class RelatorioLucroUseCase
+    public class SomaValorUseCase
     {
         private readonly IRelatorioRepositoy _relatorioRepositoy;
 
-        public RelatorioLucroUseCase(IRelatorioRepositoy relatorioRepositoy)
+        public SomaValorUseCase(IRelatorioRepositoy relatorioRepositoy)
         {
             _relatorioRepositoy = relatorioRepositoy;
         }

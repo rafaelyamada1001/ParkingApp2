@@ -175,6 +175,31 @@ namespace Infra.Repository
             }
         }
 
+        public ResponseDefault<bool> EditarVeiculo(string placaAtual, string placaNova, string tipoVeiculo)
+        {
+            try
+            {
+                string query = "UPDATE movger SET Placa = @PlacaNova, TipoVeiculo = @TipoVeiculo " +
+                "WHERE Placa = @PlacaAtual AND horasaida IS NULL";
+
+                var parametros = new
+                {
+                    PlacaAtual = placaAtual,
+                    PlacaNova = placaNova,
+                    TipoVeiculo = tipoVeiculo,
+                };
+                using (var connection = _connection.OpenConnection())
+                {
+                    var updateRows = connection.Execute(query, parametros);
+                    if (updateRows > 0) return new ResponseDefault<bool>(true, "OK", true);
+                    else return new ResponseDefault<bool>(false, "Erro", false);
+                }
+
+            }catch(Exception ex) 
+            {
+                return new ResponseDefault<bool>(false, ex.Message, false);
+            }
+        }
     }
 }
 

@@ -29,9 +29,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmParkingApp));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
             lblTipoVeiculo = new Label();
             cmbTipoVeiculo = new ComboBox();
-            btnRelatorio = new Button();
+            btnFiltrar = new Button();
             btnSairMenu = new Button();
             btnRemoverVeiculo = new Button();
             btnAdicionarVeiculo = new Button();
@@ -39,8 +46,25 @@
             lblPlaca = new Label();
             tbcGerenciador = new TabControl();
             tbpGerenciador = new TabPage();
+            btnEditar = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
             tbpFinanceiro = new TabPage();
+            dgvRelatorio = new DataGridView();
+            PlacaVeiculo = new DataGridViewTextBoxColumn();
+            TipoVeiculoRelatorio = new DataGridViewTextBoxColumn();
+            HoraEntradaRelatorio = new DataGridViewTextBoxColumn();
+            HoraSaidaRelatorio = new DataGridViewTextBoxColumn();
+            PermanenciaHora = new DataGridViewTextBoxColumn();
+            PermanenciaMin = new DataGridViewTextBoxColumn();
+            ValorRelatorio = new DataGridViewTextBoxColumn();
+            grpExibirValorPorData = new GroupBox();
+            lblReal = new Label();
+            lblDataInicial = new Label();
+            txtValor = new TextBox();
+            lblValor = new Label();
+            dtpDataInicial = new DateTimePicker();
+            lblDataFinal = new Label();
+            dtpDataFinal = new DateTimePicker();
             txtVagasCarros = new TextBox();
             txtVagasMotos = new TextBox();
             grpVagasDisponiveis = new GroupBox();
@@ -49,8 +73,8 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             dgvVeiculosEstacionados = new DataGridView();
-            TipoVeiculo = new DataGridViewTextBoxColumn();
             Placa = new DataGridViewTextBoxColumn();
+            TipoVeiculo = new DataGridViewTextBoxColumn();
             HoraEntrada = new DataGridViewTextBoxColumn();
             tabPage2 = new TabPage();
             dgvConfigEstacionamento = new DataGridView();
@@ -60,6 +84,8 @@
             tbcGerenciador.SuspendLayout();
             tbpGerenciador.SuspendLayout();
             tbpFinanceiro.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvRelatorio).BeginInit();
+            grpExibirValorPorData.SuspendLayout();
             grpVagasDisponiveis.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -88,17 +114,17 @@
             cmbTipoVeiculo.TabIndex = 8;
             cmbTipoVeiculo.SelectedIndexChanged += cmbTipoVeiculo_SelectedIndexChanged;
             // 
-            // btnRelatorio
+            // btnFiltrar
             // 
-            btnRelatorio.BackColor = Color.Transparent;
-            btnRelatorio.Location = new Point(23, 32);
-            btnRelatorio.Margin = new Padding(3, 4, 3, 4);
-            btnRelatorio.Name = "btnRelatorio";
-            btnRelatorio.Size = new Size(119, 29);
-            btnRelatorio.TabIndex = 7;
-            btnRelatorio.Text = "Relatorio";
-            btnRelatorio.UseVisualStyleBackColor = false;
-            btnRelatorio.Click += button1_Click;
+            btnFiltrar.BackColor = SystemColors.MenuHighlight;
+            btnFiltrar.Location = new Point(419, 68);
+            btnFiltrar.Margin = new Padding(3, 4, 3, 4);
+            btnFiltrar.Name = "btnFiltrar";
+            btnFiltrar.Size = new Size(85, 26);
+            btnFiltrar.TabIndex = 7;
+            btnFiltrar.Text = "Filtrar";
+            btnFiltrar.UseVisualStyleBackColor = false;
+            btnFiltrar.Click += button1_Click;
             // 
             // btnSairMenu
             // 
@@ -120,10 +146,10 @@
             btnRemoverVeiculo.Font = new Font("Noto Sans", 9.75F, FontStyle.Bold);
             btnRemoverVeiculo.Image = (Image)resources.GetObject("btnRemoverVeiculo.Image");
             btnRemoverVeiculo.ImageAlign = ContentAlignment.MiddleLeft;
-            btnRemoverVeiculo.Location = new Point(253, 370);
+            btnRemoverVeiculo.Location = new Point(181, 370);
             btnRemoverVeiculo.Margin = new Padding(3, 4, 3, 4);
             btnRemoverVeiculo.Name = "btnRemoverVeiculo";
-            btnRemoverVeiculo.Size = new Size(197, 39);
+            btnRemoverVeiculo.Size = new Size(169, 39);
             btnRemoverVeiculo.TabIndex = 3;
             btnRemoverVeiculo.Text = "Remover Veículo";
             btnRemoverVeiculo.UseVisualStyleBackColor = false;
@@ -135,10 +161,10 @@
             btnAdicionarVeiculo.Font = new Font("Noto Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAdicionarVeiculo.Image = (Image)resources.GetObject("btnAdicionarVeiculo.Image");
             btnAdicionarVeiculo.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAdicionarVeiculo.Location = new Point(35, 370);
+            btnAdicionarVeiculo.Location = new Point(6, 370);
             btnAdicionarVeiculo.Margin = new Padding(3, 4, 3, 4);
             btnAdicionarVeiculo.Name = "btnAdicionarVeiculo";
-            btnAdicionarVeiculo.Size = new Size(201, 39);
+            btnAdicionarVeiculo.Size = new Size(169, 39);
             btnAdicionarVeiculo.TabIndex = 2;
             btnAdicionarVeiculo.Text = "Adicionar Veículo";
             btnAdicionarVeiculo.UseVisualStyleBackColor = false;
@@ -171,12 +197,13 @@
             tbcGerenciador.Margin = new Padding(3, 4, 3, 4);
             tbcGerenciador.Name = "tbcGerenciador";
             tbcGerenciador.SelectedIndex = 0;
-            tbcGerenciador.Size = new Size(490, 490);
+            tbcGerenciador.Size = new Size(540, 490);
             tbcGerenciador.TabIndex = 10;
             // 
             // tbpGerenciador
             // 
             tbpGerenciador.BackgroundImageLayout = ImageLayout.Stretch;
+            tbpGerenciador.Controls.Add(btnEditar);
             tbpGerenciador.Controls.Add(flowLayoutPanel1);
             tbpGerenciador.Controls.Add(cmbTipoVeiculo);
             tbpGerenciador.Controls.Add(lblTipoVeiculo);
@@ -189,10 +216,23 @@
             tbpGerenciador.Margin = new Padding(3, 4, 3, 4);
             tbpGerenciador.Name = "tbpGerenciador";
             tbpGerenciador.Padding = new Padding(3, 4, 3, 4);
-            tbpGerenciador.Size = new Size(482, 459);
+            tbpGerenciador.Size = new Size(532, 459);
             tbpGerenciador.TabIndex = 0;
             tbpGerenciador.Text = "Estacionamento";
             tbpGerenciador.UseVisualStyleBackColor = true;
+            // 
+            // btnEditar
+            // 
+            btnEditar.BackColor = SystemColors.MenuHighlight;
+            btnEditar.Image = (Image)resources.GetObject("btnEditar.Image");
+            btnEditar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEditar.Location = new Point(357, 370);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(169, 39);
+            btnEditar.TabIndex = 11;
+            btnEditar.Text = "Editar Veículo";
+            btnEditar.UseVisualStyleBackColor = false;
+            btnEditar.Click += btnEditar_Click;
             // 
             // flowLayoutPanel1
             // 
@@ -206,16 +246,186 @@
             // 
             // tbpFinanceiro
             // 
-            tbpFinanceiro.Controls.Add(btnRelatorio);
+            tbpFinanceiro.Controls.Add(dgvRelatorio);
+            tbpFinanceiro.Controls.Add(grpExibirValorPorData);
+            tbpFinanceiro.Font = new Font("Noto Sans", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tbpFinanceiro.ForeColor = SystemColors.ControlText;
             tbpFinanceiro.Location = new Point(4, 27);
             tbpFinanceiro.Margin = new Padding(3, 4, 3, 4);
             tbpFinanceiro.Name = "tbpFinanceiro";
             tbpFinanceiro.Padding = new Padding(3, 4, 3, 4);
-            tbpFinanceiro.Size = new Size(482, 459);
+            tbpFinanceiro.Size = new Size(532, 459);
             tbpFinanceiro.TabIndex = 1;
             tbpFinanceiro.Text = "Financeiro";
             tbpFinanceiro.UseVisualStyleBackColor = true;
+            // 
+            // dgvRelatorio
+            // 
+            dgvRelatorio.AllowUserToAddRows = false;
+            dgvRelatorio.AllowUserToDeleteRows = false;
+            dgvRelatorio.BackgroundColor = SystemColors.ControlLightLight;
+            dgvRelatorio.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvRelatorio.Columns.AddRange(new DataGridViewColumn[] { PlacaVeiculo, TipoVeiculoRelatorio, HoraEntradaRelatorio, HoraSaidaRelatorio, PermanenciaHora, PermanenciaMin, ValorRelatorio });
+            dgvRelatorio.Location = new Point(-41, 109);
+            dgvRelatorio.Name = "dgvRelatorio";
+            dgvRelatorio.ReadOnly = true;
+            dgvRelatorio.Size = new Size(570, 343);
+            dgvRelatorio.TabIndex = 15;
+            // 
+            // PlacaVeiculo
+            // 
+            PlacaVeiculo.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            PlacaVeiculo.DataPropertyName = "Placa";
+            dataGridViewCellStyle1.Format = "000-000";
+            dataGridViewCellStyle1.NullValue = null;
+            PlacaVeiculo.DefaultCellStyle = dataGridViewCellStyle1;
+            PlacaVeiculo.HeaderText = "Placa";
+            PlacaVeiculo.Name = "PlacaVeiculo";
+            PlacaVeiculo.ReadOnly = true;
+            PlacaVeiculo.Width = 5;
+            // 
+            // TipoVeiculoRelatorio
+            // 
+            TipoVeiculoRelatorio.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            TipoVeiculoRelatorio.DataPropertyName = "TipoVeiculo";
+            TipoVeiculoRelatorio.HeaderText = "Veiculo";
+            TipoVeiculoRelatorio.Name = "TipoVeiculoRelatorio";
+            TipoVeiculoRelatorio.ReadOnly = true;
+            TipoVeiculoRelatorio.Width = 72;
+            // 
+            // HoraEntradaRelatorio
+            // 
+            HoraEntradaRelatorio.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            HoraEntradaRelatorio.DataPropertyName = "HoraEntrada";
+            dataGridViewCellStyle2.Format = "g";
+            dataGridViewCellStyle2.NullValue = null;
+            HoraEntradaRelatorio.DefaultCellStyle = dataGridViewCellStyle2;
+            HoraEntradaRelatorio.HeaderText = "Hora Entrada";
+            HoraEntradaRelatorio.Name = "HoraEntradaRelatorio";
+            HoraEntradaRelatorio.ReadOnly = true;
+            HoraEntradaRelatorio.Width = 5;
+            // 
+            // HoraSaidaRelatorio
+            // 
+            HoraSaidaRelatorio.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            HoraSaidaRelatorio.DataPropertyName = "HoraSaida";
+            dataGridViewCellStyle3.Format = "g";
+            dataGridViewCellStyle3.NullValue = null;
+            HoraSaidaRelatorio.DefaultCellStyle = dataGridViewCellStyle3;
+            HoraSaidaRelatorio.HeaderText = "Hora Saida";
+            HoraSaidaRelatorio.Name = "HoraSaidaRelatorio";
+            HoraSaidaRelatorio.ReadOnly = true;
+            HoraSaidaRelatorio.Width = 5;
+            // 
+            // PermanenciaHora
+            // 
+            PermanenciaHora.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            PermanenciaHora.DataPropertyName = "PermanenciaHora";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight;
+            PermanenciaHora.DefaultCellStyle = dataGridViewCellStyle4;
+            PermanenciaHora.HeaderText = "Hora";
+            PermanenciaHora.Name = "PermanenciaHora";
+            PermanenciaHora.ReadOnly = true;
+            PermanenciaHora.Width = 59;
+            // 
+            // PermanenciaMin
+            // 
+            PermanenciaMin.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            PermanenciaMin.DataPropertyName = "PermanenciaMin";
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight;
+            PermanenciaMin.DefaultCellStyle = dataGridViewCellStyle5;
+            PermanenciaMin.HeaderText = "Min";
+            PermanenciaMin.Name = "PermanenciaMin";
+            PermanenciaMin.ReadOnly = true;
+            PermanenciaMin.Width = 52;
+            // 
+            // ValorRelatorio
+            // 
+            ValorRelatorio.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            ValorRelatorio.DataPropertyName = "Valor";
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle6.Format = "N2";
+            dataGridViewCellStyle6.NullValue = null;
+            ValorRelatorio.DefaultCellStyle = dataGridViewCellStyle6;
+            ValorRelatorio.HeaderText = "Valor";
+            ValorRelatorio.Name = "ValorRelatorio";
+            ValorRelatorio.ReadOnly = true;
+            ValorRelatorio.Width = 61;
+            // 
+            // grpExibirValorPorData
+            // 
+            grpExibirValorPorData.Controls.Add(lblReal);
+            grpExibirValorPorData.Controls.Add(lblDataInicial);
+            grpExibirValorPorData.Controls.Add(txtValor);
+            grpExibirValorPorData.Controls.Add(btnFiltrar);
+            grpExibirValorPorData.Controls.Add(lblValor);
+            grpExibirValorPorData.Controls.Add(dtpDataInicial);
+            grpExibirValorPorData.Controls.Add(lblDataFinal);
+            grpExibirValorPorData.Controls.Add(dtpDataFinal);
+            grpExibirValorPorData.Location = new Point(3, 3);
+            grpExibirValorPorData.Name = "grpExibirValorPorData";
+            grpExibirValorPorData.Size = new Size(523, 100);
+            grpExibirValorPorData.TabIndex = 14;
+            grpExibirValorPorData.TabStop = false;
+            grpExibirValorPorData.Text = "Filtrar Valor Por Data:";
+            // 
+            // lblReal
+            // 
+            lblReal.AutoSize = true;
+            lblReal.Location = new Point(419, 25);
+            lblReal.Name = "lblReal";
+            lblReal.Size = new Size(20, 16);
+            lblReal.TabIndex = 14;
+            lblReal.Text = "R$";
+            // 
+            // lblDataInicial
+            // 
+            lblDataInicial.AutoSize = true;
+            lblDataInicial.Location = new Point(6, 27);
+            lblDataInicial.Name = "lblDataInicial";
+            lblDataInicial.Size = new Size(73, 16);
+            lblDataInicial.TabIndex = 10;
+            lblDataInicial.Text = "Data Inicial:";
+            // 
+            // txtValor
+            // 
+            txtValor.Location = new Point(448, 22);
+            txtValor.Name = "txtValor";
+            txtValor.Size = new Size(58, 22);
+            txtValor.TabIndex = 13;
+            txtValor.TextAlign = HorizontalAlignment.Right;
+            // 
+            // lblValor
+            // 
+            lblValor.AutoSize = true;
+            lblValor.Location = new Point(374, 25);
+            lblValor.Name = "lblValor";
+            lblValor.Size = new Size(39, 16);
+            lblValor.TabIndex = 12;
+            lblValor.Text = "Valor:";
+            // 
+            // dtpDataInicial
+            // 
+            dtpDataInicial.Location = new Point(92, 22);
+            dtpDataInicial.Name = "dtpDataInicial";
+            dtpDataInicial.Size = new Size(200, 22);
+            dtpDataInicial.TabIndex = 8;
+            // 
+            // lblDataFinal
+            // 
+            lblDataFinal.AutoSize = true;
+            lblDataFinal.Location = new Point(6, 70);
+            lblDataFinal.Name = "lblDataFinal";
+            lblDataFinal.Size = new Size(66, 16);
+            lblDataFinal.TabIndex = 11;
+            lblDataFinal.Text = "Data Final:";
+            // 
+            // dtpDataFinal
+            // 
+            dtpDataFinal.Location = new Point(92, 64);
+            dtpDataFinal.Name = "dtpDataFinal";
+            dtpDataFinal.Size = new Size(200, 22);
+            dtpDataFinal.TabIndex = 9;
             // 
             // txtVagasCarros
             // 
@@ -241,11 +451,11 @@
             grpVagasDisponiveis.Controls.Add(lblCarros);
             grpVagasDisponiveis.Controls.Add(txtVagasMotos);
             grpVagasDisponiveis.Controls.Add(txtVagasCarros);
-            grpVagasDisponiveis.Location = new Point(511, 46);
+            grpVagasDisponiveis.Location = new Point(556, 46);
             grpVagasDisponiveis.Margin = new Padding(3, 4, 3, 4);
             grpVagasDisponiveis.Name = "grpVagasDisponiveis";
             grpVagasDisponiveis.Padding = new Padding(3, 4, 3, 4);
-            grpVagasDisponiveis.Size = new Size(394, 119);
+            grpVagasDisponiveis.Size = new Size(349, 119);
             grpVagasDisponiveis.TabIndex = 12;
             grpVagasDisponiveis.TabStop = false;
             grpVagasDisponiveis.Text = "Vagas Disponíveis";
@@ -274,11 +484,11 @@
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
-            tabControl1.Location = new Point(506, 172);
+            tabControl1.Location = new Point(556, 172);
             tabControl1.Margin = new Padding(3, 4, 3, 4);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(419, 345);
+            tabControl1.Size = new Size(369, 345);
             tabControl1.TabIndex = 13;
             // 
             // tabPage1
@@ -288,7 +498,7 @@
             tabPage1.Margin = new Padding(3, 4, 3, 4);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3, 4, 3, 4);
-            tabPage1.Size = new Size(411, 314);
+            tabPage1.Size = new Size(361, 314);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Veículos Estacionados";
             tabPage1.UseVisualStyleBackColor = true;
@@ -298,22 +508,14 @@
             dgvVeiculosEstacionados.AllowUserToDeleteRows = false;
             dgvVeiculosEstacionados.BackgroundColor = SystemColors.ControlLightLight;
             dgvVeiculosEstacionados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVeiculosEstacionados.Columns.AddRange(new DataGridViewColumn[] { TipoVeiculo, Placa, HoraEntrada });
-            dgvVeiculosEstacionados.Location = new Point(0, 4);
+            dgvVeiculosEstacionados.Columns.AddRange(new DataGridViewColumn[] { Placa, TipoVeiculo, HoraEntrada });
+            dgvVeiculosEstacionados.Location = new Point(-41, 4);
             dgvVeiculosEstacionados.Margin = new Padding(3, 4, 3, 4);
             dgvVeiculosEstacionados.Name = "dgvVeiculosEstacionados";
             dgvVeiculosEstacionados.ReadOnly = true;
-            dgvVeiculosEstacionados.Size = new Size(411, 287);
+            dgvVeiculosEstacionados.Size = new Size(402, 301);
             dgvVeiculosEstacionados.TabIndex = 0;
             dgvVeiculosEstacionados.CellDoubleClick += dgvVeiculosEstacionados_CellDoubleClick;
-            // 
-            // TipoVeiculo
-            // 
-            TipoVeiculo.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            TipoVeiculo.DataPropertyName = "TipoVeiculo";
-            TipoVeiculo.HeaderText = "Tipo Veículo";
-            TipoVeiculo.Name = "TipoVeiculo";
-            TipoVeiculo.ReadOnly = true;
             // 
             // Placa
             // 
@@ -322,6 +524,14 @@
             Placa.HeaderText = "Placa";
             Placa.Name = "Placa";
             Placa.ReadOnly = true;
+            // 
+            // TipoVeiculo
+            // 
+            TipoVeiculo.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            TipoVeiculo.DataPropertyName = "TipoVeiculo";
+            TipoVeiculo.HeaderText = "Tipo Veículo";
+            TipoVeiculo.Name = "TipoVeiculo";
+            TipoVeiculo.ReadOnly = true;
             // 
             // HoraEntrada
             // 
@@ -338,7 +548,7 @@
             tabPage2.Margin = new Padding(3, 4, 3, 4);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3, 4, 3, 4);
-            tabPage2.Size = new Size(411, 314);
+            tabPage2.Size = new Size(361, 314);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Configurações";
             tabPage2.UseVisualStyleBackColor = true;
@@ -350,10 +560,10 @@
             dgvConfigEstacionamento.BackgroundColor = SystemColors.ControlLightLight;
             dgvConfigEstacionamento.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvConfigEstacionamento.Columns.AddRange(new DataGridViewColumn[] { VagasCarros, VagasMotos, ValorHora });
-            dgvConfigEstacionamento.Location = new Point(0, 0);
+            dgvConfigEstacionamento.Location = new Point(-40, 0);
             dgvConfigEstacionamento.Margin = new Padding(3, 4, 3, 4);
             dgvConfigEstacionamento.Name = "dgvConfigEstacionamento";
-            dgvConfigEstacionamento.Size = new Size(411, 285);
+            dgvConfigEstacionamento.Size = new Size(401, 285);
             dgvConfigEstacionamento.TabIndex = 0;
             dgvConfigEstacionamento.CellEndEdit += dgvConfigEstacionamento_CellEndEdit;
             // 
@@ -375,6 +585,10 @@
             // 
             ValorHora.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             ValorHora.DataPropertyName = "ValorHora";
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "N2";
+            dataGridViewCellStyle7.NullValue = null;
+            ValorHora.DefaultCellStyle = dataGridViewCellStyle7;
             ValorHora.HeaderText = "Valor Hora";
             ValorHora.Name = "ValorHora";
             // 
@@ -384,7 +598,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = SystemColors.ControlLightLight;
-            ClientSize = new Size(966, 565);
+            ClientSize = new Size(937, 565);
             Controls.Add(tabControl1);
             Controls.Add(grpVagasDisponiveis);
             Controls.Add(tbcGerenciador);
@@ -400,6 +614,9 @@
             tbpGerenciador.ResumeLayout(false);
             tbpGerenciador.PerformLayout();
             tbpFinanceiro.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvRelatorio).EndInit();
+            grpExibirValorPorData.ResumeLayout(false);
+            grpExibirValorPorData.PerformLayout();
             grpVagasDisponiveis.ResumeLayout(false);
             grpVagasDisponiveis.PerformLayout();
             tabControl1.ResumeLayout(false);
@@ -416,7 +633,7 @@
         private Button btnAdicionarVeiculo;
         private TextBox txtPlaca;
         private Label lblPlaca;
-        private Button btnRelatorio;
+        private Button btnFiltrar;
         private Label lblTipoVeiculo;
         private ComboBox cmbTipoVeiculo;
         private TabControl tbcGerenciador;
@@ -432,12 +649,29 @@
         private TabPage tabPage2;
         private DataGridView dgvVeiculosEstacionados;
         private DataGridView dgvConfigEstacionamento;
-        private DataGridViewTextBoxColumn TipoVeiculo;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private DateTimePicker dtpDataInicial;
+        private DateTimePicker dtpDataFinal;
+        private Label lblValor;
+        private Label lblDataFinal;
+        private Label lblDataInicial;
+        private TextBox txtValor;
+        private GroupBox grpExibirValorPorData;
+        private Label lblReal;
+        private DataGridView dgvRelatorio;
+        private Button btnEditar;
         private DataGridViewTextBoxColumn Placa;
+        private DataGridViewTextBoxColumn TipoVeiculo;
         private DataGridViewTextBoxColumn HoraEntrada;
         private DataGridViewTextBoxColumn VagasCarros;
         private DataGridViewTextBoxColumn VagasMotos;
         private DataGridViewTextBoxColumn ValorHora;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private DataGridViewTextBoxColumn PlacaVeiculo;
+        private DataGridViewTextBoxColumn TipoVeiculoRelatorio;
+        private DataGridViewTextBoxColumn HoraEntradaRelatorio;
+        private DataGridViewTextBoxColumn HoraSaidaRelatorio;
+        private DataGridViewTextBoxColumn PermanenciaHora;
+        private DataGridViewTextBoxColumn PermanenciaMin;
+        private DataGridViewTextBoxColumn ValorRelatorio;
     }
 }

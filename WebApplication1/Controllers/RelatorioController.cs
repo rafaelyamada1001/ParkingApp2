@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 public class RelatorioController : ControllerBase
 {
-    private readonly RelatorioLucroUseCase _useCase;
+    private readonly SomaValorUseCase _useCase;
 
-    public RelatorioController(RelatorioLucroUseCase usecase)
+    public RelatorioController(SomaValorUseCase usecase)
     {
         _useCase = usecase;
     }

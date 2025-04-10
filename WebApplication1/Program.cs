@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<DatabaseConnection>();
 
-builder.Services.AddScoped<RelatorioLucroUseCase>();
+builder.Services.AddScoped<SomaValorUseCase>();
 builder.Services.AddScoped<ListarVeiculosUseCase>();
 builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
 builder.Services.AddScoped<IEstacionamentoRepository, EstacionamentoRepository>();

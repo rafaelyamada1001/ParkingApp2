@@ -23,5 +23,15 @@ namespace ParkingApp2._0
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void FrmPagamento_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
