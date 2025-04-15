@@ -223,5 +223,9 @@ namespace ParkingApp2._0
 
         }
 
+        private void btnCadastroCliente_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
