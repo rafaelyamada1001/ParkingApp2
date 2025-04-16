@@ -2,9 +2,8 @@
 {
     public class Cliente
     {
-        public Cliente(int id, string nome, string sobrenome, string cpfCnpj, string telefone)
+        public Cliente(string nome, string sobrenome, string cpfCnpj, string telefone)
         {
-            Id = id;
             Nome = nome;
             Sobrenome = sobrenome;
             CpfCnpj = cpfCnpj;

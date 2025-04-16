@@ -1,7 +1,9 @@
-﻿using Aplication.Interface;
+﻿using Aplication.DTO;
+using Aplication.Interface;
 using Dapper;
 using Domain.Entities;
 using Infra.Connection;
+using Infra.DataBase;
 
 namespace Infra.Repository
 {
@@ -14,20 +16,48 @@ namespace Infra.Repository
             _connection = connection;
         }
 
-        public void Cadastrar(Cliente cliente)
+        public ResponseDefault<string> Cadastrar(Cliente cliente)
         {
-            string sql = @"INSERT INTO Cliente (Nome, Sobrenome, CPF_CNPJ, Telefone) Values (@Nome, @SobreNome, @CpfCnpj, @Telefone)";
+            try
+            {
+                string sql = @"INSERT INTO Cliente (Nome, Sobrenome, CPF_CNPJ, Telefone) Values (@Nome, @SobreNome, @CpfCnpj, @Telefone)";
 
-            using (var conn = _connection.OpenConnection()) { conn.Execute(sql, cliente); }
+                using (var connection = _connection.OpenConnection()) { connection.Execute(sql, cliente); }
+
+                return new ResponseDefault<string>(true, "OK", null);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDefault<string>(false, $"{ex.Message}", null);
+            }
+        }
+
+        public ResponseDefault<List<Cliente>> ListarClientes()
+        {
+            try
+            {
+
+                string sql = "SELECT * FROM Cliente";
+
+                using (var connection = _connection.OpenConnection())
+                {
+                    var response = connection.Query<Cliente>(sql).ToList();
+                    return new ResponseDefault<List<Cliente>>(true, "OK", response);
+                }
+            }
+            catch(Exception ex)
+            {
+                return new ResponseDefault<List<Cliente>>(false, $"{ex.Message}", null);
+            }
         }
 
         public bool VerificarCpf(string cpf)
         {
-            string sql = "SELECT COUNT (*) FROM Cliente WHERE CPF_CNPJ = @Cpf";
+            string sql = "SELECT COUNT(*) FROM Cliente WHERE CPF_CNPJ = @Cpf";
 
-            using (var conn = _connection.OpenConnection())
+            using (var connection = _connection.OpenConnection())
             {
-                var count = conn.ExecuteScalar<int>(sql, new { Cpf = cpf });
+                var count = connection.ExecuteScalar<int>(sql, new { Cpf = cpf });
                 return count > 0;
             }
         }

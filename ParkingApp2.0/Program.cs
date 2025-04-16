@@ -20,12 +20,14 @@ namespace ParkingApp2._0
             services.AddScoped<IVeiculoRepository, VeiculoRepository>();
             services.AddScoped<IEstacionamentoRepository, EstacionamentoRepository>();
             services.AddScoped<IRelatorioRepositoy, RelatorioRepository>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<CalcularPagamentoUseCase>();
             services.AddScoped<AdicionarVeiculoUseCase>();
             services.AddScoped<RetirarVeiculoUseCase>();
             services.AddScoped<SomaValorUseCase>();
             services.AddScoped<ObterMovimentoPorDataUseCase>();
             services.AddScoped<EditarVeiculoUseCase>();
+            services.AddScoped<CadastrarClienteUseCase>();
 
             // Registrar os formulários
             services.AddTransient<FrmPricipal>();

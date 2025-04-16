@@ -15,6 +15,7 @@ namespace ParkingApp2._0
         private readonly SomaValorUseCase _relatorioLucroUseCase;
         private readonly ObterMovimentoPorDataUseCase _movimentoPorDataUseCase;
         private readonly EditarVeiculoUseCase _editarVeiculoUseCase;
+        private readonly CadastrarClienteUseCase _cadastrarClienteUseCase;
 
         public FrmParkingApp(IVeiculoRepository veiculoRepository,
                        IEstacionamentoRepository estacionamentoRepository,
@@ -23,7 +24,8 @@ namespace ParkingApp2._0
                        RetirarVeiculoUseCase retirarVeiculoUseCase,
                        SomaValorUseCase relatorioLucroUseCase,
                        ObterMovimentoPorDataUseCase movimentoPorDataUseCase,
-                       EditarVeiculoUseCase editarVeiculoUseCase)
+                       EditarVeiculoUseCase editarVeiculoUseCase,
+                       CadastrarClienteUseCase cadastrarClienteUseCase)
         {
             _veiculoRepository = veiculoRepository;
             _estacionamentoRepository = estacionamentoRepository;
@@ -35,6 +37,7 @@ namespace ParkingApp2._0
             _editarVeiculoUseCase = editarVeiculoUseCase;
             _adicionarVeiculoUseCase = adicionarVeiculoUseCase;
             _relatorioLucroUseCase = relatorioLucroUseCase;
+            _cadastrarClienteUseCase = cadastrarClienteUseCase;
 
             InitializeComponent();
 
@@ -225,7 +228,15 @@ namespace ParkingApp2._0
 
         private void btnCadastroCliente_Click(object sender, EventArgs e)
         {
-
+            var request = new CadastrarClienteRequest
+            {
+                Nome = txtNomeCliente.Text,
+                Sobrenome = txtSobrenomeCliente.Text,
+                CpfCnpj = mtxtCpfCliente.Text,
+                Telefone = mtxtTelefoneCliente.Text,
+            };
+            var response = _cadastrarClienteUseCase.Execute(request);
+            MessageBox.Show($"{response.Mensagem}", "Menssagem", MessageBoxButtons.OK);
         }
     }
 }

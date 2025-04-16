@@ -1,10 +1,12 @@
-﻿using Domain.Entities;
+﻿using Aplication.DTO;
+using Domain.Entities;
 
 namespace Aplication.Interface
 {
     public interface IClienteRepository
     {
-        void Cadastrar(Cliente cliente);
+        ResponseDefault<string> Cadastrar(Cliente cliente);
+        ResponseDefault<List<Cliente>> ListarClientes();
         bool VerificarCpf(string cpf);
     }
 }

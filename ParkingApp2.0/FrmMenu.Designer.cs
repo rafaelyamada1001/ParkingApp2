@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmParkingApp));
-            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
             lblTipoVeiculo = new Label();
             cmbTipoVeiculo = new ComboBox();
             btnFiltrar = new Button();
@@ -48,6 +48,18 @@
             tbpGerenciador = new TabPage();
             btnEditar = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            tpCadastro = new TabPage();
+            grpCadastroPlano = new GroupBox();
+            gpbCadastrarCliente = new GroupBox();
+            mtxtTelefoneCliente = new MaskedTextBox();
+            mtxtCpfCliente = new MaskedTextBox();
+            btnCadastroCliente = new Button();
+            txtSobrenomeCliente = new TextBox();
+            lblSobreNomeCliente = new Label();
+            txtNomeCliente = new TextBox();
+            lblCpfCliente = new Label();
+            lblTelefoneCliente = new Label();
+            lblNomeCliente = new Label();
             tbpFinanceiro = new TabPage();
             dgvRelatorio = new DataGridView();
             PlacaVeiculo = new DataGridViewTextBoxColumn();
@@ -81,27 +93,23 @@
             VagasCarros = new DataGridViewTextBoxColumn();
             VagasMotos = new DataGridViewTextBoxColumn();
             ValorHora = new DataGridViewTextBoxColumn();
-            tabPage3 = new TabPage();
-            gpbCadastrarCliente = new GroupBox();
-            lblNomeCliente = new Label();
-            lblTelefoneCliente = new Label();
-            lblCpfCliente = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            lblSobreNomeCliente = new Label();
-            textBox4 = new TextBox();
-            btnCadastroCliente = new Button();
-            grpCadastroPlano = new GroupBox();
-            cmbCliente = new ComboBox();
+            txtCliente = new TextBox();
             lblCliente = new Label();
-            lblPlano = new Label();
-            comboBox1 = new ComboBox();
-            label1 = new Label();
-            dtpInicioPlano = new DateTimePicker();
-            btnCadastrarPlano = new Button();
+            btnRemoverCliente = new Button();
+            btn = new Button();
+            dgvClientes = new DataGridView();
+            NomeCliente = new DataGridViewTextBoxColumn();
+            SobrenomeCliente = new DataGridViewTextBoxColumn();
+            CpfCliente = new DataGridViewTextBoxColumn();
+            TelefoneCliente = new DataGridViewTextBoxColumn();
+            grpGerenciarPlanos = new GroupBox();
+            btnRenovar = new Button();
+            button1 = new Button();
             tbcGerenciador.SuspendLayout();
             tbpGerenciador.SuspendLayout();
+            tpCadastro.SuspendLayout();
+            grpCadastroPlano.SuspendLayout();
+            gpbCadastrarCliente.SuspendLayout();
             tbpFinanceiro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRelatorio).BeginInit();
             grpExibirValorPorData.SuspendLayout();
@@ -111,9 +119,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvVeiculosEstacionados).BeginInit();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvConfigEstacionamento).BeginInit();
-            tabPage3.SuspendLayout();
-            gpbCadastrarCliente.SuspendLayout();
-            grpCadastroPlano.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
+            grpGerenciarPlanos.SuspendLayout();
             SuspendLayout();
             // 
             // lblTipoVeiculo
@@ -194,7 +201,7 @@
             // 
             // txtPlaca
             // 
-            txtPlaca.Location = new Point(101, 309);
+            txtPlaca.Location = new Point(103, 312);
             txtPlaca.Margin = new Padding(3, 4, 3, 4);
             txtPlaca.Name = "txtPlaca";
             txtPlaca.Size = new Size(276, 25);
@@ -213,8 +220,8 @@
             // tbcGerenciador
             // 
             tbcGerenciador.AccessibleName = "";
-            tbcGerenciador.Controls.Add(tabPage3);
             tbcGerenciador.Controls.Add(tbpGerenciador);
+            tbcGerenciador.Controls.Add(tpCadastro);
             tbcGerenciador.Controls.Add(tbpFinanceiro);
             tbcGerenciador.Location = new Point(14, 26);
             tbcGerenciador.Margin = new Padding(3, 4, 3, 4);
@@ -267,6 +274,129 @@
             flowLayoutPanel1.Size = new Size(248, 159);
             flowLayoutPanel1.TabIndex = 10;
             // 
+            // tpCadastro
+            // 
+            tpCadastro.Controls.Add(grpCadastroPlano);
+            tpCadastro.Controls.Add(gpbCadastrarCliente);
+            tpCadastro.Location = new Point(4, 27);
+            tpCadastro.Name = "tpCadastro";
+            tpCadastro.Padding = new Padding(3);
+            tpCadastro.Size = new Size(532, 459);
+            tpCadastro.TabIndex = 2;
+            tpCadastro.Text = "Cadastro";
+            tpCadastro.UseVisualStyleBackColor = true;
+            // 
+            // grpCadastroPlano
+            // 
+            grpCadastroPlano.Controls.Add(grpGerenciarPlanos);
+            grpCadastroPlano.Controls.Add(dgvClientes);
+            grpCadastroPlano.Controls.Add(btnRemoverCliente);
+            grpCadastroPlano.Controls.Add(lblCliente);
+            grpCadastroPlano.Controls.Add(txtCliente);
+            grpCadastroPlano.Font = new Font("Noto Sans", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            grpCadastroPlano.Location = new Point(6, 180);
+            grpCadastroPlano.Name = "grpCadastroPlano";
+            grpCadastroPlano.Size = new Size(520, 271);
+            grpCadastroPlano.TabIndex = 1;
+            grpCadastroPlano.TabStop = false;
+            grpCadastroPlano.Text = "Gerenciar Clientes :";
+            // 
+            // gpbCadastrarCliente
+            // 
+            gpbCadastrarCliente.Controls.Add(mtxtTelefoneCliente);
+            gpbCadastrarCliente.Controls.Add(mtxtCpfCliente);
+            gpbCadastrarCliente.Controls.Add(btnCadastroCliente);
+            gpbCadastrarCliente.Controls.Add(txtSobrenomeCliente);
+            gpbCadastrarCliente.Controls.Add(lblSobreNomeCliente);
+            gpbCadastrarCliente.Controls.Add(txtNomeCliente);
+            gpbCadastrarCliente.Controls.Add(lblCpfCliente);
+            gpbCadastrarCliente.Controls.Add(lblTelefoneCliente);
+            gpbCadastrarCliente.Controls.Add(lblNomeCliente);
+            gpbCadastrarCliente.Location = new Point(6, 10);
+            gpbCadastrarCliente.Name = "gpbCadastrarCliente";
+            gpbCadastrarCliente.Size = new Size(520, 164);
+            gpbCadastrarCliente.TabIndex = 0;
+            gpbCadastrarCliente.TabStop = false;
+            gpbCadastrarCliente.Text = "Cadastrar Cliente :";
+            // 
+            // mtxtTelefoneCliente
+            // 
+            mtxtTelefoneCliente.Location = new Point(321, 72);
+            mtxtTelefoneCliente.Mask = "(00) 00000-0000";
+            mtxtTelefoneCliente.Name = "mtxtTelefoneCliente";
+            mtxtTelefoneCliente.Size = new Size(151, 24);
+            mtxtTelefoneCliente.TabIndex = 8;
+            // 
+            // mtxtCpfCliente
+            // 
+            mtxtCpfCliente.Location = new Point(68, 72);
+            mtxtCpfCliente.Mask = "000.000.000-00";
+            mtxtCpfCliente.Name = "mtxtCpfCliente";
+            mtxtCpfCliente.Size = new Size(151, 24);
+            mtxtCpfCliente.TabIndex = 7;
+            // 
+            // btnCadastroCliente
+            // 
+            btnCadastroCliente.BackColor = SystemColors.MenuHighlight;
+            btnCadastroCliente.Font = new Font("Noto Sans", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCadastroCliente.Location = new Point(344, 120);
+            btnCadastroCliente.Name = "btnCadastroCliente";
+            btnCadastroCliente.Size = new Size(128, 26);
+            btnCadastroCliente.TabIndex = 5;
+            btnCadastroCliente.Text = "Cadastrar Cliente";
+            btnCadastroCliente.UseVisualStyleBackColor = false;
+            btnCadastroCliente.Click += btnCadastroCliente_Click;
+            // 
+            // txtSobrenomeCliente
+            // 
+            txtSobrenomeCliente.Location = new Point(321, 29);
+            txtSobrenomeCliente.Name = "txtSobrenomeCliente";
+            txtSobrenomeCliente.Size = new Size(151, 24);
+            txtSobrenomeCliente.TabIndex = 2;
+            // 
+            // lblSobreNomeCliente
+            // 
+            lblSobreNomeCliente.AutoSize = true;
+            lblSobreNomeCliente.Location = new Point(236, 29);
+            lblSobreNomeCliente.Name = "lblSobreNomeCliente";
+            lblSobreNomeCliente.Size = new Size(79, 18);
+            lblSobreNomeCliente.TabIndex = 6;
+            lblSobreNomeCliente.Text = "Sobrenome:";
+            // 
+            // txtNomeCliente
+            // 
+            txtNomeCliente.Location = new Point(69, 26);
+            txtNomeCliente.Name = "txtNomeCliente";
+            txtNomeCliente.Size = new Size(151, 24);
+            txtNomeCliente.TabIndex = 1;
+            // 
+            // lblCpfCliente
+            // 
+            lblCpfCliente.AutoSize = true;
+            lblCpfCliente.Location = new Point(0, 72);
+            lblCpfCliente.Name = "lblCpfCliente";
+            lblCpfCliente.Size = new Size(35, 18);
+            lblCpfCliente.TabIndex = 2;
+            lblCpfCliente.Text = "Cpf :";
+            // 
+            // lblTelefoneCliente
+            // 
+            lblTelefoneCliente.AutoSize = true;
+            lblTelefoneCliente.Location = new Point(239, 75);
+            lblTelefoneCliente.Name = "lblTelefoneCliente";
+            lblTelefoneCliente.Size = new Size(65, 18);
+            lblTelefoneCliente.TabIndex = 1;
+            lblTelefoneCliente.Text = "Telefone :";
+            // 
+            // lblNomeCliente
+            // 
+            lblNomeCliente.AutoSize = true;
+            lblNomeCliente.Location = new Point(0, 29);
+            lblNomeCliente.Name = "lblNomeCliente";
+            lblNomeCliente.Size = new Size(50, 18);
+            lblNomeCliente.TabIndex = 0;
+            lblNomeCliente.Text = "Nome :";
+            // 
             // tbpFinanceiro
             // 
             tbpFinanceiro.Controls.Add(dgvRelatorio);
@@ -299,9 +429,9 @@
             // 
             PlacaVeiculo.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
             PlacaVeiculo.DataPropertyName = "Placa";
-            dataGridViewCellStyle22.Format = "000-000";
-            dataGridViewCellStyle22.NullValue = null;
-            PlacaVeiculo.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle8.Format = "000-000";
+            dataGridViewCellStyle8.NullValue = null;
+            PlacaVeiculo.DefaultCellStyle = dataGridViewCellStyle8;
             PlacaVeiculo.HeaderText = "Placa";
             PlacaVeiculo.Name = "PlacaVeiculo";
             PlacaVeiculo.ReadOnly = true;
@@ -320,9 +450,9 @@
             // 
             HoraEntradaRelatorio.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
             HoraEntradaRelatorio.DataPropertyName = "HoraEntrada";
-            dataGridViewCellStyle23.Format = "g";
-            dataGridViewCellStyle23.NullValue = null;
-            HoraEntradaRelatorio.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle9.Format = "g";
+            dataGridViewCellStyle9.NullValue = null;
+            HoraEntradaRelatorio.DefaultCellStyle = dataGridViewCellStyle9;
             HoraEntradaRelatorio.HeaderText = "Hora Entrada";
             HoraEntradaRelatorio.Name = "HoraEntradaRelatorio";
             HoraEntradaRelatorio.ReadOnly = true;
@@ -332,9 +462,9 @@
             // 
             HoraSaidaRelatorio.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
             HoraSaidaRelatorio.DataPropertyName = "HoraSaida";
-            dataGridViewCellStyle24.Format = "g";
-            dataGridViewCellStyle24.NullValue = null;
-            HoraSaidaRelatorio.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle10.Format = "g";
+            dataGridViewCellStyle10.NullValue = null;
+            HoraSaidaRelatorio.DefaultCellStyle = dataGridViewCellStyle10;
             HoraSaidaRelatorio.HeaderText = "Hora Saida";
             HoraSaidaRelatorio.Name = "HoraSaidaRelatorio";
             HoraSaidaRelatorio.ReadOnly = true;
@@ -344,8 +474,8 @@
             // 
             PermanenciaHora.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             PermanenciaHora.DataPropertyName = "PermanenciaHora";
-            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleRight;
-            PermanenciaHora.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleRight;
+            PermanenciaHora.DefaultCellStyle = dataGridViewCellStyle11;
             PermanenciaHora.HeaderText = "Hora";
             PermanenciaHora.Name = "PermanenciaHora";
             PermanenciaHora.ReadOnly = true;
@@ -355,8 +485,8 @@
             // 
             PermanenciaMin.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             PermanenciaMin.DataPropertyName = "PermanenciaMin";
-            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleRight;
-            PermanenciaMin.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleRight;
+            PermanenciaMin.DefaultCellStyle = dataGridViewCellStyle12;
             PermanenciaMin.HeaderText = "Min";
             PermanenciaMin.Name = "PermanenciaMin";
             PermanenciaMin.ReadOnly = true;
@@ -366,10 +496,10 @@
             // 
             ValorRelatorio.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             ValorRelatorio.DataPropertyName = "Valor";
-            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.TopRight;
-            dataGridViewCellStyle27.Format = "N2";
-            dataGridViewCellStyle27.NullValue = null;
-            ValorRelatorio.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle13.Format = "N2";
+            dataGridViewCellStyle13.NullValue = null;
+            ValorRelatorio.DefaultCellStyle = dataGridViewCellStyle13;
             ValorRelatorio.HeaderText = "Valor";
             ValorRelatorio.Name = "ValorRelatorio";
             ValorRelatorio.ReadOnly = true;
@@ -532,7 +662,7 @@
             dgvVeiculosEstacionados.BackgroundColor = SystemColors.ControlLightLight;
             dgvVeiculosEstacionados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvVeiculosEstacionados.Columns.AddRange(new DataGridViewColumn[] { Placa, TipoVeiculo, HoraEntrada });
-            dgvVeiculosEstacionados.Location = new Point(-41, 4);
+            dgvVeiculosEstacionados.Location = new Point(-41, 17);
             dgvVeiculosEstacionados.Margin = new Padding(3, 4, 3, 4);
             dgvVeiculosEstacionados.Name = "dgvVeiculosEstacionados";
             dgvVeiculosEstacionados.ReadOnly = true;
@@ -608,194 +738,118 @@
             // 
             ValorHora.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             ValorHora.DataPropertyName = "ValorHora";
-            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle28.Format = "N2";
-            dataGridViewCellStyle28.NullValue = null;
-            ValorHora.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle14.Format = "N2";
+            dataGridViewCellStyle14.NullValue = null;
+            ValorHora.DefaultCellStyle = dataGridViewCellStyle14;
             ValorHora.HeaderText = "Valor Hora";
             ValorHora.Name = "ValorHora";
             // 
-            // tabPage3
+            // txtCliente
             // 
-            tabPage3.Controls.Add(grpCadastroPlano);
-            tabPage3.Controls.Add(gpbCadastrarCliente);
-            tabPage3.Location = new Point(4, 27);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(532, 459);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "Cadastro";
-            tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // gpbCadastrarCliente
-            // 
-            gpbCadastrarCliente.Controls.Add(btnCadastroCliente);
-            gpbCadastrarCliente.Controls.Add(textBox4);
-            gpbCadastrarCliente.Controls.Add(lblSobreNomeCliente);
-            gpbCadastrarCliente.Controls.Add(textBox3);
-            gpbCadastrarCliente.Controls.Add(textBox2);
-            gpbCadastrarCliente.Controls.Add(textBox1);
-            gpbCadastrarCliente.Controls.Add(lblCpfCliente);
-            gpbCadastrarCliente.Controls.Add(lblTelefoneCliente);
-            gpbCadastrarCliente.Controls.Add(lblNomeCliente);
-            gpbCadastrarCliente.Location = new Point(6, 10);
-            gpbCadastrarCliente.Name = "gpbCadastrarCliente";
-            gpbCadastrarCliente.Size = new Size(520, 164);
-            gpbCadastrarCliente.TabIndex = 0;
-            gpbCadastrarCliente.TabStop = false;
-            gpbCadastrarCliente.Text = "Cadastrar Cliente :";
-            // 
-            // lblNomeCliente
-            // 
-            lblNomeCliente.AutoSize = true;
-            lblNomeCliente.Location = new Point(0, 29);
-            lblNomeCliente.Name = "lblNomeCliente";
-            lblNomeCliente.Size = new Size(50, 18);
-            lblNomeCliente.TabIndex = 0;
-            lblNomeCliente.Text = "Nome :";
-            // 
-            // lblTelefoneCliente
-            // 
-            lblTelefoneCliente.AutoSize = true;
-            lblTelefoneCliente.Location = new Point(239, 75);
-            lblTelefoneCliente.Name = "lblTelefoneCliente";
-            lblTelefoneCliente.Size = new Size(65, 18);
-            lblTelefoneCliente.TabIndex = 1;
-            lblTelefoneCliente.Text = "Telefone :";
-            // 
-            // lblCpfCliente
-            // 
-            lblCpfCliente.AutoSize = true;
-            lblCpfCliente.Location = new Point(0, 72);
-            lblCpfCliente.Name = "lblCpfCliente";
-            lblCpfCliente.Size = new Size(35, 18);
-            lblCpfCliente.TabIndex = 2;
-            lblCpfCliente.Text = "Cpf :";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(69, 26);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(151, 24);
-            textBox1.TabIndex = 3;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(69, 72);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(151, 24);
-            textBox2.TabIndex = 4;
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(321, 72);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(151, 24);
-            textBox3.TabIndex = 5;
-            // 
-            // lblSobreNomeCliente
-            // 
-            lblSobreNomeCliente.AutoSize = true;
-            lblSobreNomeCliente.Location = new Point(236, 29);
-            lblSobreNomeCliente.Name = "lblSobreNomeCliente";
-            lblSobreNomeCliente.Size = new Size(79, 18);
-            lblSobreNomeCliente.TabIndex = 6;
-            lblSobreNomeCliente.Text = "Sobrenome:";
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(321, 29);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(151, 24);
-            textBox4.TabIndex = 7;
-            // 
-            // btnCadastroCliente
-            // 
-            btnCadastroCliente.BackColor = SystemColors.MenuHighlight;
-            btnCadastroCliente.Font = new Font("Noto Sans", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCadastroCliente.Location = new Point(344, 120);
-            btnCadastroCliente.Name = "btnCadastroCliente";
-            btnCadastroCliente.Size = new Size(128, 26);
-            btnCadastroCliente.TabIndex = 8;
-            btnCadastroCliente.Text = "Cadastrar Cliente";
-            btnCadastroCliente.UseVisualStyleBackColor = false;
-            btnCadastroCliente.Click += btnCadastroCliente_Click;
-            // 
-            // grpCadastroPlano
-            // 
-            grpCadastroPlano.Controls.Add(btnCadastrarPlano);
-            grpCadastroPlano.Controls.Add(dtpInicioPlano);
-            grpCadastroPlano.Controls.Add(label1);
-            grpCadastroPlano.Controls.Add(comboBox1);
-            grpCadastroPlano.Controls.Add(lblPlano);
-            grpCadastroPlano.Controls.Add(lblCliente);
-            grpCadastroPlano.Controls.Add(cmbCliente);
-            grpCadastroPlano.Location = new Point(6, 180);
-            grpCadastroPlano.Name = "grpCadastroPlano";
-            grpCadastroPlano.Size = new Size(520, 271);
-            grpCadastroPlano.TabIndex = 1;
-            grpCadastroPlano.TabStop = false;
-            grpCadastroPlano.Text = "Cadastro Plano :";
-            // 
-            // cmbCliente
-            // 
-            cmbCliente.FormattingEnabled = true;
-            cmbCliente.Location = new Point(19, 68);
-            cmbCliente.Name = "cmbCliente";
-            cmbCliente.Size = new Size(151, 26);
-            cmbCliente.TabIndex = 0;
+            txtCliente.Location = new Point(69, 241);
+            txtCliente.Name = "txtCliente";
+            txtCliente.ReadOnly = true;
+            txtCliente.Size = new Size(295, 22);
+            txtCliente.TabIndex = 0;
             // 
             // lblCliente
             // 
             lblCliente.AutoSize = true;
-            lblCliente.Location = new Point(19, 47);
+            lblCliente.Location = new Point(6, 244);
             lblCliente.Name = "lblCliente";
-            lblCliente.Size = new Size(57, 18);
+            lblCliente.Size = new Size(52, 16);
             lblCliente.TabIndex = 1;
             lblCliente.Text = "Cliente :";
             // 
-            // lblPlano
+            // btnRemoverCliente
             // 
-            lblPlano.AutoSize = true;
-            lblPlano.Location = new Point(239, 47);
-            lblPlano.Name = "lblPlano";
-            lblPlano.Size = new Size(113, 18);
-            lblPlano.TabIndex = 2;
-            lblPlano.Text = "Selecionar Plano :";
+            btnRemoverCliente.BackColor = SystemColors.MenuHighlight;
+            btnRemoverCliente.Location = new Point(393, 240);
+            btnRemoverCliente.Name = "btnRemoverCliente";
+            btnRemoverCliente.Size = new Size(79, 23);
+            btnRemoverCliente.TabIndex = 2;
+            btnRemoverCliente.Text = "Remover";
+            btnRemoverCliente.UseVisualStyleBackColor = false;
             // 
-            // comboBox1
+            // btn
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(236, 68);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(151, 26);
-            comboBox1.TabIndex = 3;
+            btn.BackColor = SystemColors.MenuHighlight;
+            btn.Location = new Point(6, 40);
+            btn.Name = "btn";
+            btn.Size = new Size(89, 25);
+            btn.TabIndex = 3;
+            btn.Text = "Cadastrar";
+            btn.UseVisualStyleBackColor = false;
             // 
-            // label1
+            // dgvClientes
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(19, 121);
-            label1.Name = "label1";
-            label1.Size = new Size(116, 18);
-            label1.TabIndex = 4;
-            label1.Text = "Data Início Plano :";
+            dgvClientes.AllowUserToAddRows = false;
+            dgvClientes.AllowUserToDeleteRows = false;
+            dgvClientes.BackgroundColor = SystemColors.ControlLightLight;
+            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { NomeCliente, SobrenomeCliente, CpfCliente, TelefoneCliente });
+            dgvClientes.Location = new Point(-40, 13);
+            dgvClientes.Name = "dgvClientes";
+            dgvClientes.ReadOnly = true;
+            dgvClientes.Size = new Size(447, 222);
+            dgvClientes.TabIndex = 4;
             // 
-            // dtpInicioPlano
+            // NomeCliente
             // 
-            dtpInicioPlano.Location = new Point(19, 142);
-            dtpInicioPlano.Name = "dtpInicioPlano";
-            dtpInicioPlano.Size = new Size(200, 24);
-            dtpInicioPlano.TabIndex = 5;
+            NomeCliente.HeaderText = "Nome";
+            NomeCliente.Name = "NomeCliente";
+            NomeCliente.ReadOnly = true;
             // 
-            // btnCadastrarPlano
+            // SobrenomeCliente
             // 
-            btnCadastrarPlano.BackColor = SystemColors.MenuHighlight;
-            btnCadastrarPlano.Location = new Point(271, 142);
-            btnCadastrarPlano.Name = "btnCadastrarPlano";
-            btnCadastrarPlano.Size = new Size(116, 24);
-            btnCadastrarPlano.TabIndex = 6;
-            btnCadastrarPlano.Text = "Cadastrar-Plano";
-            btnCadastrarPlano.UseVisualStyleBackColor = false;
+            SobrenomeCliente.HeaderText = "Sobrenome";
+            SobrenomeCliente.Name = "SobrenomeCliente";
+            SobrenomeCliente.ReadOnly = true;
+            // 
+            // CpfCliente
+            // 
+            CpfCliente.HeaderText = "CPF";
+            CpfCliente.Name = "CpfCliente";
+            CpfCliente.ReadOnly = true;
+            // 
+            // TelefoneCliente
+            // 
+            TelefoneCliente.HeaderText = "Telefone";
+            TelefoneCliente.Name = "TelefoneCliente";
+            TelefoneCliente.ReadOnly = true;
+            // 
+            // grpGerenciarPlanos
+            // 
+            grpGerenciarPlanos.Controls.Add(button1);
+            grpGerenciarPlanos.Controls.Add(btnRenovar);
+            grpGerenciarPlanos.Controls.Add(btn);
+            grpGerenciarPlanos.Location = new Point(413, 13);
+            grpGerenciarPlanos.Name = "grpGerenciarPlanos";
+            grpGerenciarPlanos.Size = new Size(101, 174);
+            grpGerenciarPlanos.TabIndex = 5;
+            grpGerenciarPlanos.TabStop = false;
+            grpGerenciarPlanos.Text = "Gerenciar Planos :";
+            // 
+            // btnRenovar
+            // 
+            btnRenovar.BackColor = SystemColors.MenuHighlight;
+            btnRenovar.Location = new Point(6, 81);
+            btnRenovar.Name = "btnRenovar";
+            btnRenovar.Size = new Size(89, 23);
+            btnRenovar.TabIndex = 4;
+            btnRenovar.Text = "Renovar";
+            btnRenovar.UseVisualStyleBackColor = false;
+            // 
+            // button1
+            // 
+            button1.BackColor = SystemColors.MenuHighlight;
+            button1.Location = new Point(6, 122);
+            button1.Name = "button1";
+            button1.Size = new Size(89, 23);
+            button1.TabIndex = 5;
+            button1.Text = "Cancelar";
+            button1.UseVisualStyleBackColor = false;
             // 
             // FrmParkingApp
             // 
@@ -804,10 +858,10 @@
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = SystemColors.ControlLightLight;
             ClientSize = new Size(937, 565);
-            Controls.Add(tbcGerenciador);
             Controls.Add(tabControl1);
             Controls.Add(grpVagasDisponiveis);
             Controls.Add(btnSairMenu);
+            Controls.Add(tbcGerenciador);
             Font = new Font("Noto Sans", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 4, 3, 4);
@@ -818,6 +872,11 @@
             tbcGerenciador.ResumeLayout(false);
             tbpGerenciador.ResumeLayout(false);
             tbpGerenciador.PerformLayout();
+            tpCadastro.ResumeLayout(false);
+            grpCadastroPlano.ResumeLayout(false);
+            grpCadastroPlano.PerformLayout();
+            gpbCadastrarCliente.ResumeLayout(false);
+            gpbCadastrarCliente.PerformLayout();
             tbpFinanceiro.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvRelatorio).EndInit();
             grpExibirValorPorData.ResumeLayout(false);
@@ -829,11 +888,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvVeiculosEstacionados).EndInit();
             tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvConfigEstacionamento).EndInit();
-            tabPage3.ResumeLayout(false);
-            gpbCadastrarCliente.ResumeLayout(false);
-            gpbCadastrarCliente.PerformLayout();
-            grpCadastroPlano.ResumeLayout(false);
-            grpCadastroPlano.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
+            grpGerenciarPlanos.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -883,24 +939,29 @@
         private DataGridViewTextBoxColumn PermanenciaHora;
         private DataGridViewTextBoxColumn PermanenciaMin;
         private DataGridViewTextBoxColumn ValorRelatorio;
-        private TabPage tabPage3;
+        private TabPage tpCadastro;
         private GroupBox gpbCadastrarCliente;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox txtNomeCliente;
         private Label lblCpfCliente;
         private Label lblTelefoneCliente;
         private Label lblNomeCliente;
         private Button btnCadastroCliente;
-        private TextBox textBox4;
+        private TextBox txtSobrenomeCliente;
         private Label lblSobreNomeCliente;
-        private TextBox textBox3;
         private GroupBox grpCadastroPlano;
-        private ComboBox comboBox1;
-        private Label lblPlano;
+        private MaskedTextBox mtxtCpfCliente;
+        private MaskedTextBox mtxtTelefoneCliente;
         private Label lblCliente;
-        private ComboBox cmbCliente;
-        private Button btnCadastrarPlano;
-        private DateTimePicker dtpInicioPlano;
-        private Label label1;
+        private TextBox txtCliente;
+        private DataGridView dgvClientes;
+        private DataGridViewTextBoxColumn NomeCliente;
+        private DataGridViewTextBoxColumn SobrenomeCliente;
+        private DataGridViewTextBoxColumn CpfCliente;
+        private DataGridViewTextBoxColumn TelefoneCliente;
+        private Button btnRemoverCliente;
+        private Button btn;
+        private GroupBox grpGerenciarPlanos;
+        private Button button1;
+        private Button btnRenovar;
     }
 }
