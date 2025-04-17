@@ -1,6 +1,7 @@
 ﻿using Aplication.DTO;
 using Aplication.Interface;
 using Aplication.UseCase;
+using Domain.Entities;
 using Domain.Enums;
 
 namespace ParkingApp2._0
@@ -9,6 +10,7 @@ namespace ParkingApp2._0
     {
         private readonly IVeiculoRepository _veiculoRepository;
         private readonly IEstacionamentoRepository _estacionamentoRepository;
+        private readonly IClienteRepository _clienteRepository;
         private readonly CalcularPagamentoUseCase _calcularPagamentoUseCase;
         private readonly AdicionarVeiculoUseCase _adicionarVeiculoUseCase;
         private readonly RetirarVeiculoUseCase _retirarVeiculoUseCase;
@@ -16,19 +18,25 @@ namespace ParkingApp2._0
         private readonly ObterMovimentoPorDataUseCase _movimentoPorDataUseCase;
         private readonly EditarVeiculoUseCase _editarVeiculoUseCase;
         private readonly CadastrarClienteUseCase _cadastrarClienteUseCase;
+        private readonly ListarVeiculosUseCase _listarVeiculosUseCase;
+        private readonly VagasDesocupadasUseCase _vagasDesocupadasUseCase;
 
         public FrmParkingApp(IVeiculoRepository veiculoRepository,
                        IEstacionamentoRepository estacionamentoRepository,
+                       IClienteRepository clienteRepository,
                        CalcularPagamentoUseCase calcularPagamentoUseCase,
                        AdicionarVeiculoUseCase adicionarVeiculoUseCase,
                        RetirarVeiculoUseCase retirarVeiculoUseCase,
                        SomaValorUseCase relatorioLucroUseCase,
                        ObterMovimentoPorDataUseCase movimentoPorDataUseCase,
                        EditarVeiculoUseCase editarVeiculoUseCase,
-                       CadastrarClienteUseCase cadastrarClienteUseCase)
+                       CadastrarClienteUseCase cadastrarClienteUseCase,
+                       ListarVeiculosUseCase listarVeiculosUseCase,
+                       VagasDesocupadasUseCase vagasDesocupadasUseCase)
         {
             _veiculoRepository = veiculoRepository;
             _estacionamentoRepository = estacionamentoRepository;
+            _clienteRepository = clienteRepository;
             _calcularPagamentoUseCase = calcularPagamentoUseCase;
             _adicionarVeiculoUseCase = adicionarVeiculoUseCase;
             _retirarVeiculoUseCase = retirarVeiculoUseCase;
@@ -38,6 +46,8 @@ namespace ParkingApp2._0
             _adicionarVeiculoUseCase = adicionarVeiculoUseCase;
             _relatorioLucroUseCase = relatorioLucroUseCase;
             _cadastrarClienteUseCase = cadastrarClienteUseCase;
+            _listarVeiculosUseCase = listarVeiculosUseCase;
+            _vagasDesocupadasUseCase = vagasDesocupadasUseCase;
 
             InitializeComponent();
 
@@ -47,9 +57,12 @@ namespace ParkingApp2._0
         private void FrmMenu_Load(object? sender, EventArgs e)
         {
             cmbTipoVeiculo.DataSource = Enum.GetValues(typeof(EVeiculoType));
+
             var estacionamento = _estacionamentoRepository.VagasTotais();
             dgvConfigEstacionamento.DataSource = new List<VagasTotaisDTO> { estacionamento.Dados };
-            dgvConfigEstacionamento.Refresh();
+            dgvClientes.AutoGenerateColumns = false;
+            var listaClientes = _clienteRepository.ListarClientes();
+            dgvClientes.DataSource = listaClientes.Dados;
             AtualizarTela();
         }
 
@@ -67,6 +80,7 @@ namespace ParkingApp2._0
 
             AtualizarTela();
         }
+
         private void btnRemoverVeiculo_Click(object sender, EventArgs e)
         {
             string placa = txtPlaca.Text.Trim();
@@ -117,7 +131,7 @@ namespace ParkingApp2._0
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //Botão Relatório
         {
             var dataInicial = dtpDataInicial.Value.Date;
             var dataFinal = dtpDataFinal.Value.Date.AddDays(1);
@@ -166,16 +180,13 @@ namespace ParkingApp2._0
                 AtualizarTela();
             }
         }
+
         private void AtualizarTela()
         {
-            // Atualiza DataGrid
-            var listarUseCase = new ListarVeiculosUseCase(_veiculoRepository);
-            var resultado = listarUseCase.Execute();
+            var resultado = _listarVeiculosUseCase.Execute();
             dgvVeiculosEstacionados.DataSource = resultado.Dados;
-
-            // Atualiza TextBoxes de vagas
-            var vagasUseCase = new VagasDesocupadasUseCase(_estacionamentoRepository);
-            var vagasLivres = vagasUseCase.Execute();
+           
+            var vagasLivres = _vagasDesocupadasUseCase.Execute();
 
             if (vagasLivres.Sucesso && vagasLivres.Dados != null)
             {
@@ -191,6 +202,7 @@ namespace ParkingApp2._0
         {
             Application.Exit();
         }
+
         private void dgvConfigEstacionamento_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -217,10 +229,12 @@ namespace ParkingApp2._0
         {
 
         }
+
         private void FrmParkingApp_Load(object sender, EventArgs e)
         {
 
         }
+
         private void cmbTipoVeiculo_SelectedIndexChanged(object sender, EventArgs e)
         {
 

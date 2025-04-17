@@ -3,7 +3,6 @@ using Aplication.Interface;
 using Dapper;
 using Domain.Entities;
 using Infra.Connection;
-using Infra.DataBase;
 
 namespace Infra.Repository
 {
@@ -37,7 +36,7 @@ namespace Infra.Repository
             try
             {
 
-                string sql = "SELECT * FROM Cliente";
+                string sql = @"SELECT Id, Nome, Sobrenome, CPF_CNPJ AS CpfCnpj, Telefone FROM Cliente";
 
                 using (var connection = _connection.OpenConnection())
                 {
